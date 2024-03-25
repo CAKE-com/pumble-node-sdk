@@ -151,12 +151,16 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             try {
                 await cb(...args);
             } catch (err) {
-                if (name !== ERROR) {
-                    this.emit(ERROR, {
-                        eventData: args[0],
-                        event: name,
-                        error: err,
-                    });
+                if (this.listeners(ERROR) && this.listeners(ERROR).length) {
+                    if (name !== ERROR) {
+                        this.emit(ERROR, {
+                            eventData: args[0],
+                            event: name,
+                            error: err,
+                        });
+                    }
+                } else {
+                    console.error('Unhandled error occurred', { eventData: args[0], event: name, error: err });
                 }
             }
         };
@@ -365,7 +369,7 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
                 match: string | RegExp;
                 includeBotMessages?: boolean;
             } = typeof opt === 'string' || opt instanceof RegExp ? { match: opt, includeBotMessages: false } : opt;
-            if (typeof matcher.match === 'string' && evt.payload.body.tx !== matcher.match) {
+            if (typeof matcher.match === 'string' && !evt.payload.body.tx.includes(matcher.match)) {
                 return;
             }
             if (!evt.payload.body.tx.match(matcher.match)) {
@@ -499,7 +503,8 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         }) => {
             return this.clientUtils.generateAuthUrl(options);
         };
-        return { payload, getBotClient, getUserClient, getBotUserId, getAuthUrl };
+        const getManifest = () => this.getManifest();
+        return { payload, getBotClient, getUserClient, getBotUserId, getAuthUrl, getManifest };
     }
 
     private createChannelDetailsContext<T>(

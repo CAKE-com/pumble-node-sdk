@@ -12,7 +12,11 @@
         "logout": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli logout",
         "login": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli login",
         "scaffold": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli scaffold",
-        "create": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli create"
+        "create": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli create",
+        "info": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli info",
+        "help": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli --help",
+        "update": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli update --program ./dist/playground/example-1.js",
+        "update_host": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli update --host=https://www.google.com --program ./dist/playground/example-1.js"
     },
     "keywords": [],
     "author": "",

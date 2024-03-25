@@ -80,7 +80,7 @@ export function isMessageShortcut(message: AppMessage): message is MessageShortc
     return isShortcut(message) && message.type === 'ON_MESSAGE';
 }
 
-export function isGlobalShortcut(message: AppMessage): message is MessageShortcutPayload {
+export function isGlobalShortcut(message: AppMessage): message is GlobalShortcutPayload {
     return isShortcut(message) && message.type === 'GLOBAL';
 }
 

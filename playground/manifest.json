@@ -1,20 +1,19 @@
 {
-  "name": "pumble-sdk-test",
-  "displayName": "Pumble Sdk Test 4 NEW API",
-  "botTitle": "Pumble Sdk Test 4 NEW API",
-  "bot": true,
-  "scopes": {
-    "botScopes": [
-      "messages:write",
-      "channels:write",
-      "channels:read",
-      "channels:list"
-    ],
-    "userScopes": [
-      "messages:read",
-      "messages:edit",
-      "channels:read",
-      "messages:write"
-    ]
-  }
+    "name": "pumble-sdk-test",
+    "displayName": "Pumble Sdk Test",
+    "botTitle": "Pumble Sdk Test 4",
+    "bot": true,
+    "scopes": {
+        "botScopes": [
+            "messages:write",
+            "channels:write",
+            "channels:read"
+        ],
+        "userScopes": [
+            "messages:read",
+            "messages:edit",
+            "channels:read",
+            "messages:write"
+        ]
+    }
 }

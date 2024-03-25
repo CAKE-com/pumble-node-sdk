@@ -48,8 +48,11 @@ const app: App = {
     },
     slashCommands: [
         {
-            command: '/all_messages',
+            command: '/all_messages_1',
+            description: 'Slash command description',
+            usageHint: 'Slash usage hint',
             handler: async (ctx) => {
+                console.log('OK');
                 await ctx.ack();
                 const client = await ctx.getUserClient();
                 if (client) {
@@ -99,7 +102,7 @@ const app: App = {
     messageShortcuts: [
         {
             name: 'Message',
-            description: 'test message shortcut',
+            description: 'test message shortcut 22',
             handler: async (ctx) => {
                 await ctx.ack();
                 console.log('Received message shortcut');
@@ -152,6 +155,10 @@ const app: App = {
     ],
     onServerConfiguring: (e, addon) => {},
     tokenStore: new JsonFileTokenStore('tokens.json'),
+    listingUrl: 'https://listing.com',
+    helpUrl: 'https://help.com',
+    welcomeMessage: 'Hello',
+    offlineMessage: 'Demo app cannot respond at this moment. Please try again later',
 };
 
 async function main() {

@@ -25,19 +25,17 @@ async function main() {
         .command(
             'logout',
             'Logout from your current session',
-            (y) => {
-                return y.usage('$0 <cmd>');
-            },
+            (y) => y,
             async (args) => {
-                commandsService.logout(args.globalConfigFile);
+                await commandsService.logout(args.globalConfigFile);
             }
         )
         .command(
             'create',
-            'Create a new addon',
+            'Create a new app',
             (y) => y,
-            (args) => {
-                commandsService.createAddon(args.globalConfigFile);
+            async (args) => {
+                await commandsService.createApp(args.globalConfigFile);
             }
         )
         .command(
@@ -50,36 +48,81 @@ async function main() {
                     .usage('$0 <cmd>');
             },
             async (args) => {
-                commandsService.login(args.globalConfigFile, args.force);
+                await commandsService.login(args.globalConfigFile, args.force);
+            }
+        )
+
+        .command(
+            'info',
+            'Get login info',
+            (y) => y,
+            async (args) => {
+                await commandsService.info(args.globalConfigFile);
             }
         )
         .command(
             'connect',
-            'Setup local environment based on an existing addon',
+            'Setup local environment based on an existing app',
             (y) => y,
-            async (args) => {
-                commandsService.connect(args.globalConfigFile);
-            }
-        )
-        .command(
-            'scaffold',
-            'Generate the template for an existing addon',
-            (y) => {},
             async (args) => {
                 await commandsService.connect(args.globalConfigFile);
             }
         )
         .command(
+            'scaffold',
+            'Generate the template for an existing app',
+            (y) => y,
+            async (args) => {
+                await commandsService.scaffold(args.globalConfigFile);
+            }
+        )
+        .command(
             'list',
             'List my apps',
-            (y) => {},
+            (y) => y,
             async (args) => {
                 await commandsService.listApps(args.globalConfigFile);
             }
         )
         .command(
+            'pre-publish',
+            'Prepare your app for publishing',
+            (y) => {
+                return y
+                    .option('program', {
+                        type: 'string',
+                        description: 'Program name',
+                        default: './dist/main.js',
+                    })
+                    .option('host', {
+                        alias: 'h',
+                        type: 'string',
+                        description: 'Public hostname of your app',
+                    })
+                    .option('tsconfig', {
+                        type: 'string',
+                        description: 'tsconfig.json file path',
+                        default: 'tsconfig.json',
+                    })
+                    .option('manifest', {
+                        alias: 'm',
+                        type: 'string',
+                        description: 'App manifest file path',
+                        default: 'manifest.json',
+                    })
+                    .option('emit-manifest-path', {
+                        type: 'string',
+                        description: 'Path to write updated manifest',
+                        default: '.pumble-app-manifest.json',
+                    });
+            },
+            async (y) => {
+                await commandsService.prePublish(y);
+            }
+        )
+        .command(
             '$0',
-            'Start your addon',
+            'Start your app',
             (yargs) => {
                 return yargs
                     .option('program', {
@@ -97,7 +140,7 @@ async function main() {
                     .option('host', {
                         alias: 'h',
                         type: 'string',
-                        description: 'Public hostname of your addon',
+                        description: 'Public hostname of your app',
                     })
                     .option('tsconfig', {
                         type: 'string',
@@ -108,17 +151,17 @@ async function main() {
                         alias: 'u',
                         type: 'boolean',
                         default: true,
-                        description: 'Auto update your addon configuration',
+                        description: 'Auto update your app configuration',
                     })
                     .option('port', {
                         alias: 'p',
                         type: 'number',
-                        description: 'Addon http port',
+                        description: 'App http port',
                     })
                     .option('manifest', {
                         alias: 'm',
                         type: 'string',
-                        description: 'Addon manifest file path',
+                        description: 'App manifest file path',
                         default: 'manifest.json',
                     })
                     .option('emit-manifest-path', {
@@ -132,7 +175,7 @@ async function main() {
                     });
             },
             async (args) => {
-                commandsService.start(args);
+                await commandsService.start(args);
             }
         )
         .parse();

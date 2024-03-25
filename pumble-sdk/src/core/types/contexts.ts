@@ -9,7 +9,7 @@ import {
     PumbleEventPayload,
     SlashCommandPayload,
 } from './payloads';
-import { BlockInteractionSourceType } from './types';
+import { AddonManifest, BlockInteractionSourceType } from './types';
 
 export type AckCallback = (arg?: string) => Promise<void>;
 export type NackCallback = (arg?: string, status?: number) => Promise<void>;
@@ -36,6 +36,7 @@ export type EventContext<T> = {
         state?: string;
         isReinstall?: boolean;
     }) => string;
+    getManifest: () => AddonManifest;
 };
 
 /**

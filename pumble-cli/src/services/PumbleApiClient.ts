@@ -9,6 +9,7 @@ type WorkspaceResponse = {
 import { PUMBLE_ACCESS_TOKEN_KEY, cliEnvironment, PUMBLE_REFRESH_TOKEN_KEY } from './Environment';
 import { cliLogin } from './Login';
 import { AddonManifest } from '../types';
+import { logger } from './Logger';
 
 type LeadLoginResponse = {
     items: WorkspaceResponse[];
@@ -40,7 +41,7 @@ class PumbleApiClient {
                         }
                     } catch (err) {
                         await cliLogin.logout();
-                        console.log('Login invalid');
+                        logger.error('Invalid login');
                         await cliLogin.login();
                     }
                 }
@@ -123,7 +124,7 @@ class PumbleApiClient {
         reinstall: boolean = false
     ): Promise<{ redirectUrl: string; code: string }> {
         await this.checkLogin();
-        const newAppScopes: { botScopes: string[]; userScopes: string[] } = newManifest.scopes as any;
+        const newAppScopes: { botScopes: string[]; userScopes: string[] } = newManifest.scopes;
         const scopesStr = [...newAppScopes.userScopes, ...newAppScopes.botScopes.map((x) => `bot:${x}`)].join(',');
         const url = `/workspaces/${cliEnvironment.workspaceId}/workspaceUsers/${cliEnvironment.workspaceUserId}/oauth2/grant`;
         const {
@@ -147,6 +148,20 @@ class PumbleApiClient {
             {
                 headers: { Authtoken: cliEnvironment.accessToken },
             }
+        );
+        return result;
+    }
+
+    public async getWorkspaceInfo() {
+        const { data: result } = await this.client.get<{ id: string; name: string }>(
+            `/workspaces/${cliEnvironment.workspaceId}/info`
+        );
+        return result;
+    }
+
+    public async userInfo() {
+        const { data: result } = await this.client.get<{ id: string; name: string; email: string }>(
+            `/workspaces/${cliEnvironment.workspaceId}/workspaceUsers/${cliEnvironment.workspaceUserId}`
         );
         return result;
     }

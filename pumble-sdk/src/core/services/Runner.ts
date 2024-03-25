@@ -97,6 +97,10 @@ export type App = {
     botScopes?: string[];
     userScopes?: string[];
     port?: number;
+    listingUrl?: string;
+    helpUrl?: string;
+    welcomeMessage?: string;
+    offlineMessage?: string;
 };
 
 class Runner {
@@ -105,21 +109,17 @@ class Runner {
         const manifest_path = process.env.PUMBLE_ADDON_MANIFEST_PATH || 'manifest.json';
         const emitManifestPath = process.env.PUMBLE_ADDON_EMIT_MANIFEST_PATH;
         const manifest = await this.buildManifest(app, manifest_path);
+        const addon = await this.startAddonServer(app, manifest, port);
         if (emitManifestPath) {
-            let existing: AddonManifest | undefined;
-            try {
-                existing = JSON.parse((await fs.readFile(emitManifestPath)).toString());
-            } catch (err) {}
+            /**
+             * This should be called after the addon server has started,
+             * since the cli with capture changes in this file and will try to reauthorize if scopes have changed.
+             * In order to reauthorize we need the addon running
+             * */
             const { id, signingSecret, clientSecret, appKey, ...cleanedManifest } = manifest;
-            if (!existing || this.hasManifestChanged(existing, cleanedManifest)) {
-                await fs.writeFile(emitManifestPath, JSON.stringify(cleanedManifest));
-            }
+            await fs.writeFile(emitManifestPath, JSON.stringify(cleanedManifest));
         }
-        return await this.startAddonServer(app, manifest, port);
-    }
-
-    public hasManifestChanged(oldManifest: Partial<AddonManifest>, newManifest: Partial<AddonManifest>): boolean {
-        return !_.isEqual(oldManifest, newManifest);
+        return addon;
     }
 
     private async startAddonServer(app: App, manifest: AddonManifest, port: number): Promise<Addon<AddonManifest>> {
@@ -133,9 +133,6 @@ class Runner {
         if (app.onServerConfiguring) {
             addon.onServerConfiguring(app.onServerConfiguring);
         }
-        addon.onError((err) => {
-            console.error('Unhandled error occurred', err);
-        });
         await addon.start();
         return addon;
     }
@@ -143,7 +140,6 @@ class Runner {
     private async buildManifest(app: App, manifestPath: string): Promise<AddonManifest> {
         const hookUrl = `/hook`;
         const redirectUrl = `/redirect`;
-        const blockInteractionsUrl = `/blockInteractions`;
         const manifest = JSON.parse((await fs.readFile(manifestPath)).toString());
         manifest.id = app.id || process.env.PUMBLE_APP_ID;
         manifest.clientSecret = app.clientSecret || process.env.PUMBLE_APP_CLIENT_SECRET;
@@ -190,7 +186,7 @@ class Runner {
         ];
         manifest.blockInteraction = app.blockInteraction
             ? {
-                  url: app.blockInteraction?.path ?? blockInteractionsUrl,
+                  url: app.blockInteraction?.path ?? hookUrl,
                   handlerView: (ctx: BlockInteractionContext<'VIEW'>) => {
                       if (!app.blockInteraction?.interactions) {
                           return;
@@ -247,6 +243,10 @@ class Runner {
         if (app.userScopes) {
             manifest.scopes.userScopes = app.userScopes;
         }
+        manifest.listingUrl = app.listingUrl;
+        manifest.helpUrl = app.helpUrl;
+        manifest.welcomeMessage = app.welcomeMessage;
+        manifest.offlineMessage = app.offlineMessage;
         return manifest;
     }
 }

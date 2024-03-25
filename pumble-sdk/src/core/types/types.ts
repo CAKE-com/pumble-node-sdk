@@ -90,6 +90,10 @@ export type AddonManifest = {
         userScopes: string[];
         botScopes: string[];
     };
+    listingUrl?: string;
+    helpUrl?: string;
+    welcomeMessage?: string;
+    offlineMessage?: string;
     [key: string]: unknown;
 };
 

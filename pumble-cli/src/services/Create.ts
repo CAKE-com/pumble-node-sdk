@@ -3,6 +3,9 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import childProcess from 'child_process';
 const TEMPLATE_PATH = '../../template';
+import prettier from 'prettier';
+import { logger } from './Logger';
+
 export type ReplacementsDict = {
     name: string;
     displayName: string;
@@ -17,6 +20,7 @@ export type ReplacementsDict = {
     eventsPath: string;
     redirect: string;
 };
+
 class Create {
     private defaultReplacements: ReplacementsDict = {
         name: 'name',
@@ -74,7 +78,8 @@ class Create {
         eventsPath: '/hook',
         redirect: `{enable: true, path: "/redirect"}`,
     };
-    async getBasicData(): Promise<{
+
+    private async getBasicData(): Promise<{
         name: string;
         botTitle: string;
         displayName: string;
@@ -92,6 +97,10 @@ class Create {
             },
         ];
         const result = await prompts(questions);
+        if (!result.name || !result.description) {
+            logger.error('Invalid name or description');
+            process.exit(1);
+        }
         const normalizedName = (result.name as string).toLowerCase().replace(/\s+/gs, '-');
         return {
             name: normalizedName,
@@ -100,7 +109,7 @@ class Create {
         };
     }
 
-    async copyRecursive(basicData: ReplacementsDict, dirname: string, subdir?: string) {
+    private async copyRecursive(basicData: ReplacementsDict, dirname: string, subdir?: string) {
         await fs.mkdir(!subdir ? dirname : path.join(dirname, subdir));
         const files = await fs.readdir(
             !subdir ? path.join(__dirname, TEMPLATE_PATH) : path.join(__dirname, TEMPLATE_PATH, subdir)
@@ -115,6 +124,9 @@ class Create {
                     const regex = new RegExp(`\\{\\{${key}\\}\\}`, 'g');
                     fileContent = fileContent.replace(regex, value);
                 }
+                if (fullFileName.endsWith('.ts')) {
+                    fileContent = await prettier.format(fileContent, { parser: 'typescript' });
+                }
                 await fs.writeFile(newFileName, fileContent);
             } else {
                 await this.copyRecursive(basicData, dirname, item);
@@ -122,7 +134,7 @@ class Create {
         }
     }
 
-    async main(overrides?: { name: string } & Partial<ReplacementsDict>) {
+    public async main(overrides?: { name: string } & Partial<ReplacementsDict>) {
         if (!overrides) {
             overrides = await this.getBasicData();
         }

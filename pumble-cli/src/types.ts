@@ -43,5 +43,13 @@ export type AddonManifest = {
     clientSecret: string;
     appKey: string;
     signingSecret: string;
+    scopes: {
+        userScopes: string[];
+        botScopes: string[];
+    };
+    listingUrl?: string;
+    helpUrl?: string;
+    welcomeMessage?: string;
+    offlineMessage?: string;
     [key: string]: unknown;
 };

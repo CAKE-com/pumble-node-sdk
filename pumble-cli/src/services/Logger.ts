@@ -1,7 +1,7 @@
 import { green, red, yellow } from 'ansis';
 
 class Logger {
-    public log(...value: any) {
+    public info(...value: any[]) {
         console.log(...value);
     }
     public success(value: string) {

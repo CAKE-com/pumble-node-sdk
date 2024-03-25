@@ -4,9 +4,23 @@ import { AddonManifest } from '../types';
 import axios, { AxiosError } from 'axios';
 import path from 'path';
 import prompts from 'prompts';
+import { logger } from './Logger';
+import { cyan, green, red, yellow } from 'ansis';
+
+type ManifestChange = {
+    key: string;
+    action: 'change' | 'add' | 'remove';
+    oldValue?: string | string[];
+    newValue?: string | string[];
+};
 
 class AppSync {
-    public async syncApp(manifest: AddonManifest, host: string, install: boolean): Promise<{ created: boolean }> {
+    public async syncApp(
+        manifest: AddonManifest,
+        host: string,
+        install: boolean,
+        confirmed: boolean = true
+    ): Promise<{ created: boolean }> {
         if (manifest.eventSubscriptions && manifest.eventSubscriptions.events) {
             manifest = {
                 ...manifest,
@@ -43,39 +57,70 @@ class AppSync {
             PUMBLE_APP_CLIENT_SECRET: app.clientSecret,
             PUMBLE_APP_SIGNING_SECRET: app.signingSecret,
         });
-        if (this.manifestChanged(app, manifest)) {
+        const manifestChanges = this.manifestChanged(app, manifest);
+        if (manifestChanges.length > 0) {
+            logger.warning('Manifest has changed');
+            this.logManifestChanges(manifestChanges);
             if (app.published) {
                 if (cliEnvironment.allowSyncingPublishedApps) {
                     const { confirmation } = await prompts([
                         {
                             name: 'confirmation',
                             type: 'confirm',
-                            message: 'WARNING. Addon is already published. Are you sure you want to update it?',
+                            message: 'WARNING. App is already published. Are you sure you want to update it?',
                         },
                     ]);
                     if (confirmation) {
                         await this.updateApp(app, manifest);
                     }
                 } else {
-                    console.log('App is published and it cannot not be updated!');
+                    logger.warning('App is published and it cannot not be updated!');
                 }
             } else {
-                await this.updateApp(app, manifest);
+                let confirmation: boolean;
+                if (!confirmed) {
+                    const { response } = await prompts([
+                        {
+                            name: 'response',
+                            type: 'confirm',
+                            message: 'Do you want to apply these updates updates?',
+                        },
+                    ]);
+                    confirmation = response;
+                } else {
+                    confirmation = true;
+                }
+                if (confirmation) {
+                    await this.updateApp(app, manifest);
+                } else {
+                    logger.error('Update cancelled');
+                }
             }
         }
-        if (!(await this.isAuthorized(app.id)) && install) {
-            await this.authorizeApp(app, manifest);
-            console.log('App is installed');
-        } else {
-            if (this.botScopesChanged(app, manifest) && install) {
-                await this.reinstallApp(app, manifest);
-                console.log('Bot scopes have changed. App is reinstalled.');
-            } else if (this.userScopesChanged(app, manifest) && install) {
+        /**
+         * If app is just created we need to restart the App server, so it will get the new environment variables
+         * We can not yet authorize
+         */
+        if (!created) {
+            if (!(await this.isAuthorized(app.id)) && install) {
                 await this.authorizeApp(app, manifest);
-                console.log('User scopes have changed. App is reauthorized.');
+                logger.success('Authorized ' + cyan`${app.name as string}`);
+            } else {
+                if (this.botScopesChanged(app, manifest) && install) {
+                    await this.reinstallApp(app, manifest);
+                    logger.success('Bot scopes have changed. App is reinstalled.');
+                } else if (this.userScopesChanged(app, manifest) && install) {
+                    await this.authorizeApp(app, manifest);
+                    logger.success('User scopes have changed. App is reauthorized.');
+                }
             }
         }
         return { created };
+    }
+
+    private async authorizeApp(app: AddonManifest, newApp: AddonManifest): Promise<void> {
+        const { redirectUrl } = await cliPumbleApiClient.getRedirectUrl(app, newApp, false);
+        await axios.get(redirectUrl);
     }
 
     private async isAuthorized(id: string): Promise<boolean> {
@@ -89,77 +134,177 @@ class AppSync {
         if (appId) {
             try {
                 const pumbleApp = await cliPumbleApiClient.getApp(appId);
-                console.log('App is found. Using existing app.');
                 return { app: pumbleApp, created: false };
-            } catch (err) {}
+            } catch (ignore) {}
         }
+
         if (!appFound) {
-            console.log('App is not found. Creating a new App.');
-            const app = await cliPumbleApiClient.createApp(manifest);
-            return { app, created: true };
+            let confirmation = false;
+            if (appId) {
+                const { response } = await prompts({
+                    name: 'response',
+                    type: 'confirm',
+                    message: `The app id ${appId} is not found in this workspace. Do you want to create a new App in this workspace?`,
+                });
+                confirmation = !!response;
+            } else {
+                confirmation = true;
+                logger.info('Creating app for the first time');
+            }
+            if (confirmation) {
+                const app = await cliPumbleApiClient.createApp(manifest);
+                logger.info(`Your app is created. AppID: ` + cyan`${app.id}`);
+                return { app, created: true };
+            }
         }
         throw new Error('App is not created!');
     }
 
-    private manifestChanged(oldApp: AddonManifest, newApp: AddonManifest): boolean {
-        if (
-            !oldApp.name !== newApp.name ||
-            oldApp.displayName !== oldApp.displayName ||
-            oldApp.botTitle !== newApp.botTitle
-        ) {
-            return true;
+    private manifestChanged(oldApp: AddonManifest, newApp: AddonManifest): ManifestChange[] {
+        const changes: ManifestChange[] = [];
+        if (oldApp.name !== newApp.name) {
+            changes.push({
+                key: 'Name',
+                action: 'change',
+                oldValue: oldApp.name as string,
+                newValue: newApp.name as string,
+            });
+        }
+        if (oldApp.displayName !== newApp.displayName) {
+            changes.push({
+                key: 'Display Name',
+                action: 'change',
+                oldValue: oldApp.displayName as string,
+                newValue: newApp.displayName as string,
+            });
+        }
+        if (oldApp.botTitle !== newApp.botTitle) {
+            changes.push({
+                key: 'Bot Title',
+                action: 'change',
+                oldValue: oldApp.botTitle as string,
+                newValue: newApp.botTitle as string,
+            });
         }
         if (
             !oldApp.redirectUrls.every((x) => newApp.redirectUrls.includes(x)) ||
             !newApp.redirectUrls.every((x) => oldApp.redirectUrls.includes(x))
         ) {
-            return true;
+            changes.push({
+                key: 'Redirect URLs',
+                action: 'change',
+                oldValue: oldApp.redirectUrls as string[],
+                newValue: newApp.redirectUrls as string[],
+            });
         }
+
         if (oldApp.blockInteraction?.url !== newApp.blockInteraction?.url) {
-            return true;
+            changes.push({
+                key: 'Block Interactions URL',
+                action: 'change',
+                oldValue: oldApp.blockInteraction?.url,
+                newValue: newApp.blockInteraction?.url,
+            });
         }
+
         for (const slash of oldApp.slashCommands) {
             const newAppSlashCommand = newApp.slashCommands.find((x) => x.command === slash.command);
-            if (!newAppSlashCommand) return true;
-            if (newAppSlashCommand.url !== slash.url) {
-                return true;
-            }
-            if (newAppSlashCommand.description !== slash.description) {
-                return true;
-            }
-            if (newAppSlashCommand.usageHint !== slash.usageHint) {
-                return true;
+            if (!newAppSlashCommand) {
+                changes.push({
+                    key: `Removed: ${slash.command}`,
+                    action: 'remove',
+                    oldValue: slash.command,
+                });
+            } else {
+                if (newAppSlashCommand.url !== slash.url) {
+                    changes.push({
+                        key: `Slash Command: ${slash.command} URL`,
+                        action: 'change',
+                        oldValue: slash.url,
+                        newValue: newAppSlashCommand.url,
+                    });
+                }
+                if (newAppSlashCommand.description !== slash.description) {
+                    changes.push({
+                        key: `Slash Command: ${slash.command} Description`,
+                        action: 'change',
+                        oldValue: slash.description as string | undefined,
+                        newValue: newAppSlashCommand.description as string | undefined,
+                    });
+                }
+                if (newAppSlashCommand.usageHint !== slash.usageHint) {
+                    changes.push({
+                        key: `Slash Command: ${slash.command} Usage hint`,
+                        action: 'change',
+                        oldValue: slash.usageHint as string | undefined,
+                        newValue: newAppSlashCommand.usageHint as string | undefined,
+                    });
+                }
             }
         }
         for (const slash of newApp.slashCommands) {
             if (!oldApp.slashCommands.find((x) => x.command === slash.command)) {
-                return true;
+                changes.push({
+                    key: `Added Slash Command: ${slash.command}`,
+                    action: 'add',
+                    newValue: slash.command,
+                });
             }
         }
         for (const short of oldApp.shortcuts) {
             const newAppShortcut = newApp.shortcuts.find(
-                (x) => x.command === short.command && x.shortcutType === short.shortcutType
+                (x) => x.name === short.name && x.shortcutType === short.shortcutType
             );
             if (!newAppShortcut) {
-                return true;
-            }
-            if (newAppShortcut.url !== short.url) {
-                return true;
-            }
-            if (newAppShortcut.description !== short.description) {
-                return true;
-            }
-            if (newAppShortcut.displayName !== short.displayName) {
-                return true;
+                changes.push({
+                    key: `Removed ${short.shortcutType} shortcut ${short.displayName}`,
+                    action: 'remove',
+                    oldValue: short.displayName as string,
+                });
+            } else {
+                if (newAppShortcut.url !== short.url) {
+                    changes.push({
+                        key: `${short.shortcutType} shortcut: ${short.displayName} URL`,
+                        action: 'change',
+                        oldValue: short.url,
+                        newValue: newAppShortcut.url,
+                    });
+                }
+                if (newAppShortcut.description !== short.description) {
+                    changes.push({
+                        key: `${short.shortcutType} shortcut: ${short.displayName} Description`,
+                        action: 'change',
+                        oldValue: short.description as string | undefined,
+                        newValue: newAppShortcut.description as string | undefined,
+                    });
+                }
+                if (newAppShortcut.displayName !== short.displayName) {
+                    changes.push({
+                        key: `${short.shortcutType} shortcut: ${short.displayName} Display Name`,
+                        action: 'change',
+                        oldValue: short.displayName as string | undefined,
+                        newValue: newAppShortcut.displayName as string | undefined,
+                    });
+                }
             }
         }
+
         for (const short of newApp.shortcuts) {
-            if (!oldApp.shortcuts.find((x) => x.command === short.command && x.shortcutType === short.shortcutType)) {
-                return true;
+            if (!oldApp.shortcuts.find((x) => x.name === short.name && x.shortcutType === short.shortcutType)) {
+                changes.push({
+                    key: `Added ${short.shortcutType} shortcut: ${short.displayName}`,
+                    action: 'add',
+                    newValue: short.displayName as string,
+                });
             }
         }
         if (newApp.eventSubscriptions.url !== oldApp.eventSubscriptions.url) {
-            return true;
+            changes.push({
+                key: `Events URL`,
+                action: 'change',
+                oldValue: oldApp.eventSubscriptions.url,
+                newValue: newApp.eventSubscriptions.url,
+            });
         }
         if (
             !(newApp.eventSubscriptions.events || []).every((x) =>
@@ -167,9 +312,68 @@ class AppSync {
             ) ||
             !(oldApp.eventSubscriptions.events || []).every((x) => (newApp.eventSubscriptions.events || []).includes(x))
         ) {
-            return true;
+            changes.push({
+                key: 'Events',
+                action: 'change',
+                oldValue: (oldApp.eventSubscriptions.events || []).map<string>((e) =>
+                    typeof e === 'object' ? e.name : e
+                ),
+                newValue: (newApp.eventSubscriptions.events || []).map<string>((e) =>
+                    typeof e === 'object' ? e.name : e
+                ),
+            });
         }
-        return this.botScopesChanged(oldApp, newApp) || this.userScopesChanged(oldApp, newApp);
+        if (this.botScopesChanged(oldApp, newApp)) {
+            changes.push({
+                key: 'Bot Scopes',
+                action: 'change',
+                oldValue: oldApp.scopes.botScopes,
+                newValue: newApp.scopes.botScopes,
+            });
+        }
+        if (this.userScopesChanged(oldApp, newApp)) {
+            changes.push({
+                key: 'User Scopes',
+                action: 'change',
+                oldValue: oldApp.scopes.userScopes,
+                newValue: newApp.scopes.userScopes,
+            });
+        }
+        if (oldApp.listingUrl?.toString() !== newApp.listingUrl?.toString()) {
+            if (!(oldApp.listingUrl?.startsWith('/') && !newApp.listingUrl)) {
+                changes.push({
+                    key: 'Listing URL',
+                    action: 'change',
+                    oldValue: oldApp.listingUrl,
+                    newValue: newApp.listingUrl,
+                });
+            }
+        }
+        if (oldApp.helpUrl?.toString() !== newApp.helpUrl?.toString()) {
+            changes.push({
+                key: 'Help URL',
+                action: 'change',
+                oldValue: oldApp.helpUrl,
+                newValue: newApp.helpUrl,
+            });
+        }
+        if (oldApp.welcomeMessage?.toString() !== newApp.welcomeMessage?.toString()) {
+            changes.push({
+                key: 'Welcome Message',
+                action: 'change',
+                oldValue: oldApp.welcomeMessage,
+                newValue: newApp.welcomeMessage,
+            });
+        }
+        if (oldApp.offlineMessage?.toString() !== newApp.offlineMessage?.toString()) {
+            changes.push({
+                key: 'Offline Message',
+                action: 'change',
+                oldValue: oldApp.offlineMessage,
+                newValue: newApp.offlineMessage,
+            });
+        }
+        return changes;
     }
 
     private async updateApp(app: AddonManifest, manifest: AddonManifest) {
@@ -177,17 +381,19 @@ class AppSync {
             .updateApp(app.id, manifest)
             .catch((e) => {
                 if (e instanceof AxiosError) {
-                    console.error(`Error updating app: ${e.response?.data.message}`);
+                    logger.error(`Error updating app: ${e.response?.data.message}`);
+                } else {
+                    console.log('ERROR', e);
                 }
             })
             .then(() => {
-                console.log('App is updated!');
+                logger.success('App is updated');
             });
     }
 
     private userScopesChanged(oldApp: AddonManifest, newApp: AddonManifest): boolean {
-        const newAppScopes: { botScopes: string[]; userScopes: string[] } = newApp.scopes as any;
-        const oldAppScopes: { botScopes: string[]; userScopes: string[] } = oldApp.scopes as any;
+        const newAppScopes: { botScopes: string[]; userScopes: string[] } = newApp.scopes;
+        const oldAppScopes: { botScopes: string[]; userScopes: string[] } = oldApp.scopes;
         if (!newAppScopes.userScopes.every((x) => oldAppScopes.userScopes.includes(x))) {
             return true;
         }
@@ -198,8 +404,8 @@ class AppSync {
     }
 
     private botScopesChanged(oldApp: AddonManifest, newApp: AddonManifest): boolean {
-        const newAppScopes: { botScopes: string[]; userScopes: string[] } = newApp.scopes as any;
-        const oldAppScopes: { botScopes: string[]; userScopes: string[] } = oldApp.scopes as any;
+        const newAppScopes: { botScopes: string[]; userScopes: string[] } = newApp.scopes;
+        const oldAppScopes: { botScopes: string[]; userScopes: string[] } = oldApp.scopes;
         if (!newAppScopes.botScopes.every((x) => oldAppScopes.botScopes.includes(x))) {
             return true;
         }
@@ -214,9 +420,19 @@ class AppSync {
         await axios.get(redirectUrl);
     }
 
-    private async authorizeApp(app: AddonManifest, newApp: AddonManifest): Promise<void> {
-        const { redirectUrl } = await cliPumbleApiClient.getRedirectUrl(app, newApp, false);
-        await axios.get(redirectUrl);
+    private logManifestChanges(changes: ManifestChange[]) {
+        changes.forEach((item, index) => {
+            this.logManifestChange(index + 1, item);
+        });
+    }
+
+    private logManifestChange(index: number, change: ManifestChange) {
+        const str = `${index}. (${change.action.toUpperCase()}) - ${yellow(change.key)}`;
+        const valueChange =
+            red`${change.oldValue?.toString() || '(none)'}` +
+            ' -> ' +
+            green`${change.newValue?.toString() || '(none)'}`;
+        console.log(`${str}\n${valueChange}\n`);
     }
 }
 

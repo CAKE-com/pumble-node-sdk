@@ -10,11 +10,7 @@ type TokenDocument = {
 };
 
 export class MongoDbTokenStore implements CredentialsStore {
-    public constructor(
-        protected client: MongoClient,
-        protected database: string,
-        protected collectionName: string
-    ) {}
+    public constructor(protected client: MongoClient, protected database: string, protected collectionName: string) {}
 
     public async initialize(): Promise<void> {}
 
@@ -36,9 +32,7 @@ export class MongoDbTokenStore implements CredentialsStore {
         }
     }
 
-    public async getBotUserId(
-        workspaceId: string
-    ): Promise<string | undefined> {
+    public async getBotUserId(workspaceId: string): Promise<string | undefined> {
         const document = await this.collection.findOne({
             isBot: true,
             workspaceId,
@@ -48,10 +42,7 @@ export class MongoDbTokenStore implements CredentialsStore {
         }
     }
 
-    public async getUserToken(
-        workspaceId: string,
-        workspaceUserId: string
-    ): Promise<string | undefined> {
+    public async getUserToken(workspaceId: string, workspaceUserId: string): Promise<string | undefined> {
         const document = await this.collection.findOne({
             workspaceId,
             userId: workspaceUserId,
@@ -61,9 +52,7 @@ export class MongoDbTokenStore implements CredentialsStore {
         }
     }
 
-    public async saveTokens(
-        response: OAuth2AccessTokenResponse
-    ): Promise<void> {
+    public async saveTokens(response: OAuth2AccessTokenResponse): Promise<void> {
         if (response.botToken && response.botId) {
             await this.collection.updateOne(
                 { isBot: true, workspaceId: response.workspaceId },
