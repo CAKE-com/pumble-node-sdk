@@ -1,0 +1,20 @@
+{
+    "name": "{{name}}",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/main.js",
+    "scripts": {
+        "start": "tsc && node dist/main.js",
+        "dev": "pumble-cli"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "typescript": "^5.3.3",
+        "pumble-cli": "1.0.0"
+    },
+    "dependencies": {
+        "pumble-sdk": "1.0.0"
+    }
+}

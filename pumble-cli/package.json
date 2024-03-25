@@ -1,0 +1,40 @@
+{
+    "name": "pumble-cli",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "scripts": {
+        "compile": "tsc",
+        "publish": "npm publish"
+    },
+    "bin": {
+        "pumble-cli": "./bin/pumble-cli"
+    },
+    "keywords": [
+        "pumble",
+        "cli"
+    ],
+    "author": "Pumble",
+    "license": "ISC",
+    "dependencies": {
+        "ansis": "^2.3.0",
+        "axios": "^1.6.7",
+        "chokidar": "^3.6.0",
+        "find-free-ports": "^3.1.1",
+        "form-data": "^4.0.0",
+        "jsonc": "^2.0.0",
+        "localtunnel": "^2.0.2",
+        "lodash": "^4.17.21",
+        "prompts": "^2.4.2",
+        "table": "^6.8.1",
+        "yargs": "^17.7.2"
+    },
+    "devDependencies": {
+        "@types/localtunnel": "^2.0.4",
+        "@types/lodash": "^4.14.202",
+        "@types/node": "^20.11.19",
+        "@types/prompts": "^2.4.9",
+        "@types/yargs": "^17.0.32",
+        "typescript": "^5.3.3"
+    }
+}

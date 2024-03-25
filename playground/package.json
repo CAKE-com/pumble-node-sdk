@@ -1,0 +1,27 @@
+{
+    "name": "playground",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node ./dist/playground/example-1.js --port=8183 --manifest manifest.json --auto-update --host=https://www.google.com",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli --program ./dist/playground/example-1.js --inspect 0.0.0.0:9229",
+        "list": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli list",
+        "connect": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli connect",
+        "logout": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli logout",
+        "login": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli login",
+        "scaffold": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli scaffold",
+        "create": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli create"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "ajv": "^8.12.0",
+        "axios": "^1.6.7",
+        "express": "^4.18.2",
+        "lodash": "^4.17.21",
+        "ws": "^8.16.0"
+    }
+}

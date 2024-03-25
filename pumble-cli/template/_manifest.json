@@ -1,0 +1,10 @@
+{
+    "name": "{{name}}",
+    "displayName": "{{displayName}}",
+    "botTitle": "{{botTitle}}",
+    "bot": {{bot}},
+    "scopes": {
+        "botScopes": {{botScopes}},
+        "userScopes": {{userScopes}}
+    }
+}
