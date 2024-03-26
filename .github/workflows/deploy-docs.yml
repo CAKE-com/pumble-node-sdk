@@ -38,6 +38,8 @@ jobs:
           node-version: 20
       - name: Setup Pages
         uses: actions/configure-pages@v4
+        with:
+          enablement: true
       - name: Install dependencies
         working-directory: ./docs
         run: npm install # or pnpm install / yarn install / bun install
