@@ -50,11 +50,11 @@ jobs:
           cat ./pumble-cli/template/_package.json
 
       - name: Publish SDK
-        run: cd pumble-sdk && npm run publish && cd ..
+        run: cd pumble-sdk && npm run publish-package && cd ..
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish CLI
-        run: cd pumble-cli && npm run publish && cd ..
+        run: cd pumble-cli && npm run publish-package && cd ..
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
