@@ -5,7 +5,7 @@
     "main": "dist/index.js",
     "scripts": {
         "compile": "tsc",
-        "publish": "npm publish"
+        "publish-package": "npm publish"
     },
     "bin": {
         "pumble-cli": "./bin/pumble-cli"

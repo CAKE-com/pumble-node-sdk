@@ -5,7 +5,7 @@
     "description": "",
     "scripts": {
         "compile": "tsc",
-        "publish": "npm publish"
+        "publish-package": "npm publish"
     },
     "files": [
         "lib",
