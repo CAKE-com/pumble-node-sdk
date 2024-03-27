@@ -1,7 +1,7 @@
 # Pumble SDK
 
 A javascript framework to quickly build [Pumble](https://pumble.com) Apps.
-Visit [the documentation](https://cake-com.github.io/pumble-node-sdk/getting-started) to explore the full guide on creating Pumble Apps
+Visit [the documentation](https://CAKE-com.github.io/pumble-node-sdk/getting-started) to explore the full guide on creating Pumble Apps
 
 ## Setup
 

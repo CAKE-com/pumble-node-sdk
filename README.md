@@ -5,7 +5,7 @@ This repository contains the tools to create [Pumble](https://pumble.com/) apps.
 1. [Pumble SDK](https://www.npmjs.com/package/pumble-sdk) - A javascript framework to quickly build Pumble apps.  
 2. [Pumble CLI](https://www.npmjs.com/package/pumble-cli) - A cli tool to generate and run Pumble apps from your local environment.
 
-Read the full [documentation](https://cake-com.github.io/pumble-node-sdk/getting-started) to get started.
+Read the full [documentation](https://CAKE-com.github.io/pumble-node-sdk/getting-started) to get started.
 
 ## Quick  Start
 

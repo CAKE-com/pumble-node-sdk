@@ -3,7 +3,7 @@
 Pumble CLI provides a set of tools that you can use for your [Pumble](https://pumble.com) app development and configuration.
 It will make the process of creating and maintaining your app easier.  
 
-Visit [the documentation](https://cake-com.github.io/pumble-node-sdk/getting-started) to explore the full guide on creating Pumble Apps
+Visit [the documentation](https://CAKE-com.github.io/pumble-node-sdk/getting-started) to explore the full guide on creating Pumble Apps
 
 To get started you can either install the cli globally `npm i -g pumble-cli` or use it with `npx`: `npx pumble-cli <command>`
 
