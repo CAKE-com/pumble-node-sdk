@@ -4,6 +4,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
     title: "Pumble SDK",
     description: "Build Pumble Apps",
+    base: "/pumble-node-sdk/",
     themeConfig: {
         // https://vitepress.dev/reference/default-theme-config
         nav: [
