@@ -12,8 +12,8 @@ To list the available commands and their usage simply use `pumble-cli --help` or
 ### `pumble-cli login`
 
 Using `pumble-cli login` you will be prompted to enter your email address and the verification code that will be sent to your email.\
-After these steps you are logged in and ready to us the cli.\
-If you need to login in another workspace simply use `pumble-cli login --force` or `pumble-cli logout && pumble-cli login`\
+After these steps you are logged in and ready to use the cli.\
+If you need to log in to another workspace simply use `pumble-cli login --force` or `pumble-cli logout && pumble-cli login`\
 By default this command will save you authorization info in `~/.pumblerc` file.
 
 If you need to check in which workspace you are logged in use `pumble-cli info`
@@ -24,7 +24,7 @@ With `pumble-cli create` you will be able to generate a new app.\
 It will create a default app with some triggers implemented.\
 You will be prompted to provide some basic information such as `name` and `description`.\
 After this command completes you can simply `cd` into the newly created directory and start your app with `npm run dev`\
-After you execute `npm run dev` for the first time the Pumble app will be crated and installed in your logged in workspace, so you will be ready to test it.
+After you execute `npm run dev` for the first time the Pumble app will be created and installed in your logged in workspace, so you will be ready to test it.
 While having `npm run dev` running, every change you make in your project (adding removing triggers, changing `manifest.json`) will update your app.
 
 ### `pumble-cli logout`
@@ -71,7 +71,7 @@ Use this command to generate a project that mirrors one of your already configur
 After running this command you will be prompted to pick one of your existing projects. 
 This will generate the template and configuration to match the Pumble app.\
 `.pumbleapprc` will match the app's secrets. And all triggers and event subscriptions will be generated with empty handlers.\
-You will just need to implement the handlers
+You will just need to implement the handlers.
 
 ### `pumble-cli`
 

@@ -12,7 +12,7 @@ Pumble uses OAuth2 in order to allow your app to access the API.
 The link that will open the Pumble consent screen is in this format:
 
 ```
-https://app.pumble.com/access-request?redirectUrl=<REDDIRECT_URL>&clientId=<CLIENT_ID>&scopes=<SCOPES>&defaultWorkspaceId=<DEFAULT_WORKSPACE_ID>&isReinstall=true
+https://app.pumble.com/access-request?redirectUrl=<REDIRECT_URL>&clientId=<CLIENT_ID>&scopes=<SCOPES>&defaultWorkspaceId=<DEFAULT_WORKSPACE_ID>&isReinstall=true
 ```
 
 | name               | required | description                                                                                                                                                                                                                                                                                                                                                                                                               |
@@ -21,7 +21,7 @@ https://app.pumble.com/access-request?redirectUrl=<REDDIRECT_URL>&clientId=<CLIE
 | clientId           | yes      | The id of your app                                                                                                                                                                                                                                                                                                                                                                                                        |
 | scopes             | yes      | The scopes that you have defined in your manifest.  These scopes are send as a comma separated list of user scopes + bot scopes. Bot scopes however are prepended with `bot:`. example: `messages:read,messages:write,bot:messages:read,bot:messages:write`, scopes can be only a subset or the full list of scopes that you have defined in your manifest. To view a list of all scopes click [here](/api-client#scopes) |
 | defaultWorkspaceId | no       | The default workspace id to open consent screen to. Users will have the option to change the workspace, but when `defaultWorkspaceId` is provided that workspace will be preselected.                                                                                                                                                                                                                                     |
-| isReinstall        | no       | If you need to re authorize the bot with new scopes, reInstallation is required, sending this query parameter with `true` will trigger a reinstallation, and therefore bot will be reauthorized                                                                                                                                                                                                                           |
+| isReinstall        | no       | If you need to reauthorize the bot with new scopes, reInstallation is required, sending this query parameter with `true` will trigger a reinstallation, and therefore bot will be reauthorized                                                                                                                                                                                                                            |
 
 After user authorizes, they will be redirected to the specified `redirectUrl`, the authorization code will be in the `code` query parameter of the `redirectUrl`.
 Using this code and your `clientSecret` provided when [creating your app](/manifest) you will be able to generate the access token for that user and for your bot.
@@ -86,7 +86,7 @@ const app: App = {
 };
 ```
 :::warning
-If `onSuccess` or `onError` overriden, please make sure to always return a `response`
+If `onSuccess` or `onError` overridden, please make sure to always return a `response`
 :::
 
 ## Token Store
@@ -127,7 +127,7 @@ const app: App = {
 	//... Triggers
 };
 ```
-Notice that in this callback you also have access to the `addon` object, which provides you with some helper methods to get [ApiClients](/api-client) , access [manifest](/manifest), generate OAuth2 url etc.
+Notice that in this callback you also have access to the `addon` object, which provides you with some helper methods to get [ApiClients](/api-client), access [manifest](/manifest), generate OAuth2 url etc.
 
 ## Handling Errors 
 

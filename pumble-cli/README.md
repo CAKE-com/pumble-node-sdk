@@ -91,7 +91,7 @@ Use this command to generate a project that mirrors one of your already configur
 After running this command you will be prompted to pick one of your existing projects. 
 This will generate the template and configuration to match the Pumble app.\
 `.pumbleapprc` will match the app's secrets. And all triggers and event subscriptions will be generated with empty handlers.\
-You will just need to implement the handlers
+You will just need to implement the handlers.
 
 ### `pumble-cli`
 
