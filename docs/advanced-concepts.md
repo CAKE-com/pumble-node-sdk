@@ -3,28 +3,28 @@
 ## Authorization
 
 Pumble uses OAuth2 in order to allow your app to access the API.
-- User first clicks on a link to Install/Authorize your app. This link can either be through Pumble's `Configure Apps` page or externally through a website
+- User first clicks on a link to Install/Authorize your app. This link can either be through Pumble's `Configure Apps` page or externally through a website.
 - This link will open the Pumble Consent screen that will display the scopes that are requested. 
-- User clicks `Allow`, and Pumble will redirect the user to your `redirectUrl`. This url will have a query parameter called `code`
-- Using this code and your `clientSecret`  (that is returned upon creation of your app) you will be able to generate an access token
-- With this access token you will be able to use the pumble api
+- User clicks `Allow`, and Pumble will redirect the user to your `redirectUrl`. Pumble will add a query parameter to this url called `code`.
+- Using this code and your `clientSecret`  (that is returned when you [create your app](/manifest)) you will be able to generate an access token.
+- With this access token you will be able to use the pumble api.
 
-The link that will open the Pumble Consent screen is in this format:
+The link that will open the Pumble consent screen is in this format:
 
 ```
 https://app.pumble.com/access-request?redirectUrl=<REDDIRECT_URL>&clientId=<CLIENT_ID>&scopes=<SCOPES>&defaultWorkspaceId=<DEFAULT_WORKSPACE_ID>&isReinstall=true
 ```
 
-| name               | required | description                                                                                                                                                                                                                                                                                                                                                    |
-| :----------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| redirectUrl        | yes      | The redirect url where user will be redirected after they click `Allow`. This redirect url must match one of your app's `redirectUrls`. This means that if you have a redirect url of `https://example.com/redirect` it will match `https://example.com/redirect/other` but not `https://example.com`                                                          |
-| clientId           | yes      | The id of your app                                                                                                                                                                                                                                                                                                                                             |
-| scopes             | yes      | The scopes that you have defi pfned in your manifest.  These scopes are send as a comma separated list of user scopes + bot scopes. Bot scopes however are prepended with `bot:`. example: `messages:read,messages:write,bot:messages:read,bot:messages:write`, scopes can be only a subset or the full list of scopes that you have defined in your manifest. |
-| defaultWorkspaceId | no       | The default workspace id to open consent screen to. Users will have the option to change the workspace.                                                                                                                                                                                                                                                        |
-| isReinstall        | no       | If you need to re authorize the bot with new scopes, reInstallation is required, sending this query parameter with `true` will trigger a reinstallation, and therefore bot will be reauthorized                                                                                                                                                                |
+| name               | required | description                                                                                                                                                                                                                                                                                                                                                                                                               |
+| :----------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| redirectUrl        | yes      | The redirect url where user will be redirected after they click `Allow`. This redirect url must match one of your app's `redirectUrls`. This means that if you have a redirect url of `https://example.com/redirect` it will match `https://example.com/redirect/other` but not `https://example.com`                                                                                                                     |
+| clientId           | yes      | The id of your app                                                                                                                                                                                                                                                                                                                                                                                                        |
+| scopes             | yes      | The scopes that you have defined in your manifest.  These scopes are send as a comma separated list of user scopes + bot scopes. Bot scopes however are prepended with `bot:`. example: `messages:read,messages:write,bot:messages:read,bot:messages:write`, scopes can be only a subset or the full list of scopes that you have defined in your manifest. To view a list of all scopes click [here](/api-client#scopes) |
+| defaultWorkspaceId | no       | The default workspace id to open consent screen to. Users will have the option to change the workspace, but when `defaultWorkspaceId` is provided that workspace will be preselected.                                                                                                                                                                                                                                     |
+| isReinstall        | no       | If you need to re authorize the bot with new scopes, reInstallation is required, sending this query parameter with `true` will trigger a reinstallation, and therefore bot will be reauthorized                                                                                                                                                                                                                           |
 
-After user authorizes the Authorization Code will come in the `code` query parameter
-Using this code and your `clientSecret` provided when creating your app you will be able to generate the access token for that user and for your bot.
+After user authorizes, they will be redirected to the specified `redirectUrl`, the authorization code will be in the `code` query parameter of the `redirectUrl`.
+Using this code and your `clientSecret` provided when [creating your app](/manifest) you will be able to generate the access token for that user and for your bot.
 
 ```sh
 curl 
@@ -127,12 +127,12 @@ const app: App = {
 	//... Triggers
 };
 ```
-Notice that in this callback you also have access to the `addon` object, which provides you with some helper methods to get Pumble Clients, access manifest, generate Auth link etc.
+Notice that in this callback you also have access to the `addon` object, which provides you with some helper methods to get [ApiClients](/api-client) , access [manifest](/manifest), generate OAuth2 url etc.
 
 ## Handling Errors 
 
-The addon will emit errors everytime some uncaught error occurs in one of the handlers.
-In order to capture this use the code below:
+The addon will emit errors every time some uncaught error occurs in one of your event handlers.
+In order to capture these errors use the code below:
 
 ```typescript
 async function main() {

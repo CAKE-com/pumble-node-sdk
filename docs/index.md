@@ -4,8 +4,11 @@ layout: home
 
 hero:
   name: "Pumble SDK"
-  text: "Build Pumble Apps"
+  tagline: "Build Pumble Apps and automate your workflow"
   actions:
     - theme: brand
       text: Getting Started
       link: /getting-started
+    - theme: alt
+      text: View on GitHub
+      link: https://github.com/CAKE-com/pumble-node-sdk

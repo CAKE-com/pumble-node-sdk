@@ -1,6 +1,6 @@
 # Api Client
 
-Every Request to pumble api must be sent with two headers
+Every Request to Pumble api must be sent with two headers
 
 1. `x-app-token`:  Your app token that you receive when app is created. See [manifest](/manifest)
 2. `token`: The access token of the user or bot. See [Authorization](/advanced-concepts#authorization)

@@ -12,9 +12,11 @@ You can also use `pumble-cli` instead of maintaining your apps manually which wi
 
 To manually create an app with a manifest you should send a request to this Pumble API endpoint:
 
+
 ```http
 POST https://api-ga.pumble.com/workspaces/{workspace_id}/workspaceUsers/{workspace_user_id}/apps
 ```
+
 with this json body see [Manifest Payload](#manifest-payload):
 ```json
 {
@@ -74,6 +76,11 @@ with this json body see [Manifest Payload](#manifest-payload):
     "offlineMessage": "We are experiencing some issues at the moment. Please try again later"
 }
 ```
+
+:::info
+All the requests to manage your apps, need to you use `Authtoken` header. \
+You can get this value in `~/.pumblerc` file `PUMBLE_ACCESS_TOKEN` after you login with `npx pumble-cli login` 
+:::
 
 You will get a response  with the full Manifest and your app's secrets
 
