@@ -2,28 +2,15 @@ import { BaseApiClient } from '../BaseApiClient';
 import { V1 } from './types';
 
 export class ChannelsApiClientV1 extends BaseApiClient {
-    private urlsV1 = {
-        getDirectChannel: () => `/api/v1/channels/direct`,
-        createDirectChannel: () => `/api/v1/channels/direct`,
-        getChannelDetails: (channelId: string) => `/api/v1/channels/${channelId}`,
-        listChannels: () => `/api/v1/channels`,
-        createChannel: () => `/api/v1/channels`,
-        addUsersToChannel: (channelId: string) => `/api/v1/channels/${channelId}/users`,
-        removeUserFromChannel: (channelId: string, userId: string) => `/api/v1/channels/${channelId}/users/${userId}`,
+    private urls = {
+        getDirectChannel: () => `/v1/channels/direct`,
+        createDirectChannel: () => `/v1/channels/direct`,
+        getChannelDetails: (channelId: string) => `/v1/channels/${channelId}`,
+        listChannels: () => `/v1/channels`,
+        createChannel: () => `/v1/channels`,
+        addUsersToChannel: (channelId: string) => `/v1/channels/${channelId}/users`,
+        removeUserFromChannel: (channelId: string, userId: string) => `/v1/channels/${channelId}/users/${userId}`,
     };
-
-    private urlsV0 = {
-        getDirectChannel: () => `/workspaces/${this.workspaceId}/channels/direct`,
-        createDirectChannel: () =>
-            `/workspaces/${this.workspaceId}/workspaceUsers/${this.workspaceUserId}/channels/direct`,
-        getChannelDetails: (channelId: string) => `/workspaces/${this.workspaceId}/channels/${channelId}`,
-        listChannels: () => `/workspaces/${this.workspaceId}/workspaceUsers/${this.workspaceUserId}/channels`,
-        createChannel: () => `/workspaces/${this.workspaceId}/channels`,
-        addUsersToChannel: (channelId: string) => `/workspaces/${this.workspaceId}/channels/${channelId}/users`,
-        removeUserFromChannel: (channelId: string, userId: string) =>
-            `/workspaces/${this.workspaceId}/channels/${channelId}/users/${userId}`,
-    };
-    private urls = this.urlsV0;
 
     public async getDirectChannel(withUsers: string[]): Promise<V1.ChannelInfo> {
         const url = this.urls.getDirectChannel();
