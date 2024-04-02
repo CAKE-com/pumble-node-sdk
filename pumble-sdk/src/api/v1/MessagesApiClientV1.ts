@@ -3,49 +3,22 @@ import { V1 } from './types';
 import { ChannelsApiClientV1 } from './ChannelsApiClientV1';
 
 export class MessagesApiClientV1 extends BaseApiClient {
-    private urlsV1 = {
-        fetchMessage: (channelId: string, messageId: string) => `/api/v1/channels/${channelId}/messages/${messageId}`,
-        fetchMessages: (channelId: string) => `/api/v1/channels/${channelId}/messages`,
-        postMessageToChannel: (channelId: string) => `/api/v1/channels/${channelId}/messages`,
-        reply: (channelId: string, threadRootId: string) => `/api/v1/channels/${channelId}/messages/${threadRootId}`,
-        postEphemeral: (channelId: string) => `/api/v1/channels/${channelId}/messages`,
+    private urls = {
+        fetchMessage: (channelId: string, messageId: string) => `/v1/channels/${channelId}/messages/${messageId}`,
+        fetchMessages: (channelId: string) => `/v1/channels/${channelId}/messages`,
+        postMessageToChannel: (channelId: string) => `/v1/channels/${channelId}/messages`,
+        reply: (channelId: string, threadRootId: string) => `/v1/channels/${channelId}/messages/${threadRootId}`,
+        postEphemeral: (channelId: string) => `/v1/channels/${channelId}/messages`,
         replyEphemeral: (channelId: string, threadRootId: string) =>
-            `/api/v1/channels/${channelId}/messages/${threadRootId}`,
-        editMessage: (channelId: string, messageId: string) => `/api/v1/channels/${channelId}/messages/${messageId}`,
-        deleteMessage: (channelId: string, messageId: string) => `/api/v1/channels/${channelId}/messages/${messageId}`,
+            `/v1/channels/${channelId}/messages/${threadRootId}`,
+        editMessage: (channelId: string, messageId: string) => `/v1/channels/${channelId}/messages/${messageId}`,
+        deleteMessage: (channelId: string, messageId: string) => `/v1/channels/${channelId}/messages/${messageId}`,
         fetchThreadReplies: (channelId: string, threadRootId: string) =>
-            `/api/v1/channels/${channelId}/messages/${threadRootId}/replies`,
-        searchMessages: () => '/api/v1/messages/search',
-        addReaction: (messageId: string) => `/api/v1/messages/${messageId}/reactions`,
-        removeReaction: (messageId: string) => `/api/v1/messages/${messageId}/reactions`,
+            `/v1/channels/${channelId}/messages/${threadRootId}/replies`,
+        searchMessages: () => '/v1/messages/search',
+        addReaction: (messageId: string) => `/v1/messages/${messageId}/reactions`,
+        removeReaction: (messageId: string) => `/v1/messages/${messageId}/reactions`,
     };
-
-    private urlsV0 = {
-        fetchMessage: (channelId: string, messageId: string) =>
-            `/workspaces/${this.workspaceId}/channels/${channelId}/messages/${messageId}`,
-        fetchMessages: (channelId: string) => `/workspaces/${this.workspaceId}/channels/${channelId}/messagesV1`,
-        postMessageToChannel: (channelId: string) =>
-            `/workspaces/${this.workspaceId}/channels/${channelId}/workspaceUsers/${this.workspaceUserId}/messages`,
-        postEphemeral: (channelId: string) =>
-            `/workspaces/${this.workspaceId}/channels/${channelId}/workspaceUsers/${this.workspaceUserId}/messages`,
-        reply: (channelId: string, threadRootId: string) =>
-            `/workspaces/${this.workspaceId}/channels/${channelId}/workspaceUsers/${this.workspaceUserId}/messages/${threadRootId}`,
-        replyEphemeral: (channelId: string, threadRootId: string) =>
-            `/workspaces/${this.workspaceId}/channels/${channelId}/workspaceUsers/${this.workspaceUserId}/messages/${threadRootId}`,
-        editMessage: (channelId: string, messageId: string) =>
-            `/workspaces/${this.workspaceId}/channels/${channelId}/messages/${messageId}/text`,
-        deleteMessage: (channelId: string, messageId: string) =>
-            `/workspaces/${this.workspaceId}/channels/${channelId}/messages/${messageId}`,
-        fetchThreadReplies: (channelId: string, threadRootId: string) =>
-            `/workspaces/${this.workspaceId}/channels/${channelId}/messages/${threadRootId}/replies`,
-        searchMessages: () => `/workspaces/${this.workspaceId}/workspaceUsers/${this.workspaceUserId}/messages/search`,
-        addReaction: (messageId: string) =>
-            `/workspaces/${this.workspaceId}/messages/${messageId}/workspaceUsers/${this.workspaceUserId}/reactions`,
-        removeReaction: (messageId: string) =>
-            `/workspaces/${this.workspaceId}/messages/${messageId}/workspaceUsers/${this.workspaceUserId}/reactions`,
-    };
-
-    private urls = this.urlsV0;
 
     public async fetchMessage(messageId: string, channelId: string): Promise<V1.Message> {
         const url = this.urls.fetchMessage(channelId, messageId);
