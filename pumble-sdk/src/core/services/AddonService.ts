@@ -17,9 +17,9 @@ import {
     ReplyContext,
     ReplyFunction,
     ChannelDetailsContext,
-    BlockInteractionContext,
+    BlockInteractionContext, DynamicMenuContext, ResponseCallback
 } from '../types/contexts';
-import { Addon, ContextCallback } from './Addon';
+import {Addon, Callback, ContextCallback} from './Addon';
 import { PumbleEventType } from '../types/pumble-events';
 import { EventEmitter } from 'events';
 import { ApiClient } from '../../api';
@@ -28,7 +28,7 @@ import { AddonHttpListener, AddonHttpServerOptions } from '../adapters/http/Addo
 import { AddonWebsocketListener } from '../adapters/socket/AddonWebsocketListener';
 import { Express } from 'express';
 import {
-    BlockInteractionPayload,
+    BlockInteractionPayload, DynamicMenuOptionsResponse, DynamicMenuPayload,
     GlobalShortcutPayload,
     MessageShortcutPayload,
     PumbleEventPayload,
@@ -37,6 +37,8 @@ import {
 import path from 'path';
 import { ClientUtils } from './ClientUtils';
 import { V1 } from '../../api/v1/types';
+import OptionGroup = V1.OptionGroup;
+import Option = V1.Option;
 
 type ContextCache = {
     botUserId?: string | null;
@@ -52,6 +54,7 @@ const MESSAGE_SHORTCUT = 'message_shortcut';
 const BLOCK_INTERACTION_VIEW = 'block_interaction_view';
 const BLOCK_INTERACTION_MESSAGE = 'block_interaction_message';
 const BLOCK_INTERACTION_EPHEMERAL_MESSAGE = 'block_interaction_ephemeral_message';
+const DYNAMIC_SELECT_MENU = 'dynamic_select_menu';
 const ERROR = 'error';
 
 const availableEvents = [
@@ -62,6 +65,7 @@ const availableEvents = [
     BLOCK_INTERACTION_VIEW,
     BLOCK_INTERACTION_MESSAGE,
     BLOCK_INTERACTION_EPHEMERAL_MESSAGE,
+    DYNAMIC_SELECT_MENU
 ] as const;
 
 export type AvailableEvents = (typeof availableEvents)[number];
@@ -104,6 +108,9 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             this.blockInteractionMessage(this.manifest.blockInteraction.handlerMessage);
             this.blockInteractionEphemeralMessage(this.manifest.blockInteraction.handlerEphemeralMessage);
         }
+        this.manifest.dynamicMenus.forEach((selectMenu) => {
+            this.dynamicSelectMenu(selectMenu.onAction, selectMenu.producer);
+        });
         this.manifest.eventSubscriptions.events?.forEach((event) => {
             if (typeof event === 'object') {
                 if (event.name === 'REACTION_ADDED') {
@@ -304,6 +311,17 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         this.emit(BLOCK_INTERACTION_VIEW, appEventArg);
     }
 
+    public postDynamicSelectMenu(payload: DynamicMenuPayload, response: ResponseCallback<DynamicMenuOptionsResponse>, nack: NackCallback): void {
+        const cache: ContextCache = {};
+        const eventContext = this.createEventContext(payload, payload.workspaceId, payload.userId, cache);
+        const appEventArg: DynamicMenuContext = {
+            response,
+            nack,
+            ...eventContext,
+        };
+        this.emit(DYNAMIC_SELECT_MENU, appEventArg);
+    }
+
     public event<E extends PumbleEventType>(name: E, cb: ContextCallback<PumbleEventContext<E>>): this {
         return this.on(EVENT, (evt: EventContext<PumbleEventPayload<E>>) => {
             if (evt.payload.eventType === name) {
@@ -359,6 +377,21 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         };
         return this.on(BLOCK_INTERACTION_EPHEMERAL_MESSAGE, wrapperCallback);
     }
+
+    public dynamicSelectMenu(onAction: string, cb: Callback<DynamicMenuContext, Promise<Option[] | OptionGroup[]>>): this {
+        const wrapperCallback: ContextCallback<DynamicMenuContext> = async (evt) => {
+            if (evt.payload.onAction === onAction) {
+                const options = await cb(evt);
+                if (options) {
+                    await evt.response({onAction, options});
+                } else {
+                    await evt.nack("No dynamic select menu options provided by callback");
+                }
+            }
+        };
+        return this.on(DYNAMIC_SELECT_MENU, wrapperCallback);
+    }
+
 
     public message(
         opt: string | RegExp | { match: string | RegExp; includeBotMessages?: boolean },

@@ -1,6 +1,6 @@
-import { ContextCallback } from '../services/Addon';
+import {Callback, ContextCallback} from '../services/Addon';
 import {
-    BlockInteractionContext,
+    BlockInteractionContext, DynamicMenuContext,
     GlobalShortcutContext,
     MessageShortcutContext,
     OnMessageContext,
@@ -9,6 +9,9 @@ import {
     SlashCommandContext,
 } from './contexts';
 import { PumbleEventType } from './pumble-events';
+import {V1} from "../../api";
+import Option = V1.Option;
+import OptionGroup = V1.OptionGroup;
 
 export type ShortcutType = 'GLOBAL' | 'ON_MESSAGE';
 
@@ -41,6 +44,12 @@ type BlockInteraction = {
     handlerView: ContextCallback<BlockInteractionContext<'VIEW'>>;
     handlerMessage: ContextCallback<BlockInteractionContext<'MESSAGE'>>;
     handlerEphemeralMessage: ContextCallback<BlockInteractionContext<'EPHEMERAL_MESSAGE'>>;
+};
+
+type DynamicMenu = {
+    url: string;
+    onAction: string;
+    producer: Callback<DynamicMenuContext, Promise<Option[] | OptionGroup[]>>
 };
 
 type OptionsForEvent<T extends PumbleEventType> = T extends 'NEW_MESSAGE'
@@ -81,6 +90,7 @@ export type AddonManifest = {
     shortcuts: readonly Shortcut[];
     slashCommands: readonly SlashCommand[];
     blockInteraction?: BlockInteraction;
+    dynamicMenus: readonly DynamicMenu[];
     redirectUrls: readonly string[];
     eventSubscriptions: ManifestEvents;
     clientSecret: string;

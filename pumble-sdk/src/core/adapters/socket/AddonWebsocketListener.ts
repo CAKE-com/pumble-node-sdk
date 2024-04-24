@@ -2,14 +2,14 @@ import { AddonService } from '../../services/AddonService';
 import { AddonManifest } from '../../types/types';
 import axios, { AxiosInstance } from 'axios';
 import { WebSocket } from 'ws';
-import { AckCallback, NackCallback } from '../../types/contexts';
+import {AckCallback, ResponseCallback, NackCallback} from '../../types/contexts';
 import { promisify } from 'util';
 import { PUMBLE_API_URL } from '../../../constants';
 import {
     AppMessage,
     isBlockInteractionEphemeralMessage,
     isBlockInteractionMessage,
-    isBlockInteractionView,
+    isBlockInteractionView, isDynamicMenuInteraction,
     isGlobalShortcut,
     isMessageShortcut,
     isPumbleEvent,
@@ -89,6 +89,16 @@ export class AddonWebsocketListener<T extends AddonManifest> {
                 ws.send(Buffer.from(JSON.stringify(response)));
             };
 
+            const response: ResponseCallback<any> = async (result: any) => {
+                const response = {
+                    correlation_id: correlationId,
+                    status: 200,
+                    message: "ok",
+                    body: result
+                };
+                ws.send(Buffer.from(JSON.stringify(response)));
+            };
+
             if (isMessageShortcut(message)) {
                 this.service.postMessageShortcut(message, ack, nack);
                 return;
@@ -112,6 +122,9 @@ export class AddonWebsocketListener<T extends AddonManifest> {
             }
             if (isBlockInteractionEphemeralMessage(message)) {
                 this.service.postBlockInteractionEphemeralMessage(message, ack, nack);
+            }
+            if (isDynamicMenuInteraction(message)) {
+                this.service.postDynamicSelectMenu(message, response, nack);
             }
         }
     }
