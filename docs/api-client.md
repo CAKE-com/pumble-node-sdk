@@ -7,12 +7,12 @@ Every Request to Pumble api must be sent with two headers
 
 `pumble-sdk` provides an easy way to get the user or bot client from a trigger context. See [Triggers](/triggers-reference)
 
-Each ApiClient method has it's own set of required scopes.
+Each ApiClient method has its own set of required scopes.
 
 ## Messages
 
 | method                                  | scopes                           | description                                                      |
-| :-------------------------------------- | :------------------------------- | :--------------------------------------------------------------- |
+|:----------------------------------------|:---------------------------------|:-----------------------------------------------------------------|
 | client.v1.messages.fetchMessage         | `messages:read`                  | Get message by id and channel id                                 |
 | client.v1.messages.fetchMessages        | `channels:read`                  | Paginate through channel messages                                |
 | client.v1.messages.postMessageToChannel | `messages:write`                 | Post a message to a channel                                      |
@@ -21,6 +21,7 @@ Each ApiClient method has it's own set of required scopes.
 | client.v1.messages.replyEphemeral       | `messages:write`                 | Send an ephemeral message to a user or list of users in a thread |
 | client.v1.messages.deleteMessage        | `messages:delete`                | Delete a message                                                 |
 | client.v1.messages.editMessage          | `messages:edit`                  | Edit a message                                                   |
+| client.v1.messages.editAttachments      | `attachments:write`              | Edit a message attachment                                        |
 | client.v1.messages.fetchThreadReplies   | `channels:read`                  | Fetch thread  messages                                           |
 | client.v1.messages.addReaction          | `reaction:write`                 | React to a message                                               |
 | client.v1.messages.removeReaction       | `reaction:write`                 | Remove reaction from a message                                   |
@@ -61,19 +62,20 @@ Each ApiClient method has it's own set of required scopes.
 
 The list of all available scopes
 
-| name              | description                |
-| :---------------- | :------------------------- |
-| `messages:read`   | Read messages              |
-| `messages:write`  | Write messages             |
-| `messages:edit`   | Edit messages              |
-| `messages:delete` | Delete messages            |
-| `user:read`       | Read user profile          |
-| `status:write`    | Write user status          |
-| `reaction:read`   | Receive reactions          |
-| `reaction:write`  | React to messages          |
-| `channels:list`   | List channels              |
-| `channels:read`   | Get channel information    |
-| `channels:write`  | Create channels            |
-| `users:list`      | List all workspace users   |
-| `workspace:read`  | Read workspace information |
-| `calls:write`     | Create permanent calls     |
+| name                  | description                |
+|:----------------------|:---------------------------|
+| `messages:read`       | Read messages              |
+| `messages:write`      | Write messages             |
+| `messages:edit`       | Edit messages              |
+| `messages:delete`     | Delete messages            |
+| `attachments:write`   | Write attachments          |
+| `user:read`           | Read user profile          |
+| `status:write`        | Write user status          |
+| `reaction:read`       | Receive reactions          |
+| `reaction:write`      | React to messages          |
+| `channels:list`       | List channels              |
+| `channels:read`       | Get channel information    |
+| `channels:write`      | Create channels            |
+| `users:list`          | List all workspace users   |
+| `workspace:read`      | Read workspace information |
+| `calls:write`         | Create permanent calls     |
