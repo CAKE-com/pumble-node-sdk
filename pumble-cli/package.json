@@ -22,7 +22,7 @@
     "license": "ISC",
     "dependencies": {
         "ansis": "^2.3.0",
-        "axios": "^1.6.7",
+        "axios": "^1.6.8",
         "chokidar": "^3.6.0",
         "find-free-ports": "^3.1.1",
         "form-data": "^4.0.0",
@@ -41,5 +41,10 @@
         "@types/prompts": "^2.4.9",
         "@types/yargs": "^17.0.32",
         "typescript": "^5.3.3"
+    },
+    "overrides": {
+        "localtunnel": {
+            "axios": "$axios"
+        }
     }
 }
