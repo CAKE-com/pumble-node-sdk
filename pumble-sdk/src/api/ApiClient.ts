@@ -36,19 +36,31 @@ export class ApiClient {
         });
         this.axiosInstance.interceptors.request.use(async (request) => {
             const controller = new AbortController();
-            if (
-                request.method === 'post' &&
-                request.url?.includes('/messages') &&
-                request.data?.blocks &&
-                !(await schemasLoader.isValidData(request.data.blocks))
+            if (request.method &&
+                ['post', 'put'].includes(request.method.toLowerCase()) &&
+                request.url?.includes('/messages')
             ) {
-                controller.abort('Blocks model invalid. Aborting request...');
-                return {
-                    ...request,
-                    headers: {} as AxiosRequestHeaders,
-                    reason: controller.signal.reason,
-                    signal: controller.signal,
-                };
+                if (request.data?.blocks &&
+                    !(await schemasLoader.blocksValid(request.data.blocks))) {
+                    controller.abort('Blocks model invalid. Aborting request...');
+                    return {
+                        ...request,
+                        headers: {} as AxiosRequestHeaders,
+                        reason: controller.signal.reason,
+                        signal: controller.signal,
+                    };
+                }
+
+                if (request.data?.attachments &&
+                    !(await schemasLoader.attachmentBlocksValid(request.data.attachments))) {
+                    controller.abort('Attachment block model invalid. Aborting request...');
+                    return {
+                        ...request,
+                        headers: {} as AxiosRequestHeaders,
+                        reason: controller.signal.reason,
+                        signal: controller.signal,
+                    };
+                }
             }
 
             return {

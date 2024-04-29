@@ -129,8 +129,6 @@ export namespace V1 {
         short?: boolean;
     }
 
-    export type JsonNode = object;
-
     export interface MessageAttachment {
         color?: string;
         pretext?: string;
@@ -146,6 +144,7 @@ export namespace V1 {
         footer_icon?: string;
         /** @format int64 */
         ts?: number;
+        actions?: BlockActions
     }
 
     export interface MessageUpdateRequestBody {
