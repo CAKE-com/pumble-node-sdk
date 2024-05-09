@@ -204,7 +204,7 @@ class AppSync {
             });
         }
 
-        if (oldApp.blockInteraction?.url !== newApp.blockInteraction?.url) {
+        if (oldApp.blockInteraction?.url != newApp.blockInteraction?.url) {
             changes.push({
                 key: 'Block Interactions URL',
                 action: 'change',
