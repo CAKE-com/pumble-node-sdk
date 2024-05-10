@@ -1,5 +1,6 @@
 import { PumbleEventNotificationPayload, PumbleEventType } from './pumble-events';
 import { BlockInteractionSourceType, ShortcutType } from './types';
+import {V1} from "../../api";
 
 export enum MessageType {
     SLASH_COMMAND = 'SLASH_COMMAND',
@@ -32,6 +33,7 @@ export type PumbleEventPayload<T extends PumbleEventType = PumbleEventType> = Ap
 export type SlashCommandPayload = AppMessage & {
     slashCommand: string;
     text: string;
+    blocks?: V1.BlockRichText[];
     userId: string;
     channelId: string;
     threadRootId?: string;
