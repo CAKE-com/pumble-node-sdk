@@ -32,12 +32,12 @@ class AppSync {
                         url: new URL(path.join(host, manifest.blockInteraction.url)).toString(),
                     }
                     : undefined,
-                dynamicMenus: manifest.dynamicMenus.map((dynamicMenu) => {
+                dynamicMenus: manifest.dynamicMenus ? manifest.dynamicMenus.map((dynamicMenu) => {
                     return {
                         url: new URL(path.join(host, dynamicMenu.url)).toString(),
                         onAction: dynamicMenu.onAction
                     };
-                }),
+                }) : [],
                 slashCommands: manifest.slashCommands.map((cmd) => {
                     return {...cmd, url: new URL(path.join(host, cmd.url)).toString()};
                 }),
