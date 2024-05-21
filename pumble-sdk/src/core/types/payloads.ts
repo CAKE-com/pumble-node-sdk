@@ -48,6 +48,7 @@ export type PumbleEventPayload<T extends PumbleEventType = PumbleEventType> = Ap
 export type SlashCommandPayload = AppMessage & {
     slashCommand: string;
     text: string;
+    blocks?: V1.BlockRichText[];
     userId: string;
     channelId: string;
     threadRootId?: string;
