@@ -1,6 +1,8 @@
 import { PumbleEventNotificationPayload, PumbleEventType } from './pumble-events';
 import { BlockInteractionSourceType, ShortcutType } from './types';
 import {V1} from "../../api";
+import OptionGroup = V1.OptionGroup;
+import Option = V1.Option;
 
 export enum MessageType {
     SLASH_COMMAND = 'SLASH_COMMAND',
@@ -8,6 +10,7 @@ export enum MessageType {
     APP_EVENT = 'APP_EVENT',
     PUMBLE_EVENT = 'PUMBLE_EVENT',
     BLOCK_INTERACTION = 'BLOCK_INTERACTION',
+    DYNAMIC_MENU = 'DYNAMIC_MENU'
 }
 
 export type AppMessage = {
@@ -17,6 +20,18 @@ export type AppMessage = {
 export type ShortcutPayload = AppMessage & {
     type: ShortcutType;
 };
+
+export type DynamicMenuPayload = AppMessage & {
+    onAction: string;
+    query?: string;
+    workspaceId: string;
+    userId: string;
+}
+
+export type DynamicMenuOptionsResponse = {
+    onAction: string;
+    options: Option[] | OptionGroup[];
+}
 
 export type PumbleEventPayload<T extends PumbleEventType = PumbleEventType> = AppMessage & {
     body: PumbleEventNotificationPayload<T>;
@@ -100,4 +115,8 @@ export function isBlockInteractionMessage(message: AppMessage): message is Block
 
 export function isBlockInteractionEphemeralMessage(message: AppMessage): message is BlockInteractionPayload {
     return isBlockInteraction(message) && message.sourceType === 'EPHEMERAL_MESSAGE';
+}
+
+export function isDynamicMenuInteraction(message: AppMessage): message is DynamicMenuPayload {
+    return message.messageType === 'DYNAMIC_MENU';
 }

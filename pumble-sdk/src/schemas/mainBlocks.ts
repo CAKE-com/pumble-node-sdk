@@ -1454,6 +1454,314 @@ export const mainBlocks = {
                                         }
                                     }
                                 }
+                            },
+                            {
+                                "title": "BlockDynamicSelectMenu",
+                                "required": [
+                                    "placeholder",
+                                    "type"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "dynamic_select_menu"
+                                        ]
+                                    },
+                                    "placeholder": {
+                                        "title": "BlockTextElement75",
+                                        "required": [
+                                            "text",
+                                            "type"
+                                        ],
+                                        "type": "object",
+                                        "properties": {
+                                            "type": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "plain_text"
+                                                ]
+                                            },
+                                            "text": {
+                                                "maxLength": 75,
+                                                "type": "string"
+                                            },
+                                            "emoji": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    },
+                                    "onAction": {
+                                        "type": "string"
+                                    },
+                                    "min_query_length": {
+                                        "minimum": 0,
+                                        "type": "number"
+                                    },
+                                    "initial_options": {
+                                        "type": "array",
+                                        "items": {
+                                            "oneOf": [
+                                                {
+                                                    "title": "Option",
+                                                    "required": [
+                                                        "text",
+                                                        "value"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "text": {
+                                                            "title": "BlockTextElement75",
+                                                            "required": [
+                                                                "text",
+                                                                "type"
+                                                            ],
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "type": {
+                                                                    "type": "string",
+                                                                    "enum": [
+                                                                        "plain_text"
+                                                                    ]
+                                                                },
+                                                                "text": {
+                                                                    "maxLength": 75,
+                                                                    "type": "string"
+                                                                },
+                                                                "emoji": {
+                                                                    "type": "boolean"
+                                                                }
+                                                            }
+                                                        },
+                                                        "value": {
+                                                            "maxLength": 100,
+                                                            "type": "string"
+                                                        },
+                                                        "description": {
+                                                            "title": "BlockTextElement75",
+                                                            "required": [
+                                                                "text",
+                                                                "type"
+                                                            ],
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "type": {
+                                                                    "type": "string",
+                                                                    "enum": [
+                                                                        "plain_text"
+                                                                    ]
+                                                                },
+                                                                "text": {
+                                                                    "maxLength": 75,
+                                                                    "type": "string"
+                                                                },
+                                                                "emoji": {
+                                                                    "type": "boolean"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "title": "OptionGroup",
+                                                    "required": [
+                                                        "label",
+                                                        "options"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "label": {
+                                                            "title": "BlockTextElement75",
+                                                            "required": [
+                                                                "text",
+                                                                "type"
+                                                            ],
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "type": {
+                                                                    "type": "string",
+                                                                    "enum": [
+                                                                        "plain_text"
+                                                                    ]
+                                                                },
+                                                                "text": {
+                                                                    "maxLength": 75,
+                                                                    "type": "string"
+                                                                },
+                                                                "emoji": {
+                                                                    "type": "boolean"
+                                                                }
+                                                            }
+                                                        },
+                                                        "options": {
+                                                            "maxItems": 100,
+                                                            "type": "array",
+                                                            "items": {
+                                                                "title": "Option",
+                                                                "required": [
+                                                                    "text",
+                                                                    "value"
+                                                                ],
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "text": {
+                                                                        "title": "BlockTextElement75",
+                                                                        "required": [
+                                                                            "text",
+                                                                            "type"
+                                                                        ],
+                                                                        "type": "object",
+                                                                        "properties": {
+                                                                            "type": {
+                                                                                "type": "string",
+                                                                                "enum": [
+                                                                                    "plain_text"
+                                                                                ]
+                                                                            },
+                                                                            "text": {
+                                                                                "maxLength": 75,
+                                                                                "type": "string"
+                                                                            },
+                                                                            "emoji": {
+                                                                                "type": "boolean"
+                                                                            }
+                                                                        }
+                                                                    },
+                                                                    "value": {
+                                                                        "maxLength": 100,
+                                                                        "type": "string"
+                                                                    },
+                                                                    "description": {
+                                                                        "title": "BlockTextElement75",
+                                                                        "required": [
+                                                                            "text",
+                                                                            "type"
+                                                                        ],
+                                                                        "type": "object",
+                                                                        "properties": {
+                                                                            "type": {
+                                                                                "type": "string",
+                                                                                "enum": [
+                                                                                    "plain_text"
+                                                                                ]
+                                                                            },
+                                                                            "text": {
+                                                                                "maxLength": 75,
+                                                                                "type": "string"
+                                                                            },
+                                                                            "emoji": {
+                                                                                "type": "boolean"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "confirm": {
+                                        "title": "Confirm",
+                                        "type": "object",
+                                        "properties": {
+                                            "title": {
+                                                "title": "BlockTextElement75",
+                                                "required": [
+                                                    "text",
+                                                    "type"
+                                                ],
+                                                "type": "object",
+                                                "properties": {
+                                                    "type": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "plain_text"
+                                                        ]
+                                                    },
+                                                    "text": {
+                                                        "maxLength": 75,
+                                                        "type": "string"
+                                                    },
+                                                    "emoji": {
+                                                        "type": "boolean"
+                                                    }
+                                                }
+                                            },
+                                            "text": {
+                                                "title": "BlockTextElement300",
+                                                "required": [
+                                                    "text",
+                                                    "type"
+                                                ],
+                                                "type": "object",
+                                                "properties": {
+                                                    "type": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "plain_text"
+                                                        ]
+                                                    },
+                                                    "text": {
+                                                        "maxLength": 300,
+                                                        "type": "string"
+                                                    },
+                                                    "emoji": {
+                                                        "type": "boolean"
+                                                    }
+                                                }
+                                            },
+                                            "accept": {
+                                                "title": "BlockTextElement75",
+                                                "required": [
+                                                    "text",
+                                                    "type"
+                                                ],
+                                                "type": "object",
+                                                "properties": {
+                                                    "type": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "plain_text"
+                                                        ]
+                                                    },
+                                                    "text": {
+                                                        "maxLength": 75,
+                                                        "type": "string"
+                                                    },
+                                                    "emoji": {
+                                                        "type": "boolean"
+                                                    }
+                                                }
+                                            },
+                                            "deny": {
+                                                "title": "BlockTextElement75",
+                                                "required": [
+                                                    "text",
+                                                    "type"
+                                                ],
+                                                "type": "object",
+                                                "properties": {
+                                                    "type": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "plain_text"
+                                                        ]
+                                                    },
+                                                    "text": {
+                                                        "maxLength": 75,
+                                                        "type": "string"
+                                                    },
+                                                    "emoji": {
+                                                        "type": "boolean"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         ]
                     }
@@ -1994,6 +2302,314 @@ export const mainBlocks = {
                                                     }
                                                 }
                                             ]
+                                        },
+                                        "confirm": {
+                                            "title": "Confirm",
+                                            "type": "object",
+                                            "properties": {
+                                                "title": {
+                                                    "title": "BlockTextElement75",
+                                                    "required": [
+                                                        "text",
+                                                        "type"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "type": {
+                                                            "type": "string",
+                                                            "enum": [
+                                                                "plain_text"
+                                                            ]
+                                                        },
+                                                        "text": {
+                                                            "maxLength": 75,
+                                                            "type": "string"
+                                                        },
+                                                        "emoji": {
+                                                            "type": "boolean"
+                                                        }
+                                                    }
+                                                },
+                                                "text": {
+                                                    "title": "BlockTextElement300",
+                                                    "required": [
+                                                        "text",
+                                                        "type"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "type": {
+                                                            "type": "string",
+                                                            "enum": [
+                                                                "plain_text"
+                                                            ]
+                                                        },
+                                                        "text": {
+                                                            "maxLength": 300,
+                                                            "type": "string"
+                                                        },
+                                                        "emoji": {
+                                                            "type": "boolean"
+                                                        }
+                                                    }
+                                                },
+                                                "accept": {
+                                                    "title": "BlockTextElement75",
+                                                    "required": [
+                                                        "text",
+                                                        "type"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "type": {
+                                                            "type": "string",
+                                                            "enum": [
+                                                                "plain_text"
+                                                            ]
+                                                        },
+                                                        "text": {
+                                                            "maxLength": 75,
+                                                            "type": "string"
+                                                        },
+                                                        "emoji": {
+                                                            "type": "boolean"
+                                                        }
+                                                    }
+                                                },
+                                                "deny": {
+                                                    "title": "BlockTextElement75",
+                                                    "required": [
+                                                        "text",
+                                                        "type"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "type": {
+                                                            "type": "string",
+                                                            "enum": [
+                                                                "plain_text"
+                                                            ]
+                                                        },
+                                                        "text": {
+                                                            "maxLength": 75,
+                                                            "type": "string"
+                                                        },
+                                                        "emoji": {
+                                                            "type": "boolean"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "title": "BlockDynamicSelectMenu",
+                                    "required": [
+                                        "placeholder",
+                                        "type"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "type": "string",
+                                            "enum": [
+                                                "dynamic_select_menu"
+                                            ]
+                                        },
+                                        "placeholder": {
+                                            "title": "BlockTextElement75",
+                                            "required": [
+                                                "text",
+                                                "type"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "type": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "plain_text"
+                                                    ]
+                                                },
+                                                "text": {
+                                                    "maxLength": 75,
+                                                    "type": "string"
+                                                },
+                                                "emoji": {
+                                                    "type": "boolean"
+                                                }
+                                            }
+                                        },
+                                        "onAction": {
+                                            "type": "string"
+                                        },
+                                        "min_query_length": {
+                                            "minimum": 0,
+                                            "type": "number"
+                                        },
+                                        "initial_options": {
+                                            "type": "array",
+                                            "items": {
+                                                "oneOf": [
+                                                    {
+                                                        "title": "Option",
+                                                        "required": [
+                                                            "text",
+                                                            "value"
+                                                        ],
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "text": {
+                                                                "title": "BlockTextElement75",
+                                                                "required": [
+                                                                    "text",
+                                                                    "type"
+                                                                ],
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "type": {
+                                                                        "type": "string",
+                                                                        "enum": [
+                                                                            "plain_text"
+                                                                        ]
+                                                                    },
+                                                                    "text": {
+                                                                        "maxLength": 75,
+                                                                        "type": "string"
+                                                                    },
+                                                                    "emoji": {
+                                                                        "type": "boolean"
+                                                                    }
+                                                                }
+                                                            },
+                                                            "value": {
+                                                                "maxLength": 100,
+                                                                "type": "string"
+                                                            },
+                                                            "description": {
+                                                                "title": "BlockTextElement75",
+                                                                "required": [
+                                                                    "text",
+                                                                    "type"
+                                                                ],
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "type": {
+                                                                        "type": "string",
+                                                                        "enum": [
+                                                                            "plain_text"
+                                                                        ]
+                                                                    },
+                                                                    "text": {
+                                                                        "maxLength": 75,
+                                                                        "type": "string"
+                                                                    },
+                                                                    "emoji": {
+                                                                        "type": "boolean"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "title": "OptionGroup",
+                                                        "required": [
+                                                            "label",
+                                                            "options"
+                                                        ],
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "label": {
+                                                                "title": "BlockTextElement75",
+                                                                "required": [
+                                                                    "text",
+                                                                    "type"
+                                                                ],
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "type": {
+                                                                        "type": "string",
+                                                                        "enum": [
+                                                                            "plain_text"
+                                                                        ]
+                                                                    },
+                                                                    "text": {
+                                                                        "maxLength": 75,
+                                                                        "type": "string"
+                                                                    },
+                                                                    "emoji": {
+                                                                        "type": "boolean"
+                                                                    }
+                                                                }
+                                                            },
+                                                            "options": {
+                                                                "maxItems": 100,
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "title": "Option",
+                                                                    "required": [
+                                                                        "text",
+                                                                        "value"
+                                                                    ],
+                                                                    "type": "object",
+                                                                    "properties": {
+                                                                        "text": {
+                                                                            "title": "BlockTextElement75",
+                                                                            "required": [
+                                                                                "text",
+                                                                                "type"
+                                                                            ],
+                                                                            "type": "object",
+                                                                            "properties": {
+                                                                                "type": {
+                                                                                    "type": "string",
+                                                                                    "enum": [
+                                                                                        "plain_text"
+                                                                                    ]
+                                                                                },
+                                                                                "text": {
+                                                                                    "maxLength": 75,
+                                                                                    "type": "string"
+                                                                                },
+                                                                                "emoji": {
+                                                                                    "type": "boolean"
+                                                                                }
+                                                                            }
+                                                                        },
+                                                                        "value": {
+                                                                            "maxLength": 100,
+                                                                            "type": "string"
+                                                                        },
+                                                                        "description": {
+                                                                            "title": "BlockTextElement75",
+                                                                            "required": [
+                                                                                "text",
+                                                                                "type"
+                                                                            ],
+                                                                            "type": "object",
+                                                                            "properties": {
+                                                                                "type": {
+                                                                                    "type": "string",
+                                                                                    "enum": [
+                                                                                        "plain_text"
+                                                                                    ]
+                                                                                },
+                                                                                "text": {
+                                                                                    "maxLength": 75,
+                                                                                    "type": "string"
+                                                                                },
+                                                                                "emoji": {
+                                                                                    "type": "boolean"
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
                                         },
                                         "confirm": {
                                             "title": "Confirm",

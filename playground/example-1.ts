@@ -14,6 +14,15 @@ Insert this value in manifest.json in the root of your project project
  */
 
 const app: App = {
+    dynamicMenus: [{
+        onAction: "dropDown1",
+        producer: async (ctx) => {
+            return [
+                {text: {type: "plain_text", text: "Option 1"}, value: "1"},
+                {text: {type: "plain_text", text: "Option 2"}, value: "2"}
+            ]
+        }
+    }],
     blockInteraction: {
         interactions: [
             {
@@ -68,6 +77,16 @@ const app: App = {
                                     },
                                 ],
                             },
+                            {
+                                type: "actions",
+                                elements: [{
+                                    type: "dynamic_select_menu",
+                                    initial_options: [],
+                                    min_query_length: 3,
+                                    onAction: "dropDown1",
+                                    placeholder: {text: "Select something", type: "plain_text"}
+                                }]
+                            }
                         ],
                     });
                     await ctx.say(

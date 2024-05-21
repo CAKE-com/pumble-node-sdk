@@ -1,6 +1,6 @@
 import { CredentialsStore, OAuth2Config } from '../../auth';
 import {
-    BlockInteractionContext,
+    BlockInteractionContext, DynamicMenuContext,
     GlobalShortcutContext,
     MessageShortcutContext,
     OnMessageContext,
@@ -13,8 +13,10 @@ import { Express } from 'express';
 import { promises as fs } from 'fs';
 import { AddonManifest } from '../types/types';
 import { setup } from './AddonService';
-import _ from 'lodash';
 import { Addon } from './Addon';
+import {V1} from "../../api";
+import Option = V1.Option;
+import OptionGroup = V1.OptionGroup;
 
 type OptionsForEvent<T extends PumbleEventType> = T extends 'NEW_MESSAGE'
     ? { match: string | RegExp; includeBotMessages?: boolean }
@@ -85,6 +87,11 @@ export type App = {
               }
         )[];
     };
+    dynamicMenus?: {
+        path?: string;
+        onAction: string;
+        producer: (ctx: DynamicMenuContext) => (Option[] | OptionGroup[]) | Promise<Option[] | OptionGroup[]>
+    }[];
     events?: PossibleEvents[];
     eventsPath?: string;
     tokenStore?: CredentialsStore;
@@ -236,6 +243,13 @@ class Runner {
                   },
               }
             : undefined;
+        manifest.dynamicMenus = (app.dynamicMenus || []).map((x) => {
+            return {
+                url: x.path || hookUrl,
+                onAction: x.onAction,
+                producer: x.producer
+            };
+        });
         manifest.redirectUrls = app.redirect?.path ? [app.redirect.path] : [redirectUrl];
         if (app.botScopes) {
             manifest.scopes.botScopes = app.botScopes;

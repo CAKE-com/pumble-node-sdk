@@ -1,4 +1,4 @@
-import { ApiClient } from '../../api';
+import {ApiClient, V1} from '../../api';
 import { OAuth2AccessTokenResponse } from '../../auth';
 import {
     BlockInteractionContext,
@@ -12,8 +12,12 @@ import {
 } from '../types/contexts';
 import { AddonManifest, EventKeys, GlobalShortcutsKeys, MessageShortcutsKeys, SlashCommandKeys } from '../types/types';
 import { Express } from 'express';
+import Option = V1.Option;
+import OptionGroup = V1.OptionGroup;
 
 export type ContextCallback<TContext> = (ctx: TContext) => void | Promise<void>;
+
+export type Callback<TContext, TResult> = (ctx: TContext) => void | Promise<TResult>;
 
 export interface Addon<T extends AddonManifest = AddonManifest> {
     event<E extends EventKeys<T>>(name: E, cb: ContextCallback<PumbleEventContext<E>>): this;

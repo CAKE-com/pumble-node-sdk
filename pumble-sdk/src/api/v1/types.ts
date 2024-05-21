@@ -55,7 +55,7 @@ export namespace V1 {
         description?: BlockTextElement;
     };
 
-    type OptionGroup = {
+    export type OptionGroup = {
         label: BlockTextElement;
         options: Option[];
     };
@@ -90,7 +90,15 @@ export namespace V1 {
         confirm?: ConfirmDialog;
     };
 
-    type ActionableBlock = BlockButton | BlockStaticSelectMenu;
+    export type BlockDynamicSelectMenu = Input & {
+        type: 'dynamic_select_menu';
+        placeholder: BlockTextElement;
+        min_query_length?: number;
+        initial_options?: Option[] | OptionGroup[];
+        confirm?: ConfirmDialog;
+    };
+
+    type ActionableBlock = BlockButton | BlockStaticSelectMenu | BlockDynamicSelectMenu;
 
     export type BlockRichText = {
         type: 'rich_text';

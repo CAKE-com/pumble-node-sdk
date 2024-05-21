@@ -6,7 +6,7 @@ import {
     AppMessage,
     isBlockInteractionEphemeralMessage,
     isBlockInteractionMessage,
-    isBlockInteractionView,
+    isBlockInteractionView, isDynamicMenuInteraction,
     isGlobalShortcut,
     isMessageShortcut,
     isPumbleEvent,
@@ -48,6 +48,9 @@ export class AddonHttpListener<T extends AddonManifest> {
         if (this.manifest.blockInteraction) {
             paths.add(this.getPathname(this.manifest.blockInteraction.url));
         }
+        this.manifest.dynamicMenus.forEach((selectMenu) => {
+            paths.add(this.getPathname(selectMenu.url));
+        });
         this.manifest.slashCommands.forEach((slashCommand) => {
             paths.add(this.getPathname(slashCommand.url));
         });
@@ -69,6 +72,7 @@ export class AddonHttpListener<T extends AddonManifest> {
         } else {
             const ack = this.ackFunction(res);
             const nack = this.nackFunction(res);
+            const response = this.responseFunction(res);
             if (isMessageShortcut(message)) {
                 this.service.postMessageShortcut(message, ack, nack);
                 return;
@@ -90,6 +94,9 @@ export class AddonHttpListener<T extends AddonManifest> {
             if (isBlockInteractionEphemeralMessage(message)) {
                 this.service.postBlockInteractionEphemeralMessage(message, ack, nack);
             }
+            if (isDynamicMenuInteraction(message)) {
+                this.service.postDynamicSelectMenu(message, response, nack);
+            }
         }
     }
 
@@ -105,6 +112,13 @@ export class AddonHttpListener<T extends AddonManifest> {
         return async (arg?: string, status: number = 400) => {
             if (!res.headersSent) {
                 res.contentType('application/json').status(status).send({ message: arg });
+            }
+        };
+    }
+    private responseFunction(res: express.Response) {
+        return async (arg: any) => {
+            if (!res.headersSent) {
+                res.contentType('application/json').status(200).send(arg);
             }
         };
     }

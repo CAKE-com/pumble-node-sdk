@@ -21,6 +21,11 @@ type BlockInteraction = {
     url: string;
 };
 
+type DynamicMenu = {
+    url: string;
+    onAction: string;
+}
+
 type ManifestEvents = {
     url: string;
     events?: readonly EventDeclare[];
@@ -38,6 +43,7 @@ export type AddonManifest = {
     shortcuts: readonly Shortcut[];
     slashCommands: readonly SlashCommand[];
     blockInteraction?: BlockInteraction;
+    dynamicMenus: readonly DynamicMenu[];
     redirectUrls: readonly string[];
     eventSubscriptions: ManifestEvents;
     clientSecret: string;

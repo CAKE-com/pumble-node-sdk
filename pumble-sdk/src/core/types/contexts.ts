@@ -3,16 +3,19 @@ import { PumbleEventType } from './pumble-events';
 import { ApiClient } from '../../api';
 import { V1 } from '../../api';
 import {
-    BlockInteractionPayload,
+    BlockInteractionPayload, DynamicMenuOptionsResponse, DynamicMenuPayload,
     GlobalShortcutPayload,
     MessageShortcutPayload,
     PumbleEventPayload,
     SlashCommandPayload,
 } from './payloads';
 import { AddonManifest, BlockInteractionSourceType } from './types';
+import Option = V1.Option;
+import OptionGroup = V1.OptionGroup;
 
 export type AckCallback = (arg?: string) => Promise<void>;
 export type NackCallback = (arg?: string, status?: number) => Promise<void>;
+export type ResponseCallback<T> = (arg: T) => Promise<void>;
 
 export type SayFunction = (message: V1.SendMessagePayload, type?: 'in_channel' | 'ephemeral') => Promise<void>;
 
@@ -44,6 +47,11 @@ export type EventContext<T> = {
  */
 export type AcknowledgeContext = {
     ack: AckCallback;
+    nack: NackCallback;
+};
+
+export type ResponseContext<T> = {
+    response: ResponseCallback<T>;
     nack: NackCallback;
 };
 
@@ -96,6 +104,7 @@ export type BlockInteractionContext<T extends BlockInteractionSourceType = Block
               ReplyContext &
               FetchMessageContext &
               ChannelDetailsContext;
+export type DynamicMenuContext = ResponseContext<DynamicMenuOptionsResponse> & EventContext<DynamicMenuPayload>;
 export type OnMessageContext = EventContext<PumbleEventPayload<'NEW_MESSAGE'>> & ReplyContext;
 export type OnReactionContext = EventContext<PumbleEventPayload<'REACTION_ADDED'>> & ReplyContext & FetchMessageContext;
 export type OnErrorCallback = (arg: EventHandlingException<any>) => void;

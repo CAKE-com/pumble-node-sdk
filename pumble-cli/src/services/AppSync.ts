@@ -29,14 +29,20 @@ class AppSync {
                 }),
                 blockInteraction: manifest.blockInteraction
                     ? {
-                          url: new URL(path.join(host, manifest.blockInteraction.url)).toString(),
-                      }
+                        url: new URL(path.join(host, manifest.blockInteraction.url)).toString(),
+                    }
                     : undefined,
+                dynamicMenus: manifest.dynamicMenus ? manifest.dynamicMenus.map((dynamicMenu) => {
+                    return {
+                        url: new URL(path.join(host, dynamicMenu.url)).toString(),
+                        onAction: dynamicMenu.onAction
+                    };
+                }) : [],
                 slashCommands: manifest.slashCommands.map((cmd) => {
-                    return { ...cmd, url: new URL(path.join(host, cmd.url)).toString() };
+                    return {...cmd, url: new URL(path.join(host, cmd.url)).toString()};
                 }),
                 shortcuts: manifest.shortcuts.map((sh) => {
-                    return { ...sh, url: new URL(path.join(host, sh.url)).toString() };
+                    return {...sh, url: new URL(path.join(host, sh.url)).toString()};
                 }),
                 eventSubscriptions: {
                     ...manifest.eventSubscriptions,
@@ -198,7 +204,7 @@ class AppSync {
             });
         }
 
-        if (oldApp.blockInteraction?.url !== newApp.blockInteraction?.url) {
+        if (oldApp.blockInteraction?.url != newApp.blockInteraction?.url) {
             changes.push({
                 key: 'Block Interactions URL',
                 action: 'change',
@@ -206,6 +212,44 @@ class AppSync {
                 newValue: newApp.blockInteraction?.url,
             });
         }
+
+        for (const dynamicMenu of oldApp.dynamicMenus) {
+            const newDynamicMenu = newApp.dynamicMenus.find((x) => x.onAction === dynamicMenu.onAction);
+            if (!newDynamicMenu) {
+                changes.push({
+                    key: `Removed: ${dynamicMenu.onAction}`,
+                    action: 'remove',
+                    oldValue: dynamicMenu.onAction,
+                });
+            } else {
+                if (newDynamicMenu.url !== dynamicMenu.url) {
+                    changes.push({
+                        key: `Dynamic select menu: ${dynamicMenu.url} URL`,
+                        action: 'change',
+                        oldValue: dynamicMenu.url,
+                        newValue: newDynamicMenu.url,
+                    });
+                }
+                if (newDynamicMenu.onAction !== dynamicMenu.onAction) {
+                    changes.push({
+                        key: `Dynamic select menu: ${dynamicMenu.onAction} OnAction`,
+                        action: 'change',
+                        oldValue: dynamicMenu.onAction as string | undefined,
+                        newValue: newDynamicMenu.onAction as string | undefined,
+                    });
+                }
+            }
+        }
+        for (const dynamicMenu of newApp.dynamicMenus) {
+            if (!oldApp.dynamicMenus || !oldApp.dynamicMenus.find((x) => x.onAction === dynamicMenu.onAction)) {
+                changes.push({
+                    key: `Added dynamic select menu: ${dynamicMenu.onAction}`,
+                    action: 'add',
+                    newValue: dynamicMenu.onAction,
+                });
+            }
+        }
+
 
         for (const slash of oldApp.slashCommands) {
             const newAppSlashCommand = newApp.slashCommands.find((x) => x.command === slash.command);
