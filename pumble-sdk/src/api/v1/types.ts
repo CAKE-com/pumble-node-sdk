@@ -31,11 +31,25 @@ export namespace V1 {
 
     export type BlockRichTextPreformatted = {
         type: 'rich_text_preformatted';
-        elements: (BlockBasic | BlockRichTextSection)[];
+        elements: { type: 'text'; text: string; }[];
+    };
+
+    export type BlockRichTextQuote = {
+        type: 'rich_text_quote';
+        elements: BlockBasic[];
+    };
+
+    export type BlockRichTextList = {
+        type: 'rich_text_list';
+        border?: 0 | 1;
+        offset?: number;
+        indent: 0 | 1 | 2 | 3 | 4;
+        style: "ordered" | "bullet"
+        elements: BlockRichTextSection[];
     };
 
     export type BlockBasic =
-        | { type: 'link'; url: string }
+        | { type: 'link'; url: string; text?: string; }
         | { type: 'text'; text: string; style?: Record<string, unknown> }
         | { type: 'emoji'; name: string }
         | { type: 'usergroup'; usergroup_id: string }
@@ -102,7 +116,7 @@ export namespace V1 {
 
     export type BlockRichText = {
         type: 'rich_text';
-        elements: (BlockRichTextSection | BlockRichTextPreformatted)[];
+        elements: (BlockRichTextSection | BlockRichTextPreformatted | BlockRichTextList | BlockRichTextQuote)[];
     };
 
     export type BlockInput = {
