@@ -826,15 +826,18 @@ export const mainBlocks = {
                                 "type": "string"
                             },
                             "emoji": {
-                                "type": "boolean"
+                                "type": "boolean",
+                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                             }
                         }
                     },
                     "dispatchAction": {
-                        "type": "boolean"
+                        "type": "boolean",
+                        "description": "Determines whether block interaction should be dispatched by the specified element. Defaults to false."
                     },
                     "optional": {
-                        "type": "boolean"
+                        "type": "boolean",
+                        "description": "A boolean that indicates whether the input element may be empty when a user submits the modal. Defaults to false."
                     },
                     "element": {
                         "oneOf": [
@@ -871,22 +874,27 @@ export const mainBlocks = {
                                                 "type": "string"
                                             },
                                             "emoji": {
-                                                "type": "boolean"
+                                                "type": "boolean",
+                                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                             }
                                         }
                                     },
                                     "value": {
                                         "maxLength": 300,
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Any metadata defined by addon, will be part of payload object in request client -\u003E api -\u003E addon."
                                     },
                                     "url": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Url that will be opened in user's browser. Block interaction event will be triggered also."
                                     },
                                     "style": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "'primary' | 'secondary' | 'warning' | 'danger'"
                                     },
                                     "onAction": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Action identifier defined by addon (controlled and used on addon side)."
                                     },
                                     "confirm": {
                                         "title": "Confirm",
@@ -911,7 +919,8 @@ export const mainBlocks = {
                                                         "type": "string"
                                                     },
                                                     "emoji": {
-                                                        "type": "boolean"
+                                                        "type": "boolean",
+                                                        "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
                                                 }
                                             },
@@ -934,7 +943,8 @@ export const mainBlocks = {
                                                         "type": "string"
                                                     },
                                                     "emoji": {
-                                                        "type": "boolean"
+                                                        "type": "boolean",
+                                                        "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
                                                 }
                                             },
@@ -957,7 +967,8 @@ export const mainBlocks = {
                                                         "type": "string"
                                                     },
                                                     "emoji": {
-                                                        "type": "boolean"
+                                                        "type": "boolean",
+                                                        "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
                                                 }
                                             },
@@ -980,11 +991,13 @@ export const mainBlocks = {
                                                         "type": "string"
                                                     },
                                                     "emoji": {
-                                                        "type": "boolean"
+                                                        "type": "boolean",
+                                                        "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
                                                 }
                                             }
-                                        }
+                                        },
+                                        "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
                                     }
                                 }
                             },
@@ -1022,16 +1035,19 @@ export const mainBlocks = {
                                                 "type": "string"
                                             },
                                             "emoji": {
-                                                "type": "boolean"
+                                                "type": "boolean",
+                                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                             }
                                         }
                                     },
                                     "onAction": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Action identifier defined by addon (controlled and used on addon side)."
                                     },
                                     "options": {
                                         "maxItems": 100,
                                         "type": "array",
+                                        "description": "Simple options list.",
                                         "items": {
                                             "title": "Option",
                                             "required": [
@@ -1059,13 +1075,15 @@ export const mainBlocks = {
                                                             "type": "string"
                                                         },
                                                         "emoji": {
-                                                            "type": "boolean"
+                                                            "type": "boolean",
+                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
                                                     }
                                                 },
                                                 "value": {
                                                     "maxLength": 100,
-                                                    "type": "string"
+                                                    "type": "string",
+                                                    "description": "A unique string value that will be passed to addon when this option is chosen."
                                                 },
                                                 "description": {
                                                     "title": "BlockTextElement75",
@@ -1086,7 +1104,8 @@ export const mainBlocks = {
                                                             "type": "string"
                                                         },
                                                         "emoji": {
-                                                            "type": "boolean"
+                                                            "type": "boolean",
+                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
                                                     }
                                                 }
@@ -1096,6 +1115,7 @@ export const mainBlocks = {
                                     "option_groups": {
                                         "maxItems": 100,
                                         "type": "array",
+                                        "description": "Nested options list where each option group is basically list of simple options. If defined, it takes precedence over the 'options' field.",
                                         "items": {
                                             "title": "OptionGroup",
                                             "required": [
@@ -1123,7 +1143,8 @@ export const mainBlocks = {
                                                             "type": "string"
                                                         },
                                                         "emoji": {
-                                                            "type": "boolean"
+                                                            "type": "boolean",
+                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
                                                     }
                                                 },
@@ -1157,13 +1178,15 @@ export const mainBlocks = {
                                                                         "type": "string"
                                                                     },
                                                                     "emoji": {
-                                                                        "type": "boolean"
+                                                                        "type": "boolean",
+                                                                        "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                     }
                                                                 }
                                                             },
                                                             "value": {
                                                                 "maxLength": 100,
-                                                                "type": "string"
+                                                                "type": "string",
+                                                                "description": "A unique string value that will be passed to addon when this option is chosen."
                                                             },
                                                             "description": {
                                                                 "title": "BlockTextElement75",
@@ -1184,7 +1207,8 @@ export const mainBlocks = {
                                                                         "type": "string"
                                                                     },
                                                                     "emoji": {
-                                                                        "type": "boolean"
+                                                                        "type": "boolean",
+                                                                        "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                     }
                                                                 }
                                                             }
@@ -1195,6 +1219,7 @@ export const mainBlocks = {
                                         }
                                     },
                                     "initial_option": {
+                                        "description": "Initial option that will be shown in select menu. Type depends on 'options' and 'options_groups'.",
                                         "oneOf": [
                                             {
                                                 "title": "Option",
@@ -1223,13 +1248,15 @@ export const mainBlocks = {
                                                                 "type": "string"
                                                             },
                                                             "emoji": {
-                                                                "type": "boolean"
+                                                                "type": "boolean",
+                                                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                             }
                                                         }
                                                     },
                                                     "value": {
                                                         "maxLength": 100,
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "A unique string value that will be passed to addon when this option is chosen."
                                                     },
                                                     "description": {
                                                         "title": "BlockTextElement75",
@@ -1250,7 +1277,8 @@ export const mainBlocks = {
                                                                 "type": "string"
                                                             },
                                                             "emoji": {
-                                                                "type": "boolean"
+                                                                "type": "boolean",
+                                                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                             }
                                                         }
                                                     }
@@ -1283,7 +1311,8 @@ export const mainBlocks = {
                                                                 "type": "string"
                                                             },
                                                             "emoji": {
-                                                                "type": "boolean"
+                                                                "type": "boolean",
+                                                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                             }
                                                         }
                                                     },
@@ -1317,13 +1346,15 @@ export const mainBlocks = {
                                                                             "type": "string"
                                                                         },
                                                                         "emoji": {
-                                                                            "type": "boolean"
+                                                                            "type": "boolean",
+                                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                         }
                                                                     }
                                                                 },
                                                                 "value": {
                                                                     "maxLength": 100,
-                                                                    "type": "string"
+                                                                    "type": "string",
+                                                                    "description": "A unique string value that will be passed to addon when this option is chosen."
                                                                 },
                                                                 "description": {
                                                                     "title": "BlockTextElement75",
@@ -1344,7 +1375,8 @@ export const mainBlocks = {
                                                                             "type": "string"
                                                                         },
                                                                         "emoji": {
-                                                                            "type": "boolean"
+                                                                            "type": "boolean",
+                                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                         }
                                                                     }
                                                                 }
@@ -1378,7 +1410,8 @@ export const mainBlocks = {
                                                         "type": "string"
                                                     },
                                                     "emoji": {
-                                                        "type": "boolean"
+                                                        "type": "boolean",
+                                                        "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
                                                 }
                                             },
@@ -1401,7 +1434,8 @@ export const mainBlocks = {
                                                         "type": "string"
                                                     },
                                                     "emoji": {
-                                                        "type": "boolean"
+                                                        "type": "boolean",
+                                                        "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
                                                 }
                                             },
@@ -1424,7 +1458,8 @@ export const mainBlocks = {
                                                         "type": "string"
                                                     },
                                                     "emoji": {
-                                                        "type": "boolean"
+                                                        "type": "boolean",
+                                                        "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
                                                 }
                                             },
@@ -1447,11 +1482,13 @@ export const mainBlocks = {
                                                         "type": "string"
                                                     },
                                                     "emoji": {
-                                                        "type": "boolean"
+                                                        "type": "boolean",
+                                                        "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
                                                 }
                                             }
-                                        }
+                                        },
+                                        "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
                                     }
                                 }
                             },
@@ -1488,171 +1525,179 @@ export const mainBlocks = {
                                                 "type": "string"
                                             },
                                             "emoji": {
-                                                "type": "boolean"
+                                                "type": "boolean",
+                                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                             }
                                         }
                                     },
                                     "onAction": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Action identifier defined by addon (controlled and used on addon side)."
                                     },
                                     "min_query_length": {
-                                        "minimum": 0,
-                                        "type": "number"
+                                        "minimum": 1,
+                                        "type": "number",
+                                        "description": "Minimum length of user query term (in select menu bar) that will trigger block interaction."
                                     },
-                                    "initial_options": {
-                                        "type": "array",
-                                        "items": {
-                                            "oneOf": [
-                                                {
-                                                    "title": "Option",
-                                                    "required": [
-                                                        "text",
-                                                        "value"
-                                                    ],
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "text": {
-                                                            "title": "BlockTextElement75",
-                                                            "required": [
-                                                                "text",
-                                                                "type"
-                                                            ],
-                                                            "type": "object",
-                                                            "properties": {
-                                                                "type": {
-                                                                    "type": "string",
-                                                                    "enum": [
-                                                                        "plain_text"
-                                                                    ]
-                                                                },
-                                                                "text": {
-                                                                    "maxLength": 75,
-                                                                    "type": "string"
-                                                                },
-                                                                "emoji": {
-                                                                    "type": "boolean"
-                                                                }
+                                    "initial_option": {
+                                        "description": "Initial option that will be shown in select menu. Type depends on 'options' and 'options_groups' that will be dynamically provided.",
+                                        "oneOf": [
+                                            {
+                                                "title": "Option",
+                                                "required": [
+                                                    "text",
+                                                    "value"
+                                                ],
+                                                "type": "object",
+                                                "properties": {
+                                                    "text": {
+                                                        "title": "BlockTextElement75",
+                                                        "required": [
+                                                            "text",
+                                                            "type"
+                                                        ],
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "type": {
+                                                                "type": "string",
+                                                                "enum": [
+                                                                    "plain_text"
+                                                                ]
+                                                            },
+                                                            "text": {
+                                                                "maxLength": 75,
+                                                                "type": "string"
+                                                            },
+                                                            "emoji": {
+                                                                "type": "boolean",
+                                                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                             }
-                                                        },
-                                                        "value": {
-                                                            "maxLength": 100,
-                                                            "type": "string"
-                                                        },
-                                                        "description": {
-                                                            "title": "BlockTextElement75",
-                                                            "required": [
-                                                                "text",
-                                                                "type"
-                                                            ],
-                                                            "type": "object",
-                                                            "properties": {
-                                                                "type": {
-                                                                    "type": "string",
-                                                                    "enum": [
-                                                                        "plain_text"
-                                                                    ]
-                                                                },
-                                                                "text": {
-                                                                    "maxLength": 75,
-                                                                    "type": "string"
-                                                                },
-                                                                "emoji": {
-                                                                    "type": "boolean"
-                                                                }
+                                                        }
+                                                    },
+                                                    "value": {
+                                                        "maxLength": 100,
+                                                        "type": "string",
+                                                        "description": "A unique string value that will be passed to addon when this option is chosen."
+                                                    },
+                                                    "description": {
+                                                        "title": "BlockTextElement75",
+                                                        "required": [
+                                                            "text",
+                                                            "type"
+                                                        ],
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "type": {
+                                                                "type": "string",
+                                                                "enum": [
+                                                                    "plain_text"
+                                                                ]
+                                                            },
+                                                            "text": {
+                                                                "maxLength": 75,
+                                                                "type": "string"
+                                                            },
+                                                            "emoji": {
+                                                                "type": "boolean",
+                                                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                             }
                                                         }
                                                     }
-                                                },
-                                                {
-                                                    "title": "OptionGroup",
-                                                    "required": [
-                                                        "label",
-                                                        "options"
-                                                    ],
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "label": {
-                                                            "title": "BlockTextElement75",
+                                                }
+                                            },
+                                            {
+                                                "title": "OptionGroup",
+                                                "required": [
+                                                    "label",
+                                                    "options"
+                                                ],
+                                                "type": "object",
+                                                "properties": {
+                                                    "label": {
+                                                        "title": "BlockTextElement75",
+                                                        "required": [
+                                                            "text",
+                                                            "type"
+                                                        ],
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "type": {
+                                                                "type": "string",
+                                                                "enum": [
+                                                                    "plain_text"
+                                                                ]
+                                                            },
+                                                            "text": {
+                                                                "maxLength": 75,
+                                                                "type": "string"
+                                                            },
+                                                            "emoji": {
+                                                                "type": "boolean",
+                                                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
+                                                            }
+                                                        }
+                                                    },
+                                                    "options": {
+                                                        "maxItems": 100,
+                                                        "type": "array",
+                                                        "items": {
+                                                            "title": "Option",
                                                             "required": [
                                                                 "text",
-                                                                "type"
+                                                                "value"
                                                             ],
                                                             "type": "object",
                                                             "properties": {
-                                                                "type": {
-                                                                    "type": "string",
-                                                                    "enum": [
-                                                                        "plain_text"
-                                                                    ]
-                                                                },
                                                                 "text": {
-                                                                    "maxLength": 75,
-                                                                    "type": "string"
-                                                                },
-                                                                "emoji": {
-                                                                    "type": "boolean"
-                                                                }
-                                                            }
-                                                        },
-                                                        "options": {
-                                                            "maxItems": 100,
-                                                            "type": "array",
-                                                            "items": {
-                                                                "title": "Option",
-                                                                "required": [
-                                                                    "text",
-                                                                    "value"
-                                                                ],
-                                                                "type": "object",
-                                                                "properties": {
-                                                                    "text": {
-                                                                        "title": "BlockTextElement75",
-                                                                        "required": [
-                                                                            "text",
-                                                                            "type"
-                                                                        ],
-                                                                        "type": "object",
-                                                                        "properties": {
-                                                                            "type": {
-                                                                                "type": "string",
-                                                                                "enum": [
-                                                                                    "plain_text"
-                                                                                ]
-                                                                            },
-                                                                            "text": {
-                                                                                "maxLength": 75,
-                                                                                "type": "string"
-                                                                            },
-                                                                            "emoji": {
-                                                                                "type": "boolean"
-                                                                            }
+                                                                    "title": "BlockTextElement75",
+                                                                    "required": [
+                                                                        "text",
+                                                                        "type"
+                                                                    ],
+                                                                    "type": "object",
+                                                                    "properties": {
+                                                                        "type": {
+                                                                            "type": "string",
+                                                                            "enum": [
+                                                                                "plain_text"
+                                                                            ]
+                                                                        },
+                                                                        "text": {
+                                                                            "maxLength": 75,
+                                                                            "type": "string"
+                                                                        },
+                                                                        "emoji": {
+                                                                            "type": "boolean",
+                                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                         }
-                                                                    },
-                                                                    "value": {
-                                                                        "maxLength": 100,
-                                                                        "type": "string"
-                                                                    },
-                                                                    "description": {
-                                                                        "title": "BlockTextElement75",
-                                                                        "required": [
-                                                                            "text",
-                                                                            "type"
-                                                                        ],
-                                                                        "type": "object",
-                                                                        "properties": {
-                                                                            "type": {
-                                                                                "type": "string",
-                                                                                "enum": [
-                                                                                    "plain_text"
-                                                                                ]
-                                                                            },
-                                                                            "text": {
-                                                                                "maxLength": 75,
-                                                                                "type": "string"
-                                                                            },
-                                                                            "emoji": {
-                                                                                "type": "boolean"
-                                                                            }
+                                                                    }
+                                                                },
+                                                                "value": {
+                                                                    "maxLength": 100,
+                                                                    "type": "string",
+                                                                    "description": "A unique string value that will be passed to addon when this option is chosen."
+                                                                },
+                                                                "description": {
+                                                                    "title": "BlockTextElement75",
+                                                                    "required": [
+                                                                        "text",
+                                                                        "type"
+                                                                    ],
+                                                                    "type": "object",
+                                                                    "properties": {
+                                                                        "type": {
+                                                                            "type": "string",
+                                                                            "enum": [
+                                                                                "plain_text"
+                                                                            ]
+                                                                        },
+                                                                        "text": {
+                                                                            "maxLength": 75,
+                                                                            "type": "string"
+                                                                        },
+                                                                        "emoji": {
+                                                                            "type": "boolean",
+                                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                         }
                                                                     }
                                                                 }
@@ -1660,8 +1705,8 @@ export const mainBlocks = {
                                                         }
                                                     }
                                                 }
-                                            ]
-                                        }
+                                            }
+                                        ]
                                     },
                                     "confirm": {
                                         "title": "Confirm",
@@ -1686,7 +1731,8 @@ export const mainBlocks = {
                                                         "type": "string"
                                                     },
                                                     "emoji": {
-                                                        "type": "boolean"
+                                                        "type": "boolean",
+                                                        "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
                                                 }
                                             },
@@ -1709,7 +1755,8 @@ export const mainBlocks = {
                                                         "type": "string"
                                                     },
                                                     "emoji": {
-                                                        "type": "boolean"
+                                                        "type": "boolean",
+                                                        "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
                                                 }
                                             },
@@ -1732,7 +1779,8 @@ export const mainBlocks = {
                                                         "type": "string"
                                                     },
                                                     "emoji": {
-                                                        "type": "boolean"
+                                                        "type": "boolean",
+                                                        "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
                                                 }
                                             },
@@ -1755,11 +1803,13 @@ export const mainBlocks = {
                                                         "type": "string"
                                                     },
                                                     "emoji": {
-                                                        "type": "boolean"
+                                                        "type": "boolean",
+                                                        "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
                                                 }
                                             }
-                                        }
+                                        },
+                                        "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
                                     }
                                 }
                             }
@@ -1819,22 +1869,27 @@ export const mainBlocks = {
                                                     "type": "string"
                                                 },
                                                 "emoji": {
-                                                    "type": "boolean"
+                                                    "type": "boolean",
+                                                    "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                 }
                                             }
                                         },
                                         "value": {
                                             "maxLength": 300,
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "Any metadata defined by addon, will be part of payload object in request client -\u003E api -\u003E addon."
                                         },
                                         "url": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "Url that will be opened in user's browser. Block interaction event will be triggered also."
                                         },
                                         "style": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "'primary' | 'secondary' | 'warning' | 'danger'"
                                         },
                                         "onAction": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "Action identifier defined by addon (controlled and used on addon side)."
                                         },
                                         "confirm": {
                                             "title": "Confirm",
@@ -1859,7 +1914,8 @@ export const mainBlocks = {
                                                             "type": "string"
                                                         },
                                                         "emoji": {
-                                                            "type": "boolean"
+                                                            "type": "boolean",
+                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
                                                     }
                                                 },
@@ -1882,7 +1938,8 @@ export const mainBlocks = {
                                                             "type": "string"
                                                         },
                                                         "emoji": {
-                                                            "type": "boolean"
+                                                            "type": "boolean",
+                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
                                                     }
                                                 },
@@ -1905,7 +1962,8 @@ export const mainBlocks = {
                                                             "type": "string"
                                                         },
                                                         "emoji": {
-                                                            "type": "boolean"
+                                                            "type": "boolean",
+                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
                                                     }
                                                 },
@@ -1928,11 +1986,13 @@ export const mainBlocks = {
                                                             "type": "string"
                                                         },
                                                         "emoji": {
-                                                            "type": "boolean"
+                                                            "type": "boolean",
+                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
                                                     }
                                                 }
-                                            }
+                                            },
+                                            "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
                                         }
                                     }
                                 },
@@ -1970,16 +2030,19 @@ export const mainBlocks = {
                                                     "type": "string"
                                                 },
                                                 "emoji": {
-                                                    "type": "boolean"
+                                                    "type": "boolean",
+                                                    "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                 }
                                             }
                                         },
                                         "onAction": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "Action identifier defined by addon (controlled and used on addon side)."
                                         },
                                         "options": {
                                             "maxItems": 100,
                                             "type": "array",
+                                            "description": "Simple options list.",
                                             "items": {
                                                 "title": "Option",
                                                 "required": [
@@ -2007,13 +2070,15 @@ export const mainBlocks = {
                                                                 "type": "string"
                                                             },
                                                             "emoji": {
-                                                                "type": "boolean"
+                                                                "type": "boolean",
+                                                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                             }
                                                         }
                                                     },
                                                     "value": {
                                                         "maxLength": 100,
-                                                        "type": "string"
+                                                        "type": "string",
+                                                        "description": "A unique string value that will be passed to addon when this option is chosen."
                                                     },
                                                     "description": {
                                                         "title": "BlockTextElement75",
@@ -2034,7 +2099,8 @@ export const mainBlocks = {
                                                                 "type": "string"
                                                             },
                                                             "emoji": {
-                                                                "type": "boolean"
+                                                                "type": "boolean",
+                                                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                             }
                                                         }
                                                     }
@@ -2044,6 +2110,7 @@ export const mainBlocks = {
                                         "option_groups": {
                                             "maxItems": 100,
                                             "type": "array",
+                                            "description": "Nested options list where each option group is basically list of simple options. If defined, it takes precedence over the 'options' field.",
                                             "items": {
                                                 "title": "OptionGroup",
                                                 "required": [
@@ -2071,7 +2138,8 @@ export const mainBlocks = {
                                                                 "type": "string"
                                                             },
                                                             "emoji": {
-                                                                "type": "boolean"
+                                                                "type": "boolean",
+                                                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                             }
                                                         }
                                                     },
@@ -2105,13 +2173,15 @@ export const mainBlocks = {
                                                                             "type": "string"
                                                                         },
                                                                         "emoji": {
-                                                                            "type": "boolean"
+                                                                            "type": "boolean",
+                                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                         }
                                                                     }
                                                                 },
                                                                 "value": {
                                                                     "maxLength": 100,
-                                                                    "type": "string"
+                                                                    "type": "string",
+                                                                    "description": "A unique string value that will be passed to addon when this option is chosen."
                                                                 },
                                                                 "description": {
                                                                     "title": "BlockTextElement75",
@@ -2132,7 +2202,8 @@ export const mainBlocks = {
                                                                             "type": "string"
                                                                         },
                                                                         "emoji": {
-                                                                            "type": "boolean"
+                                                                            "type": "boolean",
+                                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                         }
                                                                     }
                                                                 }
@@ -2143,6 +2214,7 @@ export const mainBlocks = {
                                             }
                                         },
                                         "initial_option": {
+                                            "description": "Initial option that will be shown in select menu. Type depends on 'options' and 'options_groups'.",
                                             "oneOf": [
                                                 {
                                                     "title": "Option",
@@ -2171,13 +2243,15 @@ export const mainBlocks = {
                                                                     "type": "string"
                                                                 },
                                                                 "emoji": {
-                                                                    "type": "boolean"
+                                                                    "type": "boolean",
+                                                                    "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                 }
                                                             }
                                                         },
                                                         "value": {
                                                             "maxLength": 100,
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "description": "A unique string value that will be passed to addon when this option is chosen."
                                                         },
                                                         "description": {
                                                             "title": "BlockTextElement75",
@@ -2198,7 +2272,8 @@ export const mainBlocks = {
                                                                     "type": "string"
                                                                 },
                                                                 "emoji": {
-                                                                    "type": "boolean"
+                                                                    "type": "boolean",
+                                                                    "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                 }
                                                             }
                                                         }
@@ -2231,7 +2306,8 @@ export const mainBlocks = {
                                                                     "type": "string"
                                                                 },
                                                                 "emoji": {
-                                                                    "type": "boolean"
+                                                                    "type": "boolean",
+                                                                    "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                 }
                                                             }
                                                         },
@@ -2265,13 +2341,15 @@ export const mainBlocks = {
                                                                                 "type": "string"
                                                                             },
                                                                             "emoji": {
-                                                                                "type": "boolean"
+                                                                                "type": "boolean",
+                                                                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                             }
                                                                         }
                                                                     },
                                                                     "value": {
                                                                         "maxLength": 100,
-                                                                        "type": "string"
+                                                                        "type": "string",
+                                                                        "description": "A unique string value that will be passed to addon when this option is chosen."
                                                                     },
                                                                     "description": {
                                                                         "title": "BlockTextElement75",
@@ -2292,7 +2370,8 @@ export const mainBlocks = {
                                                                                 "type": "string"
                                                                             },
                                                                             "emoji": {
-                                                                                "type": "boolean"
+                                                                                "type": "boolean",
+                                                                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                             }
                                                                         }
                                                                     }
@@ -2326,7 +2405,8 @@ export const mainBlocks = {
                                                             "type": "string"
                                                         },
                                                         "emoji": {
-                                                            "type": "boolean"
+                                                            "type": "boolean",
+                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
                                                     }
                                                 },
@@ -2349,7 +2429,8 @@ export const mainBlocks = {
                                                             "type": "string"
                                                         },
                                                         "emoji": {
-                                                            "type": "boolean"
+                                                            "type": "boolean",
+                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
                                                     }
                                                 },
@@ -2372,7 +2453,8 @@ export const mainBlocks = {
                                                             "type": "string"
                                                         },
                                                         "emoji": {
-                                                            "type": "boolean"
+                                                            "type": "boolean",
+                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
                                                     }
                                                 },
@@ -2395,11 +2477,13 @@ export const mainBlocks = {
                                                             "type": "string"
                                                         },
                                                         "emoji": {
-                                                            "type": "boolean"
+                                                            "type": "boolean",
+                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
                                                     }
                                                 }
-                                            }
+                                            },
+                                            "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
                                         }
                                     }
                                 },
@@ -2436,171 +2520,179 @@ export const mainBlocks = {
                                                     "type": "string"
                                                 },
                                                 "emoji": {
-                                                    "type": "boolean"
+                                                    "type": "boolean",
+                                                    "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                 }
                                             }
                                         },
                                         "onAction": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "description": "Action identifier defined by addon (controlled and used on addon side)."
                                         },
                                         "min_query_length": {
-                                            "minimum": 0,
-                                            "type": "number"
+                                            "minimum": 1,
+                                            "type": "number",
+                                            "description": "Minimum length of user query term (in select menu bar) that will trigger block interaction."
                                         },
-                                        "initial_options": {
-                                            "type": "array",
-                                            "items": {
-                                                "oneOf": [
-                                                    {
-                                                        "title": "Option",
-                                                        "required": [
-                                                            "text",
-                                                            "value"
-                                                        ],
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "text": {
-                                                                "title": "BlockTextElement75",
-                                                                "required": [
-                                                                    "text",
-                                                                    "type"
-                                                                ],
-                                                                "type": "object",
-                                                                "properties": {
-                                                                    "type": {
-                                                                        "type": "string",
-                                                                        "enum": [
-                                                                            "plain_text"
-                                                                        ]
-                                                                    },
-                                                                    "text": {
-                                                                        "maxLength": 75,
-                                                                        "type": "string"
-                                                                    },
-                                                                    "emoji": {
-                                                                        "type": "boolean"
-                                                                    }
+                                        "initial_option": {
+                                            "description": "Initial option that will be shown in select menu. Type depends on 'options' and 'options_groups' that will be dynamically provided.",
+                                            "oneOf": [
+                                                {
+                                                    "title": "Option",
+                                                    "required": [
+                                                        "text",
+                                                        "value"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "text": {
+                                                            "title": "BlockTextElement75",
+                                                            "required": [
+                                                                "text",
+                                                                "type"
+                                                            ],
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "type": {
+                                                                    "type": "string",
+                                                                    "enum": [
+                                                                        "plain_text"
+                                                                    ]
+                                                                },
+                                                                "text": {
+                                                                    "maxLength": 75,
+                                                                    "type": "string"
+                                                                },
+                                                                "emoji": {
+                                                                    "type": "boolean",
+                                                                    "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                 }
-                                                            },
-                                                            "value": {
-                                                                "maxLength": 100,
-                                                                "type": "string"
-                                                            },
-                                                            "description": {
-                                                                "title": "BlockTextElement75",
-                                                                "required": [
-                                                                    "text",
-                                                                    "type"
-                                                                ],
-                                                                "type": "object",
-                                                                "properties": {
-                                                                    "type": {
-                                                                        "type": "string",
-                                                                        "enum": [
-                                                                            "plain_text"
-                                                                        ]
-                                                                    },
-                                                                    "text": {
-                                                                        "maxLength": 75,
-                                                                        "type": "string"
-                                                                    },
-                                                                    "emoji": {
-                                                                        "type": "boolean"
-                                                                    }
+                                                            }
+                                                        },
+                                                        "value": {
+                                                            "maxLength": 100,
+                                                            "type": "string",
+                                                            "description": "A unique string value that will be passed to addon when this option is chosen."
+                                                        },
+                                                        "description": {
+                                                            "title": "BlockTextElement75",
+                                                            "required": [
+                                                                "text",
+                                                                "type"
+                                                            ],
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "type": {
+                                                                    "type": "string",
+                                                                    "enum": [
+                                                                        "plain_text"
+                                                                    ]
+                                                                },
+                                                                "text": {
+                                                                    "maxLength": 75,
+                                                                    "type": "string"
+                                                                },
+                                                                "emoji": {
+                                                                    "type": "boolean",
+                                                                    "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                 }
                                                             }
                                                         }
-                                                    },
-                                                    {
-                                                        "title": "OptionGroup",
-                                                        "required": [
-                                                            "label",
-                                                            "options"
-                                                        ],
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "label": {
-                                                                "title": "BlockTextElement75",
+                                                    }
+                                                },
+                                                {
+                                                    "title": "OptionGroup",
+                                                    "required": [
+                                                        "label",
+                                                        "options"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "label": {
+                                                            "title": "BlockTextElement75",
+                                                            "required": [
+                                                                "text",
+                                                                "type"
+                                                            ],
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "type": {
+                                                                    "type": "string",
+                                                                    "enum": [
+                                                                        "plain_text"
+                                                                    ]
+                                                                },
+                                                                "text": {
+                                                                    "maxLength": 75,
+                                                                    "type": "string"
+                                                                },
+                                                                "emoji": {
+                                                                    "type": "boolean",
+                                                                    "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
+                                                                }
+                                                            }
+                                                        },
+                                                        "options": {
+                                                            "maxItems": 100,
+                                                            "type": "array",
+                                                            "items": {
+                                                                "title": "Option",
                                                                 "required": [
                                                                     "text",
-                                                                    "type"
+                                                                    "value"
                                                                 ],
                                                                 "type": "object",
                                                                 "properties": {
-                                                                    "type": {
-                                                                        "type": "string",
-                                                                        "enum": [
-                                                                            "plain_text"
-                                                                        ]
-                                                                    },
                                                                     "text": {
-                                                                        "maxLength": 75,
-                                                                        "type": "string"
-                                                                    },
-                                                                    "emoji": {
-                                                                        "type": "boolean"
-                                                                    }
-                                                                }
-                                                            },
-                                                            "options": {
-                                                                "maxItems": 100,
-                                                                "type": "array",
-                                                                "items": {
-                                                                    "title": "Option",
-                                                                    "required": [
-                                                                        "text",
-                                                                        "value"
-                                                                    ],
-                                                                    "type": "object",
-                                                                    "properties": {
-                                                                        "text": {
-                                                                            "title": "BlockTextElement75",
-                                                                            "required": [
-                                                                                "text",
-                                                                                "type"
-                                                                            ],
-                                                                            "type": "object",
-                                                                            "properties": {
-                                                                                "type": {
-                                                                                    "type": "string",
-                                                                                    "enum": [
-                                                                                        "plain_text"
-                                                                                    ]
-                                                                                },
-                                                                                "text": {
-                                                                                    "maxLength": 75,
-                                                                                    "type": "string"
-                                                                                },
-                                                                                "emoji": {
-                                                                                    "type": "boolean"
-                                                                                }
+                                                                        "title": "BlockTextElement75",
+                                                                        "required": [
+                                                                            "text",
+                                                                            "type"
+                                                                        ],
+                                                                        "type": "object",
+                                                                        "properties": {
+                                                                            "type": {
+                                                                                "type": "string",
+                                                                                "enum": [
+                                                                                    "plain_text"
+                                                                                ]
+                                                                            },
+                                                                            "text": {
+                                                                                "maxLength": 75,
+                                                                                "type": "string"
+                                                                            },
+                                                                            "emoji": {
+                                                                                "type": "boolean",
+                                                                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                             }
-                                                                        },
-                                                                        "value": {
-                                                                            "maxLength": 100,
-                                                                            "type": "string"
-                                                                        },
-                                                                        "description": {
-                                                                            "title": "BlockTextElement75",
-                                                                            "required": [
-                                                                                "text",
-                                                                                "type"
-                                                                            ],
-                                                                            "type": "object",
-                                                                            "properties": {
-                                                                                "type": {
-                                                                                    "type": "string",
-                                                                                    "enum": [
-                                                                                        "plain_text"
-                                                                                    ]
-                                                                                },
-                                                                                "text": {
-                                                                                    "maxLength": 75,
-                                                                                    "type": "string"
-                                                                                },
-                                                                                "emoji": {
-                                                                                    "type": "boolean"
-                                                                                }
+                                                                        }
+                                                                    },
+                                                                    "value": {
+                                                                        "maxLength": 100,
+                                                                        "type": "string",
+                                                                        "description": "A unique string value that will be passed to addon when this option is chosen."
+                                                                    },
+                                                                    "description": {
+                                                                        "title": "BlockTextElement75",
+                                                                        "required": [
+                                                                            "text",
+                                                                            "type"
+                                                                        ],
+                                                                        "type": "object",
+                                                                        "properties": {
+                                                                            "type": {
+                                                                                "type": "string",
+                                                                                "enum": [
+                                                                                    "plain_text"
+                                                                                ]
+                                                                            },
+                                                                            "text": {
+                                                                                "maxLength": 75,
+                                                                                "type": "string"
+                                                                            },
+                                                                            "emoji": {
+                                                                                "type": "boolean",
+                                                                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                             }
                                                                         }
                                                                     }
@@ -2608,8 +2700,8 @@ export const mainBlocks = {
                                                             }
                                                         }
                                                     }
-                                                ]
-                                            }
+                                                }
+                                            ]
                                         },
                                         "confirm": {
                                             "title": "Confirm",
@@ -2634,7 +2726,8 @@ export const mainBlocks = {
                                                             "type": "string"
                                                         },
                                                         "emoji": {
-                                                            "type": "boolean"
+                                                            "type": "boolean",
+                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
                                                     }
                                                 },
@@ -2657,7 +2750,8 @@ export const mainBlocks = {
                                                             "type": "string"
                                                         },
                                                         "emoji": {
-                                                            "type": "boolean"
+                                                            "type": "boolean",
+                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
                                                     }
                                                 },
@@ -2680,7 +2774,8 @@ export const mainBlocks = {
                                                             "type": "string"
                                                         },
                                                         "emoji": {
-                                                            "type": "boolean"
+                                                            "type": "boolean",
+                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
                                                     }
                                                 },
@@ -2703,11 +2798,13 @@ export const mainBlocks = {
                                                             "type": "string"
                                                         },
                                                         "emoji": {
-                                                            "type": "boolean"
+                                                            "type": "boolean",
+                                                            "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
                                                     }
                                                 }
-                                            }
+                                            },
+                                            "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
                                         }
                                     }
                                 }

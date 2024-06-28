@@ -108,7 +108,7 @@ export namespace V1 {
         type: 'dynamic_select_menu';
         placeholder: BlockTextElement;
         min_query_length?: number;
-        initial_options?: Option[] | OptionGroup[];
+        initial_option?: Option | OptionGroup;
         confirm?: ConfirmDialog;
     };
 

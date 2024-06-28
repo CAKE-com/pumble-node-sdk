@@ -81,7 +81,6 @@ const app: App = {
                                 type: "actions",
                                 elements: [{
                                     type: "dynamic_select_menu",
-                                    initial_options: [],
                                     min_query_length: 3,
                                     onAction: "dropDown1",
                                     placeholder: {text: "Select something", type: "plain_text"}
