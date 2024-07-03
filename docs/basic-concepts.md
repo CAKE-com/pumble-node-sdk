@@ -73,7 +73,8 @@ Events can have one or more handlers.
 
 The easiest way to send messages in your app is by using the `say()` function inside your listeners.\
 The code below will send an ephemeral message on behalf of your App's bot.\
-To be able to do this make sure you have `messages:write` scope for your bot. (in your [`manifest.json`](/getting-started#manifest-json))
+To be able to do this make sure you have `messages:write` scope for your bot (in your [`manifest.json`](/getting-started#manifest-json)).\
+**To send a rich message, use the `blocks` field. Click [here](/blocks) to see more details on `blocks`.**
 
 ```typescript
 {
@@ -81,7 +82,7 @@ To be able to do this make sure you have `messages:write` scope for your bot. (i
 	options: { includeBotMessages: true },
 	handler: async (ctx) => {
 		await ctx.say("Received a message");
-	},
+	}
 }
 ```
 
@@ -99,7 +100,7 @@ In this case the bot will post a normal message.
 	name: 'NEW_MESSAGE',
 	handler: async (ctx) => {
 		await ctx.say("Received a message", "in_channel");
-	},
+	}
 }
 ```
 
@@ -123,7 +124,7 @@ To send message on behalf of users your app needs to have `messages:write` user 
 				'Message form the same user'
 			);
 		}
-	},
+	}
 }
 ```
 
@@ -134,13 +135,13 @@ In some contexts that are related to a single message such as `MessageShortcut`,
 	name: 'NEW_MESSAGE',
 	handler: async (ctx) => {
 		await ctx.say('Received your message', 'in_channel', true);
-	},
+	}
 }
 ```
 
 ## Listening to events
 Just like `NEW_MESSAGE` Pumble apps can subscribe to a list of Pumble events.
-Each event has it's own payload and a list of user id's that have authorized your app and are eligible to receive that event
+Each event has its own payload and a list of user id's that have authorized your app and are eligible to receive that event
 
 ```typescript
 const app: App = {
@@ -160,7 +161,7 @@ const app: App = {
 	]
 };
 ```
-For more info about the available events click [here](/triggers-reference#events)
+For more info about the available events, click [here](/triggers-reference#events).
 
 ## Using the Pumble API
 
@@ -208,7 +209,7 @@ If you need to send a notification message you can use `botClient`
 :::
 
 For each `ApiClient` method you are trying to invoke make sure your bot or user has the required scopes.
-For more information about API methods and scopes click [here](/api-client)
+For more information about API methods and scopes, click [here](/api-client).
 
 ## Listening to triggers
 
@@ -289,7 +290,7 @@ globalShortcuts: [
 			await ctx.say(`Received global shortcut by <<@${ctx.payload.userId}>>`);
 		},
 	},
-],
+]
 ```
 
 ### Message Shortcuts
@@ -309,7 +310,7 @@ globalShortcuts: [
 			await ctx.say("The message text is: " + message.text);
 		},
 	},
-],
+]
 ```
 
 :::warning
@@ -318,7 +319,13 @@ This means that users must have `messages:read` scope.\
 If this is not successful it will try to fetch the message using the bot (if bot has access to that message).
 :::
 
-For more information about triggers and their contexts click [here](/triggers-reference)
+For more information about triggers and their contexts, click [here](/triggers-reference).
+
+### Interactive components
+
+Interactive components are [block](/blocks) elements that add interactivity and enable users to interact with buttons, select menus, and similar components. 
+For more information about interactive components, click [here](/interactivity).
+
 
 ## Authorization
 
@@ -359,4 +366,4 @@ const app: App = {
 };
 ```
 
-For more information about authorization and Pumble's OAuth2 click [here](/advanced-concepts#authorization)
+For more information about authorization and Pumble's OAuth2, click [here](/advanced-concepts#authorization).
