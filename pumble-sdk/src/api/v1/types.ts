@@ -416,6 +416,11 @@ export namespace V1 {
         pinnedMessages?: PinnedMessageUserData[];
     }
 
+    export interface DirectChannelInfo {
+        channel: Channel;
+        lastMessage: Message;
+    }
+
     export interface PinnedMessageUserData {
         workspaceUserId?: string;
         messageId?: string;
