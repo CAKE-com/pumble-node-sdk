@@ -192,7 +192,7 @@ Emoji (results in 🍻):
 ]
 ```
 
-Hyperlink (results in "For more info visit our [website](pumble.com)"):
+Hyperlink (results in "For more info visit our [website](https://pumble.com)"):
 
 ```typescript
 [

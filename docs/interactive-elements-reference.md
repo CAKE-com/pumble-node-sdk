@@ -1,6 +1,6 @@
 ###### Coming soon
 
-### Button
+## Button
 
 | name     | type          | description                                                                                                                     |
 |:---------|:--------------|:--------------------------------------------------------------------------------------------------------------------------------|
@@ -12,7 +12,7 @@
 | onAction | String        | Action identifier defined by the app (controlled and used on the app's side).                                                   |
 | confirm  | ConfirmDialog | A confirmation modal that will be shown just before triggering the block interaction, prompting the user to confirm the action. |
 
-### Select menu (static)
+## Select menu (static)
 
 | name           | type                      | description                                                                                                                                          |
 |:---------------|:--------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -24,7 +24,7 @@
 | onAction       | String                    | Action identifier defined by the app (controlled and used on the app's side).                                                                        |
 | confirm        | ConfirmDialog             | A confirmation modal that will be shown just before triggering the block interaction, prompting the user to confirm the action.                      |
 
-### Select menu (dynamic)
+## Select menu (dynamic)
 
 | name             | type                      | description                                                                                                                                                                                                          |
 |:-----------------|:--------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -35,7 +35,7 @@
 | onAction         | String                    | Action identifier defined by the app (controlled and used on the app's side).                                                                                                                                        |
 | confirm          | ConfirmDialog             | A confirmation modal that will be shown just before triggering the block interaction, prompting the user to confirm the action.                                                                                      |
 
-### ConfirmDialog
+## ConfirmDialog
 
 | name   | type        | description                                                                                                       |
 |:-------|:------------|:------------------------------------------------------------------------------------------------------------------|
@@ -44,7 +44,7 @@
 | accept | TextElement | A text object that defines the accept button text. Max length for the text field in this object is 75 characters. |
 | deny   | TextElement | A text object that defines the deny button text. Max length for the text field in this object is 75 characters.   |
 
-### Option
+## Option
 
 | name        | type        | description                                                                                                            |
 |:------------|:------------|:-----------------------------------------------------------------------------------------------------------------------|
@@ -59,7 +59,7 @@
 | label   | TextElement | A text object that defines the options group label. Max length for the text field in this object is 75 characters. |
 | options | Option[]    | An array of option objects. Maximum number of options is 100.                                                      |
 
-### Text element
+## Text element
 
 | name  | type    | description                                                                             |
 |:------|:--------|:----------------------------------------------------------------------------------------|
