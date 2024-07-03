@@ -8,7 +8,7 @@ These messages can include buttons, select menus, and other interactive elements
 
 ### Compose your interactive message
 
-Adding interactive components is similar to adding any other block. The following example provides insight on how to add buttons in an actions block within a message payload:
+Adding interactive components is similar to adding any other [block](/blocks). The following example provides insight on how to add buttons in an actions block within a message payload:
 
 ```typescript
 await ctx.say({

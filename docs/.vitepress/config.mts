@@ -29,7 +29,8 @@ export default defineConfig({
                     { text: "Triggers", link: "/triggers-reference" },
                     { text: "Interactive elements (coming soon)", link: "/interactive-elements-reference"},
                     { text: "Api Client", link: "/api-client" },
-                    { text: "Manifest", link: "/manifest" }
+                    { text: "Manifest", link: "/manifest" },
+                    { text: "Blocks", link: "/blocks"},
                 ],
             },
         ],

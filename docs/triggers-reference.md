@@ -274,5 +274,5 @@ This function applies only to contexts where a message or message id is present.
 ```typescript
 await say("Message", "in_channel", true);
 ```
-If its set to true, the response will be posted as a reply to the original message. If the original message is in a thread, me response will be posted in the same thread.
+If it's set to true, the response will be posted as a reply to the original message. If the original message is in a thread, me response will be posted in the same thread.
 

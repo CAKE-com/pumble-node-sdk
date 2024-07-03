@@ -73,7 +73,8 @@ Events can have one or more handlers.
 
 The easiest way to send messages in your app is by using the `say()` function inside your listeners.\
 The code below will send an ephemeral message on behalf of your App's bot.\
-To be able to do this make sure you have `messages:write` scope for your bot. (in your [`manifest.json`](/getting-started#manifest-json))
+To be able to do this make sure you have `messages:write` scope for your bot (in your [`manifest.json`](/getting-started#manifest-json)).\
+**To send a rich message, use the `blocks` field. Click [here](/blocks) to see more details on `blocks`.**
 
 ```typescript
 {
@@ -322,7 +323,7 @@ For more information about triggers and their contexts, click [here](/triggers-r
 
 ### Interactive components
 
-Interactive components are block elements that add interactivity and enable users to interact with buttons, select menus, and similar components. 
+Interactive components are [block](/blocks) elements that add interactivity and enable users to interact with buttons, select menus, and similar components. 
 For more information about interactive components, click [here](/interactivity).
 
 
