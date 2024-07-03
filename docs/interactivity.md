@@ -34,6 +34,7 @@ await ctx.say({
                 {
                     type:"button",
                     onAction:"approve_btn",
+                    value: "some-metadata",
                     text:{
                         text:"Approve",
                         type:"plain_text"
@@ -63,7 +64,21 @@ When a user interacts with an interactive component published by your app in Pum
 This payload notifies your app about the interaction and provides a bundle of information about relevant details of the interaction. Understanding this payload is crucial for your app to process interactions effectively.
 
 Pumble delivers this payload to your app's configured handlers.
-The payload includes all the contextual information your app requires to determine the type and specifics of the interaction.
+The payload includes all the contextual information your app requires to determine the type and specifics of the interaction.\
+Inside the payload, there is a `value` field that represents the actionable input value. For example, it corresponds to the `value` field from a button or the `value` field from a selected option if a select menu is used.\
+Interaction payload for previous message when *Approve* button is pressed:
+```typescript
+interactionPayload = {
+    workspaceId: "668478600000000000000000",
+    userId: "668478600000000000000000",
+    channelId: "668478600000000000000000",
+    sourceType: "MESSAGE",
+    sourceId: "668478600000000000000000",
+    actionType: "button",
+    onAction: "approve_btn",
+    payload: { value: "some-metadata" } as string
+}
+```
 
 Take a look at following example on how to handle interactive payload based on previous message.
 
@@ -93,11 +108,11 @@ blockInteraction: {
 }
 ```
 
-For more interactive elements, click [here](/interactive-elements-reference).
+For more types of interactive elements, click [here](/interactive-elements-reference).
 
 ## Dynamic select menus
 
-Dynamic select menu will load its options from an external data source, allowing for a dynamic list of options.
+Dynamic select menu is interactive element that loads its options from an external data source, allowing for a dynamic list of options.
 Each time a select menu of this type is opened or the user starts typing in the typeahead field, we'll send a request to your app.
 For more details about dynamic select menu properties, see [this](/interactive-elements-reference).
 
