@@ -10,7 +10,7 @@ export class ChannelsApiClientV1 extends BaseApiClient {
         createChannel: () => `/v1/channels`,
         addUsersToChannel: (channelId: string) => `/v1/channels/${channelId}/users`,
         removeUserFromChannel: (channelId: string, userId: string) => `/v1/channels/${channelId}/users/${userId}`,
-        listDirectChannels: () => `/v1/channels/direct/list`
+        listAllDirectChannels: () => `/v1/channels/direct/list`
     };
 
     public async getDirectChannel(withUsers: string[]): Promise<V1.ChannelInfo> {
@@ -69,9 +69,9 @@ export class ChannelsApiClientV1 extends BaseApiClient {
         });
     }
 
-    public async listDirectChannels() {
-        return this.request<V1.DirectChannelInfo>({
-            url: this.urls.listDirectChannels(),
+    public async listAllDirectChannels() {
+        return this.request<Array<V1.ChannelInfo>>({
+            url: this.urls.listAllDirectChannels(),
             method: 'GET',
         })
     }
