@@ -10,7 +10,6 @@ export class ChannelsApiClientV1 extends BaseApiClient {
         createChannel: () => `/v1/channels`,
         addUsersToChannel: (channelId: string) => `/v1/channels/${channelId}/users`,
         removeUserFromChannel: (channelId: string, userId: string) => `/v1/channels/${channelId}/users/${userId}`,
-        listAllDirectChannels: () => `/v1/channels/direct/list`
     };
 
     public async getDirectChannel(withUsers: string[]): Promise<V1.ChannelInfo> {
@@ -41,8 +40,13 @@ export class ChannelsApiClientV1 extends BaseApiClient {
         });
     }
 
-    public async listChannels(): Promise<Array<V1.ChannelInfo>> {
-        const url = this.urls.listChannels();
+    public async listChannels(
+        types: Array<'PUBLIC' | 'PRIVATE' | 'DIRECT' | 'SELF'> = ['PUBLIC', 'PRIVATE', 'DIRECT', 'SELF']
+    ): Promise<Array<V1.ChannelInfo>> {
+        let url = this.urls.listChannels();
+        if (types.length > 0) {
+            url += `?types=${types.join(',')}`;
+        }
         return await this.request<Array<V1.ChannelInfo>>({ url, method: 'get' });
     }
 
@@ -67,12 +71,5 @@ export class ChannelsApiClientV1 extends BaseApiClient {
             url: this.urls.removeUserFromChannel(channelId, userId),
             method: 'DELETE',
         });
-    }
-
-    public async listAllDirectChannels() {
-        return this.request<Array<V1.ChannelInfo>>({
-            url: this.urls.listAllDirectChannels(),
-            method: 'GET',
-        })
     }
 }
