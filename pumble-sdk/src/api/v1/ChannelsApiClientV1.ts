@@ -43,10 +43,8 @@ export class ChannelsApiClientV1 extends BaseApiClient {
     public async listChannels(
         types: Array<'PUBLIC' | 'PRIVATE' | 'DIRECT' | 'SELF'> = ['PUBLIC', 'PRIVATE', 'DIRECT', 'SELF']
     ): Promise<Array<V1.ChannelInfo>> {
-        let url = this.urls.listChannels();
-        if (types.length > 0) {
-            url += `?types=${types.join(',')}`;
-        }
+        const url = types.length == 0 ?
+            this.urls.listChannels() : `${this.urls.listChannels()}?types=${types.join(',')}`
         return await this.request<Array<V1.ChannelInfo>>({ url, method: 'get' });
     }
 
