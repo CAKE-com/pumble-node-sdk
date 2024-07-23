@@ -40,8 +40,9 @@ export class ChannelsApiClientV1 extends BaseApiClient {
         });
     }
 
-    public async listChannels(): Promise<Array<V1.ChannelInfo>> {
-        const url = this.urls.listChannels();
+    public async listChannels(types?: Array<'PUBLIC' | 'PRIVATE' | 'DIRECT' | 'SELF'>): Promise<Array<V1.ChannelInfo>> {
+        const url = types === undefined || types.length == 0 ?
+            this.urls.listChannels() : `${this.urls.listChannels()}?types=${types.join(',')}`
         return await this.request<Array<V1.ChannelInfo>>({ url, method: 'get' });
     }
 
