@@ -90,28 +90,16 @@ export const mainBlocks = {
                                                             },
                                                             "text": {
                                                                 "type": "string"
-                                                            }
-                                                        }
-                                                    },
-                                                    {
-                                                        "required": [
-                                                            "name",
-                                                            "type"
-                                                        ],
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "type": {
-                                                                "type": "string",
-                                                                "enum": [
-                                                                    "emoji"
-                                                                ]
+                                                            },
+                                                            "raw": {
+                                                                "type": "boolean"
                                                             },
                                                             "style": {
                                                                 "type": "object",
                                                                 "properties": {
-                                                                    "inline": {
+                                                                    "code": {
                                                                         "type": "boolean",
-                                                                        "description": "Is text inline"
+                                                                        "description": "Is text code"
                                                                     },
                                                                     "bold": {
                                                                         "type": "boolean",
@@ -126,13 +114,31 @@ export const mainBlocks = {
                                                                         "description": "Is text italic"
                                                                     }
                                                                 },
+                                                                "additionalProperties": false,
                                                                 "description": "Link format"
+                                                            }
+                                                        },
+                                                        "additionalProperties": false
+                                                    },
+                                                    {
+                                                        "required": [
+                                                            "name",
+                                                            "type"
+                                                        ],
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "type": {
+                                                                "type": "string",
+                                                                "enum": [
+                                                                    "emoji"
+                                                                ]
                                                             },
                                                             "name": {
                                                                 "type": "string",
                                                                 "description": "Emoji name"
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     },
                                                     {
                                                         "required": [
@@ -150,9 +156,9 @@ export const mainBlocks = {
                                                             "style": {
                                                                 "type": "object",
                                                                 "properties": {
-                                                                    "inline": {
+                                                                    "code": {
                                                                         "type": "boolean",
-                                                                        "description": "Is text inline"
+                                                                        "description": "Is text code"
                                                                     },
                                                                     "bold": {
                                                                         "type": "boolean",
@@ -167,13 +173,15 @@ export const mainBlocks = {
                                                                         "description": "Is text italic"
                                                                     }
                                                                 },
+                                                                "additionalProperties": false,
                                                                 "description": "Text format"
                                                             },
                                                             "text": {
                                                                 "type": "string",
                                                                 "description": "Text"
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     },
                                                     {
                                                         "required": [
@@ -192,7 +200,8 @@ export const mainBlocks = {
                                                                 "type": "string",
                                                                 "description": "User ID"
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     },
                                                     {
                                                         "required": [
@@ -211,7 +220,8 @@ export const mainBlocks = {
                                                                 "type": "string",
                                                                 "description": "Channel ID"
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     },
                                                     {
                                                         "required": [
@@ -230,7 +240,8 @@ export const mainBlocks = {
                                                                 "type": "string",
                                                                 "description": "User Group ID"
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     },
                                                     {
                                                         "required": [
@@ -253,12 +264,14 @@ export const mainBlocks = {
                                                                     "channel"
                                                                 ]
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     }
                                                 ]
                                             }
                                         }
-                                    }
+                                    },
+                                    "additionalProperties": false
                                 },
                                 {
                                     "required": [
@@ -312,28 +325,16 @@ export const mainBlocks = {
                                                             },
                                                             "text": {
                                                                 "type": "string"
-                                                            }
-                                                        }
-                                                    },
-                                                    {
-                                                        "required": [
-                                                            "name",
-                                                            "type"
-                                                        ],
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "type": {
-                                                                "type": "string",
-                                                                "enum": [
-                                                                    "emoji"
-                                                                ]
+                                                            },
+                                                            "raw": {
+                                                                "type": "boolean"
                                                             },
                                                             "style": {
                                                                 "type": "object",
                                                                 "properties": {
-                                                                    "inline": {
+                                                                    "code": {
                                                                         "type": "boolean",
-                                                                        "description": "Is text inline"
+                                                                        "description": "Is text code"
                                                                     },
                                                                     "bold": {
                                                                         "type": "boolean",
@@ -348,13 +349,31 @@ export const mainBlocks = {
                                                                         "description": "Is text italic"
                                                                     }
                                                                 },
+                                                                "additionalProperties": false,
                                                                 "description": "Link format"
+                                                            }
+                                                        },
+                                                        "additionalProperties": false
+                                                    },
+                                                    {
+                                                        "required": [
+                                                            "name",
+                                                            "type"
+                                                        ],
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "type": {
+                                                                "type": "string",
+                                                                "enum": [
+                                                                    "emoji"
+                                                                ]
                                                             },
                                                             "name": {
                                                                 "type": "string",
                                                                 "description": "Emoji name"
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     },
                                                     {
                                                         "required": [
@@ -372,9 +391,9 @@ export const mainBlocks = {
                                                             "style": {
                                                                 "type": "object",
                                                                 "properties": {
-                                                                    "inline": {
+                                                                    "code": {
                                                                         "type": "boolean",
-                                                                        "description": "Is text inline"
+                                                                        "description": "Is text code"
                                                                     },
                                                                     "bold": {
                                                                         "type": "boolean",
@@ -389,13 +408,15 @@ export const mainBlocks = {
                                                                         "description": "Is text italic"
                                                                     }
                                                                 },
+                                                                "additionalProperties": false,
                                                                 "description": "Text format"
                                                             },
                                                             "text": {
                                                                 "type": "string",
                                                                 "description": "Text"
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     },
                                                     {
                                                         "required": [
@@ -414,7 +435,8 @@ export const mainBlocks = {
                                                                 "type": "string",
                                                                 "description": "User ID"
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     },
                                                     {
                                                         "required": [
@@ -433,7 +455,8 @@ export const mainBlocks = {
                                                                 "type": "string",
                                                                 "description": "Channel ID"
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     },
                                                     {
                                                         "required": [
@@ -452,7 +475,8 @@ export const mainBlocks = {
                                                                 "type": "string",
                                                                 "description": "User Group ID"
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     },
                                                     {
                                                         "required": [
@@ -475,12 +499,14 @@ export const mainBlocks = {
                                                                     "channel"
                                                                 ]
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     }
                                                 ]
                                             }
                                         }
-                                    }
+                                    },
+                                    "additionalProperties": false
                                 },
                                 {
                                     "required": [
@@ -515,10 +541,12 @@ export const mainBlocks = {
                                                             "text"
                                                         ]
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             }
                                         }
-                                    }
+                                    },
+                                    "additionalProperties": false
                                 },
                                 {
                                     "required": [
@@ -613,28 +641,16 @@ export const mainBlocks = {
                                                                         },
                                                                         "text": {
                                                                             "type": "string"
-                                                                        }
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "required": [
-                                                                        "name",
-                                                                        "type"
-                                                                    ],
-                                                                    "type": "object",
-                                                                    "properties": {
-                                                                        "type": {
-                                                                            "type": "string",
-                                                                            "enum": [
-                                                                                "emoji"
-                                                                            ]
+                                                                        },
+                                                                        "raw": {
+                                                                            "type": "boolean"
                                                                         },
                                                                         "style": {
                                                                             "type": "object",
                                                                             "properties": {
-                                                                                "inline": {
+                                                                                "code": {
                                                                                     "type": "boolean",
-                                                                                    "description": "Is text inline"
+                                                                                    "description": "Is text code"
                                                                                 },
                                                                                 "bold": {
                                                                                     "type": "boolean",
@@ -649,13 +665,31 @@ export const mainBlocks = {
                                                                                     "description": "Is text italic"
                                                                                 }
                                                                             },
+                                                                            "additionalProperties": false,
                                                                             "description": "Link format"
+                                                                        }
+                                                                    },
+                                                                    "additionalProperties": false
+                                                                },
+                                                                {
+                                                                    "required": [
+                                                                        "name",
+                                                                        "type"
+                                                                    ],
+                                                                    "type": "object",
+                                                                    "properties": {
+                                                                        "type": {
+                                                                            "type": "string",
+                                                                            "enum": [
+                                                                                "emoji"
+                                                                            ]
                                                                         },
                                                                         "name": {
                                                                             "type": "string",
                                                                             "description": "Emoji name"
                                                                         }
-                                                                    }
+                                                                    },
+                                                                    "additionalProperties": false
                                                                 },
                                                                 {
                                                                     "required": [
@@ -673,9 +707,9 @@ export const mainBlocks = {
                                                                         "style": {
                                                                             "type": "object",
                                                                             "properties": {
-                                                                                "inline": {
+                                                                                "code": {
                                                                                     "type": "boolean",
-                                                                                    "description": "Is text inline"
+                                                                                    "description": "Is text code"
                                                                                 },
                                                                                 "bold": {
                                                                                     "type": "boolean",
@@ -690,13 +724,15 @@ export const mainBlocks = {
                                                                                     "description": "Is text italic"
                                                                                 }
                                                                             },
+                                                                            "additionalProperties": false,
                                                                             "description": "Text format"
                                                                         },
                                                                         "text": {
                                                                             "type": "string",
                                                                             "description": "Text"
                                                                         }
-                                                                    }
+                                                                    },
+                                                                    "additionalProperties": false
                                                                 },
                                                                 {
                                                                     "required": [
@@ -715,7 +751,8 @@ export const mainBlocks = {
                                                                             "type": "string",
                                                                             "description": "User ID"
                                                                         }
-                                                                    }
+                                                                    },
+                                                                    "additionalProperties": false
                                                                 },
                                                                 {
                                                                     "required": [
@@ -734,7 +771,8 @@ export const mainBlocks = {
                                                                             "type": "string",
                                                                             "description": "Channel ID"
                                                                         }
-                                                                    }
+                                                                    },
+                                                                    "additionalProperties": false
                                                                 },
                                                                 {
                                                                     "required": [
@@ -753,7 +791,8 @@ export const mainBlocks = {
                                                                             "type": "string",
                                                                             "description": "User Group ID"
                                                                         }
-                                                                    }
+                                                                    },
+                                                                    "additionalProperties": false
                                                                 },
                                                                 {
                                                                     "required": [
@@ -776,20 +815,24 @@ export const mainBlocks = {
                                                                                 "channel"
                                                                             ]
                                                                         }
-                                                                    }
+                                                                    },
+                                                                    "additionalProperties": false
                                                                 }
                                                             ]
                                                         }
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             }
                                         }
-                                    }
+                                    },
+                                    "additionalProperties": false
                                 }
                             ]
                         }
                     }
-                }
+                },
+                "additionalProperties": false
             },
             {
                 "title": "BlockInput",
@@ -829,7 +872,8 @@ export const mainBlocks = {
                                 "type": "boolean",
                                 "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                             }
-                        }
+                        },
+                        "additionalProperties": false
                     },
                     "dispatchAction": {
                         "type": "boolean",
@@ -877,7 +921,8 @@ export const mainBlocks = {
                                                 "type": "boolean",
                                                 "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                             }
-                                        }
+                                        },
+                                        "additionalProperties": false
                                     },
                                     "value": {
                                         "maxLength": 300,
@@ -922,7 +967,8 @@ export const mainBlocks = {
                                                         "type": "boolean",
                                                         "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             },
                                             "text": {
                                                 "title": "BlockTextElement300",
@@ -946,7 +992,8 @@ export const mainBlocks = {
                                                         "type": "boolean",
                                                         "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             },
                                             "accept": {
                                                 "title": "BlockTextElement75",
@@ -970,7 +1017,8 @@ export const mainBlocks = {
                                                         "type": "boolean",
                                                         "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             },
                                             "deny": {
                                                 "title": "BlockTextElement75",
@@ -994,12 +1042,15 @@ export const mainBlocks = {
                                                         "type": "boolean",
                                                         "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             }
                                         },
+                                        "additionalProperties": false,
                                         "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
                                     }
-                                }
+                                },
+                                "additionalProperties": false
                             },
                             {
                                 "title": "BlockStaticSelectMenu",
@@ -1038,7 +1089,8 @@ export const mainBlocks = {
                                                 "type": "boolean",
                                                 "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                             }
-                                        }
+                                        },
+                                        "additionalProperties": false
                                     },
                                     "onAction": {
                                         "type": "string",
@@ -1078,7 +1130,8 @@ export const mainBlocks = {
                                                             "type": "boolean",
                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 },
                                                 "value": {
                                                     "maxLength": 100,
@@ -1107,9 +1160,11 @@ export const mainBlocks = {
                                                             "type": "boolean",
                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 }
-                                            }
+                                            },
+                                            "additionalProperties": false
                                         }
                                     },
                                     "option_groups": {
@@ -1146,7 +1201,8 @@ export const mainBlocks = {
                                                             "type": "boolean",
                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 },
                                                 "options": {
                                                     "maxItems": 100,
@@ -1181,7 +1237,8 @@ export const mainBlocks = {
                                                                         "type": "boolean",
                                                                         "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                     }
-                                                                }
+                                                                },
+                                                                "additionalProperties": false
                                                             },
                                                             "value": {
                                                                 "maxLength": 100,
@@ -1210,12 +1267,15 @@ export const mainBlocks = {
                                                                         "type": "boolean",
                                                                         "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                     }
-                                                                }
+                                                                },
+                                                                "additionalProperties": false
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     }
                                                 }
-                                            }
+                                            },
+                                            "additionalProperties": false
                                         }
                                     },
                                     "initial_option": {
@@ -1251,7 +1311,8 @@ export const mainBlocks = {
                                                                 "type": "boolean",
                                                                 "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     },
                                                     "value": {
                                                         "maxLength": 100,
@@ -1280,9 +1341,11 @@ export const mainBlocks = {
                                                                 "type": "boolean",
                                                                 "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             },
                                             {
                                                 "title": "OptionGroup",
@@ -1314,7 +1377,8 @@ export const mainBlocks = {
                                                                 "type": "boolean",
                                                                 "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     },
                                                     "options": {
                                                         "maxItems": 100,
@@ -1349,7 +1413,8 @@ export const mainBlocks = {
                                                                             "type": "boolean",
                                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                         }
-                                                                    }
+                                                                    },
+                                                                    "additionalProperties": false
                                                                 },
                                                                 "value": {
                                                                     "maxLength": 100,
@@ -1378,12 +1443,15 @@ export const mainBlocks = {
                                                                             "type": "boolean",
                                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                         }
-                                                                    }
+                                                                    },
+                                                                    "additionalProperties": false
                                                                 }
-                                                            }
+                                                            },
+                                                            "additionalProperties": false
                                                         }
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             }
                                         ]
                                     },
@@ -1413,7 +1481,8 @@ export const mainBlocks = {
                                                         "type": "boolean",
                                                         "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             },
                                             "text": {
                                                 "title": "BlockTextElement300",
@@ -1437,7 +1506,8 @@ export const mainBlocks = {
                                                         "type": "boolean",
                                                         "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             },
                                             "accept": {
                                                 "title": "BlockTextElement75",
@@ -1461,7 +1531,8 @@ export const mainBlocks = {
                                                         "type": "boolean",
                                                         "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             },
                                             "deny": {
                                                 "title": "BlockTextElement75",
@@ -1485,12 +1556,15 @@ export const mainBlocks = {
                                                         "type": "boolean",
                                                         "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             }
                                         },
+                                        "additionalProperties": false,
                                         "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
                                     }
-                                }
+                                },
+                                "additionalProperties": false
                             },
                             {
                                 "title": "BlockDynamicSelectMenu",
@@ -1528,7 +1602,8 @@ export const mainBlocks = {
                                                 "type": "boolean",
                                                 "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                             }
-                                        }
+                                        },
+                                        "additionalProperties": false
                                     },
                                     "onAction": {
                                         "type": "string",
@@ -1572,7 +1647,8 @@ export const mainBlocks = {
                                                                 "type": "boolean",
                                                                 "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     },
                                                     "value": {
                                                         "maxLength": 100,
@@ -1601,9 +1677,11 @@ export const mainBlocks = {
                                                                 "type": "boolean",
                                                                 "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             },
                                             {
                                                 "title": "OptionGroup",
@@ -1635,7 +1713,8 @@ export const mainBlocks = {
                                                                 "type": "boolean",
                                                                 "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     },
                                                     "options": {
                                                         "maxItems": 100,
@@ -1670,7 +1749,8 @@ export const mainBlocks = {
                                                                             "type": "boolean",
                                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                         }
-                                                                    }
+                                                                    },
+                                                                    "additionalProperties": false
                                                                 },
                                                                 "value": {
                                                                     "maxLength": 100,
@@ -1699,12 +1779,15 @@ export const mainBlocks = {
                                                                             "type": "boolean",
                                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                         }
-                                                                    }
+                                                                    },
+                                                                    "additionalProperties": false
                                                                 }
-                                                            }
+                                                            },
+                                                            "additionalProperties": false
                                                         }
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             }
                                         ]
                                     },
@@ -1734,7 +1817,8 @@ export const mainBlocks = {
                                                         "type": "boolean",
                                                         "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             },
                                             "text": {
                                                 "title": "BlockTextElement300",
@@ -1758,7 +1842,8 @@ export const mainBlocks = {
                                                         "type": "boolean",
                                                         "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             },
                                             "accept": {
                                                 "title": "BlockTextElement75",
@@ -1782,7 +1867,8 @@ export const mainBlocks = {
                                                         "type": "boolean",
                                                         "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             },
                                             "deny": {
                                                 "title": "BlockTextElement75",
@@ -1806,16 +1892,20 @@ export const mainBlocks = {
                                                         "type": "boolean",
                                                         "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             }
                                         },
+                                        "additionalProperties": false,
                                         "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
                                     }
-                                }
+                                },
+                                "additionalProperties": false
                             }
                         ]
                     }
-                }
+                },
+                "additionalProperties": false
             },
             {
                 "title": "BlockActions",
@@ -1872,7 +1962,8 @@ export const mainBlocks = {
                                                     "type": "boolean",
                                                     "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                 }
-                                            }
+                                            },
+                                            "additionalProperties": false
                                         },
                                         "value": {
                                             "maxLength": 300,
@@ -1917,7 +2008,8 @@ export const mainBlocks = {
                                                             "type": "boolean",
                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 },
                                                 "text": {
                                                     "title": "BlockTextElement300",
@@ -1941,7 +2033,8 @@ export const mainBlocks = {
                                                             "type": "boolean",
                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 },
                                                 "accept": {
                                                     "title": "BlockTextElement75",
@@ -1965,7 +2058,8 @@ export const mainBlocks = {
                                                             "type": "boolean",
                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 },
                                                 "deny": {
                                                     "title": "BlockTextElement75",
@@ -1989,12 +2083,15 @@ export const mainBlocks = {
                                                             "type": "boolean",
                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 }
                                             },
+                                            "additionalProperties": false,
                                             "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
                                         }
-                                    }
+                                    },
+                                    "additionalProperties": false
                                 },
                                 {
                                     "title": "BlockStaticSelectMenu",
@@ -2033,7 +2130,8 @@ export const mainBlocks = {
                                                     "type": "boolean",
                                                     "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                 }
-                                            }
+                                            },
+                                            "additionalProperties": false
                                         },
                                         "onAction": {
                                             "type": "string",
@@ -2073,7 +2171,8 @@ export const mainBlocks = {
                                                                 "type": "boolean",
                                                                 "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     },
                                                     "value": {
                                                         "maxLength": 100,
@@ -2102,9 +2201,11 @@ export const mainBlocks = {
                                                                 "type": "boolean",
                                                                 "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             }
                                         },
                                         "option_groups": {
@@ -2141,7 +2242,8 @@ export const mainBlocks = {
                                                                 "type": "boolean",
                                                                 "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                             }
-                                                        }
+                                                        },
+                                                        "additionalProperties": false
                                                     },
                                                     "options": {
                                                         "maxItems": 100,
@@ -2176,7 +2278,8 @@ export const mainBlocks = {
                                                                             "type": "boolean",
                                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                         }
-                                                                    }
+                                                                    },
+                                                                    "additionalProperties": false
                                                                 },
                                                                 "value": {
                                                                     "maxLength": 100,
@@ -2205,12 +2308,15 @@ export const mainBlocks = {
                                                                             "type": "boolean",
                                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                         }
-                                                                    }
+                                                                    },
+                                                                    "additionalProperties": false
                                                                 }
-                                                            }
+                                                            },
+                                                            "additionalProperties": false
                                                         }
                                                     }
-                                                }
+                                                },
+                                                "additionalProperties": false
                                             }
                                         },
                                         "initial_option": {
@@ -2246,7 +2352,8 @@ export const mainBlocks = {
                                                                     "type": "boolean",
                                                                     "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                 }
-                                                            }
+                                                            },
+                                                            "additionalProperties": false
                                                         },
                                                         "value": {
                                                             "maxLength": 100,
@@ -2275,9 +2382,11 @@ export const mainBlocks = {
                                                                     "type": "boolean",
                                                                     "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                 }
-                                                            }
+                                                            },
+                                                            "additionalProperties": false
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 },
                                                 {
                                                     "title": "OptionGroup",
@@ -2309,7 +2418,8 @@ export const mainBlocks = {
                                                                     "type": "boolean",
                                                                     "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                 }
-                                                            }
+                                                            },
+                                                            "additionalProperties": false
                                                         },
                                                         "options": {
                                                             "maxItems": 100,
@@ -2344,7 +2454,8 @@ export const mainBlocks = {
                                                                                 "type": "boolean",
                                                                                 "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                             }
-                                                                        }
+                                                                        },
+                                                                        "additionalProperties": false
                                                                     },
                                                                     "value": {
                                                                         "maxLength": 100,
@@ -2373,12 +2484,15 @@ export const mainBlocks = {
                                                                                 "type": "boolean",
                                                                                 "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                             }
-                                                                        }
+                                                                        },
+                                                                        "additionalProperties": false
                                                                     }
-                                                                }
+                                                                },
+                                                                "additionalProperties": false
                                                             }
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 }
                                             ]
                                         },
@@ -2408,7 +2522,8 @@ export const mainBlocks = {
                                                             "type": "boolean",
                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 },
                                                 "text": {
                                                     "title": "BlockTextElement300",
@@ -2432,7 +2547,8 @@ export const mainBlocks = {
                                                             "type": "boolean",
                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 },
                                                 "accept": {
                                                     "title": "BlockTextElement75",
@@ -2456,7 +2572,8 @@ export const mainBlocks = {
                                                             "type": "boolean",
                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 },
                                                 "deny": {
                                                     "title": "BlockTextElement75",
@@ -2480,12 +2597,15 @@ export const mainBlocks = {
                                                             "type": "boolean",
                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 }
                                             },
+                                            "additionalProperties": false,
                                             "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
                                         }
-                                    }
+                                    },
+                                    "additionalProperties": false
                                 },
                                 {
                                     "title": "BlockDynamicSelectMenu",
@@ -2523,7 +2643,8 @@ export const mainBlocks = {
                                                     "type": "boolean",
                                                     "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                 }
-                                            }
+                                            },
+                                            "additionalProperties": false
                                         },
                                         "onAction": {
                                             "type": "string",
@@ -2567,7 +2688,8 @@ export const mainBlocks = {
                                                                     "type": "boolean",
                                                                     "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                 }
-                                                            }
+                                                            },
+                                                            "additionalProperties": false
                                                         },
                                                         "value": {
                                                             "maxLength": 100,
@@ -2596,9 +2718,11 @@ export const mainBlocks = {
                                                                     "type": "boolean",
                                                                     "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                 }
-                                                            }
+                                                            },
+                                                            "additionalProperties": false
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 },
                                                 {
                                                     "title": "OptionGroup",
@@ -2630,7 +2754,8 @@ export const mainBlocks = {
                                                                     "type": "boolean",
                                                                     "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                 }
-                                                            }
+                                                            },
+                                                            "additionalProperties": false
                                                         },
                                                         "options": {
                                                             "maxItems": 100,
@@ -2665,7 +2790,8 @@ export const mainBlocks = {
                                                                                 "type": "boolean",
                                                                                 "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                             }
-                                                                        }
+                                                                        },
+                                                                        "additionalProperties": false
                                                                     },
                                                                     "value": {
                                                                         "maxLength": 100,
@@ -2694,12 +2820,15 @@ export const mainBlocks = {
                                                                                 "type": "boolean",
                                                                                 "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                                             }
-                                                                        }
+                                                                        },
+                                                                        "additionalProperties": false
                                                                     }
-                                                                }
+                                                                },
+                                                                "additionalProperties": false
                                                             }
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 }
                                             ]
                                         },
@@ -2729,7 +2858,8 @@ export const mainBlocks = {
                                                             "type": "boolean",
                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 },
                                                 "text": {
                                                     "title": "BlockTextElement300",
@@ -2753,7 +2883,8 @@ export const mainBlocks = {
                                                             "type": "boolean",
                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 },
                                                 "accept": {
                                                     "title": "BlockTextElement75",
@@ -2777,7 +2908,8 @@ export const mainBlocks = {
                                                             "type": "boolean",
                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 },
                                                 "deny": {
                                                     "title": "BlockTextElement75",
@@ -2801,17 +2933,21 @@ export const mainBlocks = {
                                                             "type": "boolean",
                                                             "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
                                                         }
-                                                    }
+                                                    },
+                                                    "additionalProperties": false
                                                 }
                                             },
+                                            "additionalProperties": false,
                                             "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
                                         }
-                                    }
+                                    },
+                                    "additionalProperties": false
                                 }
                             ]
                         }
                     }
-                }
+                },
+                "additionalProperties": false
             }
         ]
     }
