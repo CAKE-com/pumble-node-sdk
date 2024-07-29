@@ -101,7 +101,7 @@ class Create {
             logger.error('Invalid name or description');
             process.exit(1);
         }
-        const normalizedName = (result.name as string).toLowerCase().replace(/\s+/gs, '-');
+        const normalizedName = (result.name as string).toLowerCase().replace(/\s+/g, '-');
         return {
             name: normalizedName,
             botTitle: result.description,
