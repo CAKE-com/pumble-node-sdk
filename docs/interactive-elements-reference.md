@@ -37,12 +37,13 @@
 
 ## ConfirmDialog
 
-| name   | type        | description                                                                                                       |
-|:-------|:------------|:------------------------------------------------------------------------------------------------------------------|
-| title  | TextElement | A text object that defines the dialog's title. Max length for the text field in this object is 75 characters.     |
-| text   | TextElement | A text object that defines the dialog's text. Max length for the text field in this object is 300 characters.     |
-| accept | TextElement | A text object that defines the accept button text. Max length for the text field in this object is 75 characters. |
-| deny   | TextElement | A text object that defines the deny button text. Max length for the text field in this object is 75 characters.   |
+| name    | type        | description                                                                                                                 |
+|:--------|:------------|:----------------------------------------------------------------------------------------------------------------------------|
+| title   | TextElement | A text object that defines the dialog's title. Max length for the text field in this object is 75 characters.               |
+| text    | TextElement | A text object that defines the dialog's text. Max length for the text field in this object is 300 characters.               |
+| confirm | TextElement | A text object that defines the confirm button text. Max length for the text field in this object is 75 characters.          |
+| deny    | TextElement | A text object that defines the deny button text. Max length for the text field in this object is 75 characters.             |
+| style   | String      | Defines the color scheme applied to the `confirm` button. Options include: `primary`, `secondary`, `warning`, `danger`.     |
 
 ## Option
 

@@ -205,7 +205,7 @@ The properties below are available on every context:
 | getManifest  | `() => AddonManifest`                   | A method to get the manifest of your App, in this manifest you can find all of your app's secrets and configurations                                         |
 | getAuthUrl   | `() => string`                          | A method to generate a URL that would open Pumble's OAuth2 screen with your `client_id` and `scopes`                                                         |
 
-Every trigger also has it's own methods in the context,
+Every trigger also has its own methods in the context,
 For example `messageShortcuts`, `NEW_MESSAGE`, `UPDATED_MESSAGE` and `REACTION_ADDED` have `fetchMessage()` method
 For more information about triggers and their contexts click here. TBD
 
