@@ -69,7 +69,13 @@ export const attachmentActionsBlock = {
                             },
                             "style": {
                                 "type": "string",
-                                "description": "'primary' | 'secondary' | 'warning' | 'danger'"
+                                "description": "'primary' | 'secondary' | 'warning' | 'danger'",
+                                "enum": [
+                                    "primary",
+                                    "secondary",
+                                    "warning",
+                                    "danger"
+                                ]
                             },
                             "onAction": {
                                 "type": "string",
@@ -129,7 +135,7 @@ export const attachmentActionsBlock = {
                                         },
                                         "additionalProperties": false
                                     },
-                                    "accept": {
+                                    "confirm": {
                                         "title": "BlockTextElement75",
                                         "required": [
                                             "text",
@@ -178,6 +184,16 @@ export const attachmentActionsBlock = {
                                             }
                                         },
                                         "additionalProperties": false
+                                    },
+                                    "style": {
+                                        "type": "string",
+                                        "description": "'primary' | 'secondary' | 'warning' | 'danger'",
+                                        "enum": [
+                                            "primary",
+                                            "secondary",
+                                            "warning",
+                                            "danger"
+                                        ]
                                     }
                                 },
                                 "additionalProperties": false,
@@ -643,7 +659,7 @@ export const attachmentActionsBlock = {
                                         },
                                         "additionalProperties": false
                                     },
-                                    "accept": {
+                                    "confirm": {
                                         "title": "BlockTextElement75",
                                         "required": [
                                             "text",
@@ -692,6 +708,16 @@ export const attachmentActionsBlock = {
                                             }
                                         },
                                         "additionalProperties": false
+                                    },
+                                    "style": {
+                                        "type": "string",
+                                        "description": "'primary' | 'secondary' | 'warning' | 'danger'",
+                                        "enum": [
+                                            "primary",
+                                            "secondary",
+                                            "warning",
+                                            "danger"
+                                        ]
                                     }
                                 },
                                 "additionalProperties": false,
@@ -979,7 +1005,7 @@ export const attachmentActionsBlock = {
                                         },
                                         "additionalProperties": false
                                     },
-                                    "accept": {
+                                    "confirm": {
                                         "title": "BlockTextElement75",
                                         "required": [
                                             "text",
@@ -1028,6 +1054,16 @@ export const attachmentActionsBlock = {
                                             }
                                         },
                                         "additionalProperties": false
+                                    },
+                                    "style": {
+                                        "type": "string",
+                                        "description": "'primary' | 'secondary' | 'warning' | 'danger'",
+                                        "enum": [
+                                            "primary",
+                                            "secondary",
+                                            "warning",
+                                            "danger"
+                                        ]
                                     }
                                 },
                                 "additionalProperties": false,

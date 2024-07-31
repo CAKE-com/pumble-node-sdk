@@ -136,6 +136,9 @@ export const mainBlocks = {
                                                             "name": {
                                                                 "type": "string",
                                                                 "description": "Emoji name"
+                                                            },
+                                                            "skin_tone": {
+                                                                "type": "number"
                                                             }
                                                         },
                                                         "additionalProperties": false
@@ -371,6 +374,9 @@ export const mainBlocks = {
                                                             "name": {
                                                                 "type": "string",
                                                                 "description": "Emoji name"
+                                                            },
+                                                            "skin_tone": {
+                                                                "type": "number"
                                                             }
                                                         },
                                                         "additionalProperties": false
@@ -687,6 +693,9 @@ export const mainBlocks = {
                                                                         "name": {
                                                                             "type": "string",
                                                                             "description": "Emoji name"
+                                                                        },
+                                                                        "skin_tone": {
+                                                                            "type": "number"
                                                                         }
                                                                     },
                                                                     "additionalProperties": false
@@ -935,7 +944,13 @@ export const mainBlocks = {
                                     },
                                     "style": {
                                         "type": "string",
-                                        "description": "'primary' | 'secondary' | 'warning' | 'danger'"
+                                        "description": "'primary' | 'secondary' | 'warning' | 'danger'",
+                                        "enum": [
+                                            "primary",
+                                            "secondary",
+                                            "warning",
+                                            "danger"
+                                        ]
                                     },
                                     "onAction": {
                                         "type": "string",
@@ -995,7 +1010,7 @@ export const mainBlocks = {
                                                 },
                                                 "additionalProperties": false
                                             },
-                                            "accept": {
+                                            "confirm": {
                                                 "title": "BlockTextElement75",
                                                 "required": [
                                                     "text",
@@ -1044,6 +1059,16 @@ export const mainBlocks = {
                                                     }
                                                 },
                                                 "additionalProperties": false
+                                            },
+                                            "style": {
+                                                "type": "string",
+                                                "description": "'primary' | 'secondary' | 'warning' | 'danger'",
+                                                "enum": [
+                                                    "primary",
+                                                    "secondary",
+                                                    "warning",
+                                                    "danger"
+                                                ]
                                             }
                                         },
                                         "additionalProperties": false,
@@ -1509,7 +1534,7 @@ export const mainBlocks = {
                                                 },
                                                 "additionalProperties": false
                                             },
-                                            "accept": {
+                                            "confirm": {
                                                 "title": "BlockTextElement75",
                                                 "required": [
                                                     "text",
@@ -1558,6 +1583,16 @@ export const mainBlocks = {
                                                     }
                                                 },
                                                 "additionalProperties": false
+                                            },
+                                            "style": {
+                                                "type": "string",
+                                                "description": "'primary' | 'secondary' | 'warning' | 'danger'",
+                                                "enum": [
+                                                    "primary",
+                                                    "secondary",
+                                                    "warning",
+                                                    "danger"
+                                                ]
                                             }
                                         },
                                         "additionalProperties": false,
@@ -1845,7 +1880,7 @@ export const mainBlocks = {
                                                 },
                                                 "additionalProperties": false
                                             },
-                                            "accept": {
+                                            "confirm": {
                                                 "title": "BlockTextElement75",
                                                 "required": [
                                                     "text",
@@ -1894,6 +1929,16 @@ export const mainBlocks = {
                                                     }
                                                 },
                                                 "additionalProperties": false
+                                            },
+                                            "style": {
+                                                "type": "string",
+                                                "description": "'primary' | 'secondary' | 'warning' | 'danger'",
+                                                "enum": [
+                                                    "primary",
+                                                    "secondary",
+                                                    "warning",
+                                                    "danger"
+                                                ]
                                             }
                                         },
                                         "additionalProperties": false,
@@ -1976,7 +2021,13 @@ export const mainBlocks = {
                                         },
                                         "style": {
                                             "type": "string",
-                                            "description": "'primary' | 'secondary' | 'warning' | 'danger'"
+                                            "description": "'primary' | 'secondary' | 'warning' | 'danger'",
+                                            "enum": [
+                                                "primary",
+                                                "secondary",
+                                                "warning",
+                                                "danger"
+                                            ]
                                         },
                                         "onAction": {
                                             "type": "string",
@@ -2036,7 +2087,7 @@ export const mainBlocks = {
                                                     },
                                                     "additionalProperties": false
                                                 },
-                                                "accept": {
+                                                "confirm": {
                                                     "title": "BlockTextElement75",
                                                     "required": [
                                                         "text",
@@ -2085,6 +2136,16 @@ export const mainBlocks = {
                                                         }
                                                     },
                                                     "additionalProperties": false
+                                                },
+                                                "style": {
+                                                    "type": "string",
+                                                    "description": "'primary' | 'secondary' | 'warning' | 'danger'",
+                                                    "enum": [
+                                                        "primary",
+                                                        "secondary",
+                                                        "warning",
+                                                        "danger"
+                                                    ]
                                                 }
                                             },
                                             "additionalProperties": false,
@@ -2550,7 +2611,7 @@ export const mainBlocks = {
                                                     },
                                                     "additionalProperties": false
                                                 },
-                                                "accept": {
+                                                "confirm": {
                                                     "title": "BlockTextElement75",
                                                     "required": [
                                                         "text",
@@ -2599,6 +2660,16 @@ export const mainBlocks = {
                                                         }
                                                     },
                                                     "additionalProperties": false
+                                                },
+                                                "style": {
+                                                    "type": "string",
+                                                    "description": "'primary' | 'secondary' | 'warning' | 'danger'",
+                                                    "enum": [
+                                                        "primary",
+                                                        "secondary",
+                                                        "warning",
+                                                        "danger"
+                                                    ]
                                                 }
                                             },
                                             "additionalProperties": false,
@@ -2886,7 +2957,7 @@ export const mainBlocks = {
                                                     },
                                                     "additionalProperties": false
                                                 },
-                                                "accept": {
+                                                "confirm": {
                                                     "title": "BlockTextElement75",
                                                     "required": [
                                                         "text",
@@ -2935,6 +3006,16 @@ export const mainBlocks = {
                                                         }
                                                     },
                                                     "additionalProperties": false
+                                                },
+                                                "style": {
+                                                    "type": "string",
+                                                    "description": "'primary' | 'secondary' | 'warning' | 'danger'",
+                                                    "enum": [
+                                                        "primary",
+                                                        "secondary",
+                                                        "warning",
+                                                        "danger"
+                                                    ]
                                                 }
                                             },
                                             "additionalProperties": false,
