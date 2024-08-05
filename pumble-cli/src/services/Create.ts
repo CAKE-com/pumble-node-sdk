@@ -5,6 +5,7 @@ import childProcess from 'child_process';
 const TEMPLATE_PATH = '../../template';
 import prettier from 'prettier';
 import { logger } from './Logger';
+import os from "os";
 
 export type ReplacementsDict = {
     name: string;
@@ -145,6 +146,7 @@ class Create {
             env: { ...process.env },
             stdio: ['pipe', 'pipe', 'pipe'],
             cwd: dirname,
+            shell: os.platform() === 'win32'
         });
         pr.stdout?.pipe(process.stdout);
         pr.stderr?.pipe(process.stderr);

@@ -10,6 +10,7 @@ import { jsonc } from 'jsonc';
 import _ from 'lodash';
 import { logger } from './Logger';
 import { cyan, yellow } from 'ansis';
+import os from "os";
 
 export type WatcherArgs = {
     globalConfigFile: string;
@@ -61,6 +62,7 @@ class Watcher {
         const compileResult = childProcess.spawnSync('tsc', args.tsconfig ? ['-p', args.tsconfig] : [], {
             stdio: 'inherit',
             killSignal: 'SIGKILL',
+            shell: os.platform() === 'win32'
         });
         if (compileResult.error) {
             throw compileResult.error;
@@ -117,6 +119,7 @@ class Watcher {
                 stdio: 'inherit',
                 detached: false,
                 killSignal: 'SIGKILL',
+                shell: os.platform() === 'win32'
             });
             /**
              * On compiled dir change or `manifest.json` change, kill the running App, and start it again
@@ -205,6 +208,7 @@ class Watcher {
                     PUMBLE_ADDON_EMIT_MANIFEST_PATH: args.emitManifestPath,
                 },
                 killSignal: 'SIGKILL',
+                shell: os.platform() === 'win32'
             }
         );
         this.child.on('close', () => {
