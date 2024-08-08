@@ -63,6 +63,12 @@ export namespace V1 {
         text: string;
     };
 
+    export type DynamicMenuResponse = {
+        triggerId: string;
+        options: Option[];
+        optionsGroups: OptionGroup[];
+    };
+
     export type Option = {
         text: BlockTextElement;
         value: string;

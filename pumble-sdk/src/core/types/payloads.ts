@@ -26,6 +26,7 @@ export type DynamicMenuPayload = AppMessage & {
     query?: string;
     workspaceId: string;
     userId: string;
+    triggerId: string;
 }
 
 export type DynamicMenuOptionsResponse = {
