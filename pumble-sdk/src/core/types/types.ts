@@ -10,8 +10,7 @@ import {
 } from './contexts';
 import { PumbleEventType } from './pumble-events';
 import {V1} from "../../api";
-import Option = V1.Option;
-import OptionGroup = V1.OptionGroup;
+import DynamicMenuResponse = V1.DynamicMenuResponse;
 
 export type ShortcutType = 'GLOBAL' | 'ON_MESSAGE';
 
@@ -49,7 +48,7 @@ type BlockInteraction = {
 type DynamicMenu = {
     url: string;
     onAction: string;
-    producer: Callback<DynamicMenuContext, Promise<Option[] | OptionGroup[]>>
+    producer: Callback<DynamicMenuContext, Promise<DynamicMenuResponse>>
 };
 
 type OptionsForEvent<T extends PumbleEventType> = T extends 'NEW_MESSAGE'

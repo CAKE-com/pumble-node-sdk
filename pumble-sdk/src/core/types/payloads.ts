@@ -26,11 +26,13 @@ export type DynamicMenuPayload = AppMessage & {
     query?: string;
     workspaceId: string;
     userId: string;
+    triggerId: string;
 }
 
 export type DynamicMenuOptionsResponse = {
     onAction: string;
     options: Option[] | OptionGroup[];
+    triggerId: string
 }
 
 export type PumbleEventPayload<T extends PumbleEventType = PumbleEventType> = AppMessage & {

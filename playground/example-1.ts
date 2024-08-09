@@ -1,4 +1,4 @@
-import { App, JsonFileTokenStore, start } from '../pumble-sdk/src';
+import {App, JsonFileTokenStore, start} from '../pumble-sdk/src';
 /*
 Insert this value in manifest.json in the root of your project project
 {
@@ -17,10 +17,13 @@ const app: App = {
     dynamicMenus: [{
         onAction: "dropDown1",
         producer: async (ctx) => {
-            return [
-                {text: {type: "plain_text", text: "Option 1"}, value: "1"},
-                {text: {type: "plain_text", text: "Option 2"}, value: "2"}
-            ]
+            return {
+                triggerId: "123",
+                options: [
+                    {text: {type: "plain_text", text: "Option 1"}, value: "1"},
+                    {text: {type: "plain_text", text: "Option 2"}, value: "2"}
+                ]
+            }
         }
     }],
     blockInteraction: {
@@ -73,7 +76,7 @@ const app: App = {
                                 elements: [
                                     {
                                         type: 'rich_text_section',
-                                        elements: [{ type: 'link', url: 'https://example.com' }],
+                                        elements: [{type: 'link', url: 'https://example.com'}],
                                     },
                                 ],
                             },
@@ -144,21 +147,21 @@ const app: App = {
         },
         {
             name: 'REACTION_ADDED',
-            options: { match: ':robot_face:' },
+            options: {match: ':robot_face:'},
             handler: async (ctx) => {
                 await ctx.say('RECEIVED ROBOT FACE');
             },
         },
         {
             name: 'REACTION_ADDED',
-            options: { match: ':beetle:' },
+            options: {match: ':beetle:'},
             handler: async (ctx) => {
                 await ctx.say('RECEIVED BEETLE');
             },
         },
         {
             name: 'NEW_MESSAGE',
-            options: { includeBotMessages: false, match: /^test/ },
+            options: {includeBotMessages: false, match: /^test/},
             handler: async (ctx) => {
                 console.log('Received message', ctx.payload.body.mId);
                 await ctx.say('received it', 'in_channel', true);
@@ -171,7 +174,8 @@ const app: App = {
             },
         },
     ],
-    onServerConfiguring: (e, addon) => {},
+    onServerConfiguring: (e, addon) => {
+    },
     tokenStore: new JsonFileTokenStore('tokens.json'),
     listingUrl: 'https://listing.com',
     helpUrl: 'https://help.com',
