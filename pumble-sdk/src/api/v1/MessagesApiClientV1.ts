@@ -54,13 +54,14 @@ export class MessagesApiClientV1 extends BaseApiClient {
     public async postEphemeral(
         channelId: string,
         payload: V1.SendMessagePayload,
-        ...toUsers: string[]
+        targetUser: string,
+        ...otherUsers: string[]
     ): Promise<V1.Message> {
         const url = this.urls.postEphemeral(channelId);
         const messageContent = typeof payload === 'string' ? { text: payload } : payload;
         const requestBody = {
             ephemeral: {
-                sendToUsers: toUsers,
+                sendToUsers: [targetUser, ...otherUsers],
             },
             ...messageContent,
         };
