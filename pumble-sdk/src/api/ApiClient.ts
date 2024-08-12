@@ -7,6 +7,7 @@ import {UsersApiClientV1} from './v1/UsersApiClientV1';
 import {WorkspaceApiClientV1} from './v1/WorkspaceApiClientV1';
 import {CallsApiClientV1} from './v1/CallsApiClientV1';
 import {schemasLoader} from "../schemas";
+import {AppClientV1} from "./v1/AppClientV1";
 
 export class ApiClient {
     private axiosInstance: AxiosInstance;
@@ -16,6 +17,7 @@ export class ApiClient {
         users: UsersApiClientV1;
         workspace: WorkspaceApiClientV1;
         calls: CallsApiClientV1;
+        app: AppClientV1;
     };
 
     public constructor(
@@ -73,6 +75,7 @@ export class ApiClient {
             users: new UsersApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
             workspace: new WorkspaceApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
             calls: new CallsApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
+            app: new AppClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
         };
     }
 
