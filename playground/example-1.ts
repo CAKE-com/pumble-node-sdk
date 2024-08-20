@@ -17,14 +17,12 @@ const app: App = {
     dynamicMenus: [{
         onAction: "dropDown1",
         producer: async (ctx) => {
-            return {
-                triggerId: "123",
-                options: [
+            return  [
                     {text: {type: "plain_text", text: "Option 1"}, value: "1"},
                     {text: {type: "plain_text", text: "Option 2"}, value: "2"}
                 ]
             }
-        }
+
     }],
     blockInteraction: {
         interactions: [

@@ -15,7 +15,8 @@ import { AddonManifest } from '../types/types';
 import { setup } from './AddonService';
 import { Addon } from './Addon';
 import {V1} from "../../api";
-import DynamicMenuResponse = V1.DynamicMenuResponse;
+import Option = V1.Option;
+import OptionGroup = V1.OptionGroup;
 
 type OptionsForEvent<T extends PumbleEventType> = T extends 'NEW_MESSAGE'
     ? { match: string | RegExp; includeBotMessages?: boolean }
@@ -89,7 +90,7 @@ export type App = {
     dynamicMenus?: {
         path?: string;
         onAction: string;
-        producer: (ctx: DynamicMenuContext) => (DynamicMenuResponse) | Promise<DynamicMenuResponse>
+        producer: (ctx: DynamicMenuContext) => (Option[] | OptionGroup[]) | Promise<Option[] | OptionGroup[]>
     }[];
     events?: PossibleEvents[];
     eventsPath?: string;
