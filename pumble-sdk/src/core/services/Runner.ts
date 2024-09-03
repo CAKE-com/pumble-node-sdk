@@ -17,6 +17,7 @@ import { Addon } from './Addon';
 import {V1} from "../../api";
 import Option = V1.Option;
 import OptionGroup = V1.OptionGroup;
+import {AxiosError} from "axios";
 
 type OptionsForEvent<T extends PumbleEventType> = T extends 'NEW_MESSAGE'
     ? { match: string | RegExp; includeBotMessages?: boolean }
@@ -268,5 +269,15 @@ class Runner {
 const runner = new Runner();
 
 export const start = async (app: App) => {
+    process.on('uncaughtException', (err) => {
+        console.error('Uncaught Exception:', err);
+    });
+    process.on('unhandledRejection', (reason, promise) => {
+        if (reason instanceof AxiosError) {
+            console.error("Unhandled Axios Error: ", reason?.response);
+        } else {
+            console.error('Unhandled Rejection:', reason);
+        }
+    });
     return runner.start(app);
 };
