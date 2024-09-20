@@ -1078,4 +1078,4 @@ export const attachmentActionsBlock = {
         }
     },
     "additionalProperties": false
-}
+};
