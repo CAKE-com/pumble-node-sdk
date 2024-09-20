@@ -16,6 +16,7 @@ export const attachmentActionsBlock = {
             ]
         },
         "elements": {
+            "maxItems": 100,
             "type": "array",
             "items": {
                 "oneOf": [
@@ -1077,4 +1078,4 @@ export const attachmentActionsBlock = {
         }
     },
     "additionalProperties": false
-};
+}

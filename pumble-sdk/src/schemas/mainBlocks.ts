@@ -21,6 +21,7 @@ export const mainBlocks = {
                         ]
                     },
                     "elements": {
+                        "maxItems": 10000,
                         "type": "array",
                         "items": {
                             "title": "RichTextElement",
@@ -52,6 +53,7 @@ export const mainBlocks = {
                                             ]
                                         },
                                         "elements": {
+                                            "maxItems": 10000,
                                             "type": "array",
                                             "items": {
                                                 "type": "object",
@@ -290,6 +292,7 @@ export const mainBlocks = {
                                             ]
                                         },
                                         "elements": {
+                                            "maxItems": 10000,
                                             "type": "array",
                                             "items": {
                                                 "type": "object",
@@ -528,6 +531,7 @@ export const mainBlocks = {
                                             ]
                                         },
                                         "elements": {
+                                            "maxItems": 10000,
                                             "type": "array",
                                             "items": {
                                                 "required": [
@@ -594,6 +598,7 @@ export const mainBlocks = {
                                             ]
                                         },
                                         "elements": {
+                                            "maxItems": 10000,
                                             "type": "array",
                                             "items": {
                                                 "required": [
@@ -609,6 +614,7 @@ export const mainBlocks = {
                                                         ]
                                                     },
                                                     "elements": {
+                                                        "maxItems": 10000,
                                                         "type": "array",
                                                         "items": {
                                                             "type": "object",
@@ -1968,6 +1974,7 @@ export const mainBlocks = {
                         ]
                     },
                     "elements": {
+                        "maxItems": 100,
                         "type": "array",
                         "items": {
                             "oneOf": [
