@@ -641,4 +641,32 @@ export namespace V1 {
          */
         hiddenFor?: string[];
     }
+
+    export interface FileUploadToken {
+        token: string;
+        remoteProductToken?: string;
+    }
+
+    export interface File {
+        id: string;
+        path: string;
+        name: string;
+    }
+
+    export interface FileDataResponse {
+        mimeType: string;
+        width: number;
+        height: number;
+        size: number;
+        path: string;
+        duration: number;
+        waveform: number[],
+        requestedFileUploadId: string;
+        base64Value: string
+    }
+
+    export interface CompleteFileUpload {
+        original: FileDataResponse;
+        thumbs: FileDataResponse[];
+    }
 }

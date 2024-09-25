@@ -1,4 +1,8 @@
-import {App, JsonFileTokenStore, start} from '../pumble-sdk/src';
+import { App, JsonFileTokenStore, start } from '../pumble-sdk/src';
+var mime = require('mime-types')
+var path = require('path'); 
+var fs = require('fs');
+
 /*
 Insert this value in manifest.json in the root of your project project
 {
@@ -7,8 +11,8 @@ Insert this value in manifest.json in the root of your project project
   "botTitle": "Example 1 Bot",
   "bot": true,
   "scopes": {
-    "botScopes": ["messages:read", "messages:write"],
-    "userScopes": ["messages:read"]
+    "botScopes": ["messages:read", "messages:write", "file:write"],
+    "userScopes": ["messages:read, "file:write"]
   }
 }
  */
@@ -104,6 +108,29 @@ const app: App = {
             command: '/slash_2',
             handler: async (ctx) => {
                 await ctx.ack();
+                console.log('Received slash command!');
+            },
+        },
+        {
+            command: '/slash_3',
+            handler: async (ctx) => {
+                await ctx.ack();
+                const client = await ctx.getUserClient();  
+                const filePath = "./fileupload/example.jpg";      
+
+                const file = await client?.v1.files.uploadFile(filePath)
+                await ctx.say(JSON.stringify({file}))
+
+                
+                try {
+                    const fileBuffer = fs.readFileSync(filePath);
+                    const mimeType = mime.lookup(filePath);
+                    const fileFromBuffer = await client?.v1.files.uploadFileFrom(fileBuffer, path.parse(filePath).base, mimeType);
+                    await ctx.say("File from buffer:" + JSON.stringify({fileFromBuffer}))
+                } catch(e) {
+                    console.log(e)
+                }
+            
                 console.log('Received slash command!');
             },
         },

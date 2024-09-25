@@ -7,13 +7,15 @@
         "botScopes": [
             "messages:write",
             "channels:write",
-            "channels:read"
+            "channels:read",
+            "files:write"
         ],
         "userScopes": [
             "messages:read",
             "messages:edit",
             "channels:read",
-            "messages:write"
+            "messages:write",
+            "files:write"
         ]
     }
 }

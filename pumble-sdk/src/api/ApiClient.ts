@@ -1,16 +1,19 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders} from 'axios';
 import {OAuth2Client} from '../auth';
-import {PUMBLE_API_URL} from '../constants';
+import {PUMBLE_API_URL, PUMBLE_FILEUPLOAD_URL} from '../constants';
 import {ChannelsApiClientV1} from './v1/ChannelsApiClientV1';
 import {MessagesApiClientV1} from './v1/MessagesApiClientV1';
 import {UsersApiClientV1} from './v1/UsersApiClientV1';
 import {WorkspaceApiClientV1} from './v1/WorkspaceApiClientV1';
 import {CallsApiClientV1} from './v1/CallsApiClientV1';
+import { FilesApiClientV1 } from './v1/FilesApiClientV1';
 import {schemasLoader} from "../schemas";
 import {AppClientV1} from "./v1/AppClientV1";
+import { FileuploadApiClient } from './v1/FileuploadApiClient';
 
 export class ApiClient {
     private axiosInstance: AxiosInstance;
+    private fileuploadAxiosInstance: AxiosInstance;
     public readonly v1: {
         channels: ChannelsApiClientV1;
         messages: MessagesApiClientV1;
@@ -18,6 +21,7 @@ export class ApiClient {
         workspace: WorkspaceApiClientV1;
         calls: CallsApiClientV1;
         app: AppClientV1;
+        files: FilesApiClientV1;
     };
 
     public constructor(
@@ -36,6 +40,9 @@ export class ApiClient {
                 'x-app-token': client.appKey,
             },
         });
+        this.fileuploadAxiosInstance = axios.create({
+            baseURL: PUMBLE_FILEUPLOAD_URL
+        })
         this.axiosInstance.interceptors.request.use(async (request) => {
             const controller = new AbortController();
             if (request.method &&
@@ -76,6 +83,7 @@ export class ApiClient {
             workspace: new WorkspaceApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
             calls: new CallsApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
             app: new AppClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
+            files: new FilesApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId, new FileuploadApiClient(this.fileuploadAxiosInstance, this.workspaceId, this.workspaceUserId))
         };
     }
 
