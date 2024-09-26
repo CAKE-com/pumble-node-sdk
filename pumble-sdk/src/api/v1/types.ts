@@ -642,6 +642,11 @@ export namespace V1 {
         hiddenFor?: string[];
     }
 
+    export interface FileUploadTokenRequest {
+        filename: string,
+        length:  number
+    }
+
     export interface FileUploadToken {
         token: string;
         remoteProductToken?: string;
@@ -668,5 +673,16 @@ export namespace V1 {
     export interface CompleteFileUpload {
         original: FileDataResponse;
         thumbs: FileDataResponse[];
+    }
+
+    export interface FileUploadOptions {
+        name: string,
+        mimeType: string
+    }
+
+    export interface ProccessedFile {
+        blob: Blob,
+        name: string,
+        length: number
     }
 }

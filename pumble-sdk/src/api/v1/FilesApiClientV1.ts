@@ -4,6 +4,7 @@ import { V1 } from "./types";
 import { FileuploadApiClient } from "./FileuploadApiClient";
 var fs = require('fs');
 var path = require('path'); 
+var mime = require('mime-types')
 
 export class FilesApiClientV1 extends BaseApiClient {
     public constructor(
@@ -14,26 +15,22 @@ export class FilesApiClientV1 extends BaseApiClient {
     ) {
         super(axiosInstance, workspaceId, workspaceUserId);
         this.fileuploadApiClient = fileuploadApiClient;
-    }
+    }   
 
     private urls = {
-        getRequestFileUploadToken: () => `/v1/files/getUploadToken`,
-        completeFileUpload: () => `/v1/files/completeUpload`,
+        getRequestFileUploadToken: () => `/v1/files/upload/token`,
+        completeFileUpload: () => `/v1/files/upload/complete`,
     };
 
-    public async uploadFile(filePath: string): Promise<V1.File|null> {    
-        let fileSize = 0;
-        try {
-            const fileStats = fs.statSync(filePath);
-            fileSize = fileStats.size;
-        } catch (e) {
-            console.log(`Error while fetching file size. Err: ${e}.`)
+    public async uploadFile(input: Buffer|Blob|String, options?: V1.FileUploadOptions): Promise<V1.File|null> {
+        var processedInput = await this.processInput(input, options);
+        if (!processedInput) {
             return null;
         }
 
-        const uploadToken = await this.getUploadToken(path.parse(filePath).base, fileSize);
+        const uploadToken = await this.getUploadToken(processedInput.name, processedInput.length);
 
-        const uploadedFile = await this.fileuploadApiClient.uploadFile(filePath, uploadToken);
+        const uploadedFile = await this.fileuploadApiClient.uploadFile(processedInput.blob, processedInput.name, uploadToken);
         if (!uploadedFile) {
             return null;
         }
@@ -41,17 +38,53 @@ export class FilesApiClientV1 extends BaseApiClient {
         return await this.completeFileUpload(uploadedFile);
     }
 
-    public async uploadFileFrom(file: Buffer, name: string, mimeType: string): Promise<V1.File|null> {
-        const fileSize = file.length;
+    private async processInput(input: Buffer|Blob|String, options?: V1.FileUploadOptions): Promise<V1.ProccessedFile|null> {
+        if (input instanceof Blob) {
+            if (!options) {
+                return null;
+            }
 
-        const uploadToken = await this.getUploadToken(name, fileSize);
+            return {
+                blob: input,
+                name: options.name,
+                length: input.size
+            };
+        }
 
-        const uploadedFile = await this.fileuploadApiClient.uploadFileFrom(file, name, mimeType, uploadToken);
-        if (!uploadedFile) {
+        if (input instanceof Buffer) {
+            if (!options) {
+                return null;
+            }
+
+            return {
+                blob: new Blob([input], {type: options.mimeType ? options.mimeType : 'application/octet-stream'}),
+                name: options.name,
+                length: input.length
+            };
+        }
+
+        const buffer = await this.readFile(input);
+        if (!buffer) {
             return null;
         }
-        
-        return await this.completeFileUpload(uploadedFile);
+
+
+        const name = options?.name ? options.name : path.parse(input).base;
+        const mimeTypeFromPath = mime.lookup(input);
+        return {
+            blob: new Blob([buffer], {type: options?.mimeType ? options.mimeType : mimeTypeFromPath}),
+            name: name,
+            length: buffer.length
+        };
+    }
+
+    private async readFile(filePath: String): Promise<Buffer|null> {
+        try {
+            return fs.readFileSync(filePath);
+        } catch (e) {
+            console.log(`Error while reading ${filePath}. Err: ${e}.`);
+            return null;
+        }
     }
 
     private async getUploadToken(fileName: string, fileSize: number): Promise<V1.FileUploadToken> {
@@ -62,9 +95,7 @@ export class FilesApiClientV1 extends BaseApiClient {
             url: getUploadTokenUrl,
             data: {
                 filename: fileName,
-                length: fileSize,
-                audioRecording: false,
-                videoRecording: false
+                length: fileSize
             }
         });
     }

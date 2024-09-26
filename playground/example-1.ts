@@ -11,8 +11,8 @@ Insert this value in manifest.json in the root of your project project
   "botTitle": "Example 1 Bot",
   "bot": true,
   "scopes": {
-    "botScopes": ["messages:read", "messages:write", "file:write"],
-    "userScopes": ["messages:read, "file:write"]
+    "botScopes": ["messages:read", "messages:write", "files:write"],
+    "userScopes": ["messages:read, "files:write"]
   }
 }
  */
@@ -119,17 +119,23 @@ const app: App = {
                 const filePath = "./fileupload/example.jpg";      
 
                 const file = await client?.v1.files.uploadFile(filePath)
-                await ctx.say(JSON.stringify({file}))
+                await ctx.say(`File from path: ${JSON.stringify({file})}`)
 
-                
                 try {
                     const fileBuffer = fs.readFileSync(filePath);
                     const mimeType = mime.lookup(filePath);
-                    const fileFromBuffer = await client?.v1.files.uploadFileFrom(fileBuffer, path.parse(filePath).base, mimeType);
-                    await ctx.say("File from buffer:" + JSON.stringify({fileFromBuffer}))
+                    const name = path.parse(filePath).base;
+
+                    const fileFromBuffer = await client?.v1.files.uploadFile(fileBuffer, {name: name, mimeType: mimeType});
+                    await ctx.say(`File from buffer: ${JSON.stringify({fileFromBuffer})}`);
+
+                    const blob = new Blob([fileBuffer], {type: mimeType});
+                    const fileFromBlob = await client?.v1.files.uploadFile(blob, {name: name, mimeType: mimeType});
+                    await ctx.say(`File from blob: ${JSON.stringify({fileFromBlob})}`);
                 } catch(e) {
                     console.log(e)
                 }
+
             
                 console.log('Received slash command!');
             },
