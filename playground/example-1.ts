@@ -116,26 +116,27 @@ const app: App = {
             handler: async (ctx) => {
                 await ctx.ack();
                 const client = await ctx.getUserClient();  
-                const filePath = "./fileupload/example.jpg";      
+                if (client) {
+                    const filePath = "./fileupload/example.jpg";      
 
-                const file = await client?.v1.files.uploadFile(filePath)
-                await ctx.say(`File from path: ${JSON.stringify({file})}`)
-
-                try {
-                    const fileBuffer = fs.readFileSync(filePath);
-                    const mimeType = mime.lookup(filePath);
-                    const name = path.parse(filePath).base;
-
-                    const fileFromBuffer = await client?.v1.files.uploadFile(fileBuffer, {name: name, mimeType: mimeType});
-                    await ctx.say(`File from buffer: ${JSON.stringify({fileFromBuffer})}`);
-
-                    const blob = new Blob([fileBuffer], {type: mimeType});
-                    const fileFromBlob = await client?.v1.files.uploadFile(blob, {name: name, mimeType: mimeType});
-                    await ctx.say(`File from blob: ${JSON.stringify({fileFromBlob})}`);
-                } catch(e) {
-                    console.log(e)
+                    const file = await client?.v1.files.uploadFile(filePath)
+                    await ctx.say(`File from path: ${JSON.stringify({file})}`)
+    
+                    try {
+                        const fileBuffer = fs.readFileSync(filePath);
+                        const mimeType = mime.lookup(filePath);
+                        const name = path.parse(filePath).base;
+    
+                        const fileFromBuffer = await client?.v1.files.uploadFile(fileBuffer, {name: name, mimeType: mimeType});
+                        await ctx.say(`File from buffer: ${JSON.stringify({fileFromBuffer})}`);
+    
+                        const blob = new Blob([fileBuffer], {type: mimeType});
+                        const fileFromBlob = await client?.v1.files.uploadFile(blob, {name: name, mimeType: mimeType});
+                        await ctx.say(`File from blob: ${JSON.stringify({fileFromBlob})}`);
+                    } catch(e) {
+                        console.log(e)
+                    }
                 }
-
             
                 console.log('Received slash command!');
             },
