@@ -21,6 +21,7 @@ export namespace V1 {
               text: string;
               blocks?: MainBlock[];
               attachments?: MessageAttachment[];
+              files?: string[]
           }
         | string;
 

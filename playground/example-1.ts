@@ -127,12 +127,18 @@ const app: App = {
                         const mimeType = mime.lookup(filePath);
                         const name = path.parse(filePath).base;
     
-                        const fileFromBuffer = await client?.v1.files.uploadFile(fileBuffer, {name: name, mimeType: mimeType});
+                        const fileFromBuffer = await client.v1.files.uploadFile(fileBuffer, {name: name, mimeType: mimeType});
                         await ctx.say(`File from buffer: ${JSON.stringify({fileFromBuffer})}`);
     
                         const blob = new Blob([fileBuffer], {type: mimeType});
-                        const fileFromBlob = await client?.v1.files.uploadFile(blob, {name: name, mimeType: mimeType});
+                        const fileFromBlob = await client.v1.files.uploadFile(blob, {name: name, mimeType: mimeType});
                         await ctx.say(`File from blob: ${JSON.stringify({fileFromBlob})}`);
+
+                        const files = fileFromBlob ? [fileFromBlob.id] : [];
+                        const message = await client.v1.messages.postMessageToChannel(ctx.payload.channelId, {
+                            text: "File in message",
+                            files: files
+                        })
                     } catch(e) {
                         console.log(e)
                     }
