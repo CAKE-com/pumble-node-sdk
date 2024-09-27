@@ -1,4 +1,4 @@
-import { App, JsonFileTokenStore, start } from '../pumble-sdk/src';
+import { App, JsonFileTokenStore, start, V1 } from '../pumble-sdk/src';
 var mime = require('mime-types')
 var path = require('path'); 
 var fs = require('fs');
@@ -117,24 +117,19 @@ const app: App = {
                 await ctx.ack();
                 const client = await ctx.getUserClient();  
                 if (client) {
-                    const filePath = "./fileupload/example.jpg";      
-
-                    const file = await client?.v1.files.uploadFile(filePath)
-                    await ctx.say(`File from path: ${JSON.stringify({file})}`)
-    
                     try {
+                        const filePath = "./fileupload/example.jpg";     
+                        const files: V1.FileToUpload[] = []; 
+                        files.push({input: filePath})
+
                         const fileBuffer = fs.readFileSync(filePath);
                         const mimeType = mime.lookup(filePath);
                         const name = path.parse(filePath).base;
-    
-                        const fileFromBuffer = await client.v1.files.uploadFile(fileBuffer, {name: name, mimeType: mimeType});
-                        await ctx.say(`File from buffer: ${JSON.stringify({fileFromBuffer})}`);
-    
-                        const blob = new Blob([fileBuffer], {type: mimeType});
-                        const fileFromBlob = await client.v1.files.uploadFile(blob, {name: name, mimeType: mimeType});
-                        await ctx.say(`File from blob: ${JSON.stringify({fileFromBlob})}`);
+                        files.push({input: fileBuffer, options: {name: name, mimeType: mimeType}});
 
-                        const files = fileFromBlob ? [fileFromBlob.id] : [];
+                        const blob = new Blob([fileBuffer], {type: mimeType});
+                        files.push({input: blob, options: {name: name, mimeType: mimeType}});
+
                         const message = await client.v1.messages.postMessageToChannel(ctx.payload.channelId, {
                             text: "File in message",
                             files: files

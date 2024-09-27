@@ -1,7 +1,7 @@
 import { BaseApiClient } from "../BaseApiClient";
 import { V1 } from "./types";
 
-export class FileuploadApiClient extends BaseApiClient {
+export class FileuploadApiClientV1 extends BaseApiClient {
     private urls = {
         uploadFile: () => `/upload/files`
     };

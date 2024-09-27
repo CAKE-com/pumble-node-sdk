@@ -6,10 +6,8 @@ import {MessagesApiClientV1} from './v1/MessagesApiClientV1';
 import {UsersApiClientV1} from './v1/UsersApiClientV1';
 import {WorkspaceApiClientV1} from './v1/WorkspaceApiClientV1';
 import {CallsApiClientV1} from './v1/CallsApiClientV1';
-import { FilesApiClientV1 } from './v1/FilesApiClientV1';
 import {schemasLoader} from "../schemas";
 import {AppClientV1} from "./v1/AppClientV1";
-import { FileuploadApiClient } from './v1/FileuploadApiClient';
 
 export class ApiClient {
     private axiosInstance: AxiosInstance;
@@ -21,7 +19,6 @@ export class ApiClient {
         workspace: WorkspaceApiClientV1;
         calls: CallsApiClientV1;
         app: AppClientV1;
-        files: FilesApiClientV1;
     };
 
     public constructor(
@@ -78,12 +75,11 @@ export class ApiClient {
         });
         this.v1 = {
             channels: new ChannelsApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
-            messages: new MessagesApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
+            messages: new MessagesApiClientV1(this.axiosInstance, this.fileuploadAxiosInstance, this.workspaceId, this.workspaceUserId),
             users: new UsersApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
             workspace: new WorkspaceApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
             calls: new CallsApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
-            app: new AppClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
-            files: new FilesApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId, new FileuploadApiClient(this.fileuploadAxiosInstance, this.workspaceId, this.workspaceUserId))
+            app: new AppClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId)
         };
     }
 

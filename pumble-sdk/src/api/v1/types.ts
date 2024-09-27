@@ -21,9 +21,16 @@ export namespace V1 {
               text: string;
               blocks?: MainBlock[];
               attachments?: MessageAttachment[];
-              files?: string[]
+              files?: FileToUpload[]
           }
         | string;
+
+    export type MessageRequest = {
+        text: string;
+        blocks?: MainBlock[];
+        attachments?: MessageAttachment[];
+        files?: String[]
+    }
 
     export type BlockRichTextSection = {
         type: 'rich_text_section';
@@ -685,5 +692,10 @@ export namespace V1 {
         blob: Blob,
         name: string,
         length: number
+    }
+
+    export interface FileToUpload {
+        input: Buffer|Blob|String,
+        options?: V1.FileUploadOptions
     }
 }

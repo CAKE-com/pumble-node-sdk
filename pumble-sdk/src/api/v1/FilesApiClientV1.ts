@@ -1,20 +1,21 @@
 import { AxiosInstance } from "axios";
 import { BaseApiClient } from "../BaseApiClient";
 import { V1 } from "./types";
-import { FileuploadApiClient } from "./FileuploadApiClient";
+import { FileuploadApiClientV1 } from "./FileuploadApiClientV1";
 var fs = require('fs');
 var path = require('path'); 
 var mime = require('mime-types')
 
 export class FilesApiClientV1 extends BaseApiClient {
+    fileuploadApiClient: FileuploadApiClientV1;
     public constructor(
         protected axiosInstance: AxiosInstance,
+        protected fileuploadAxiosInstance: AxiosInstance,
         protected workspaceId: string,
-        protected workspaceUserId: string,
-        protected fileuploadApiClient: FileuploadApiClient
+        protected workspaceUserId: string
     ) {
         super(axiosInstance, workspaceId, workspaceUserId);
-        this.fileuploadApiClient = fileuploadApiClient;
+        this.fileuploadApiClient = new FileuploadApiClientV1(fileuploadAxiosInstance, workspaceId, workspaceUserId);
     }   
 
     private urls = {

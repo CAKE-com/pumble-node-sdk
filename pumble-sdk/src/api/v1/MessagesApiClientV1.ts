@@ -1,8 +1,21 @@
 import { BaseApiClient } from '../BaseApiClient';
 import { V1 } from './types';
 import { ChannelsApiClientV1 } from './ChannelsApiClientV1';
+import { FilesApiClientV1 } from './FilesApiClientV1';
+import { AxiosInstance } from 'axios';
 
 export class MessagesApiClientV1 extends BaseApiClient {
+    fileApiClientV1: FilesApiClientV1;
+    public constructor(
+        protected axiosInstance: AxiosInstance,
+        protected fileuploadAxiosInstance: AxiosInstance,
+        protected workspaceId: string,
+        protected workspaceUserId: string
+    ) {
+        super(axiosInstance, workspaceId, workspaceUserId);
+        this.fileApiClientV1 = new FilesApiClientV1(axiosInstance, fileuploadAxiosInstance, workspaceId, workspaceUserId);
+    }  
+
     private urls = {
         fetchMessage: (channelId: string, messageId: string) => `/v1/channels/${channelId}/messages/${messageId}`,
         fetchMessages: (channelId: string) => `/v1/channels/${channelId}/messages`,
@@ -41,13 +54,49 @@ export class MessagesApiClientV1 extends BaseApiClient {
 
     public async postMessageToChannel(channelId: string, payload: V1.SendMessagePayload): Promise<V1.Message> {
         const url = this.urls.postMessageToChannel(channelId);
-        const messageContent = typeof payload === 'string' ? { text: payload } : payload;
+        const messageContent = await this.processMessagePayload(payload);
+
         return await this.request<V1.Message>({ method: 'post', url, data: messageContent });
+    }
+
+    private async processMessagePayload(payload: V1.SendMessagePayload): Promise<V1.MessageRequest> {
+        if (typeof payload === 'string') {
+            return { text: payload };
+        }
+
+        if (!payload.files) {
+            return {
+                text: payload.text,
+                blocks: payload.blocks,
+                attachments: payload.attachments,
+                files: []
+            }
+        }
+
+        if (payload.files.length > 20) {
+            throw new Error("Message can not have more than 20 files.")
+        }
+
+        const fileIds: String[] = [];
+        await Promise.all(payload.files.map(async (file) => {
+            const uploadedFile = await this.fileApiClientV1.uploadFile(file.input, file?.options);
+            if (uploadedFile) {
+                fileIds.push(uploadedFile?.id);
+            }
+        }));
+
+        return {
+            text: payload.text,
+            blocks: payload.blocks,
+            attachments: payload.attachments,
+            files: fileIds
+        }
     }
 
     public async reply(threadRootId: string, channelId: string, payload: V1.SendMessagePayload): Promise<V1.Message> {
         const url = this.urls.reply(channelId, threadRootId);
-        const messageContent = typeof payload === 'string' ? { text: payload } : payload;
+        const messageContent = await this.processMessagePayload(payload);
+        
         return await this.request<V1.Message>({ method: 'post', url, data: messageContent });
     }
 
