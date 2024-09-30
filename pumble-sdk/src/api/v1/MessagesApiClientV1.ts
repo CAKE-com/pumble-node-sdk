@@ -12,6 +12,7 @@ export class MessagesApiClientV1 extends BaseApiClient {
         replyEphemeral: (channelId: string, threadRootId: string) =>
             `/v1/channels/${channelId}/messages/${threadRootId}`,
         editMessage: (channelId: string, messageId: string) => `/v1/channels/${channelId}/messages/${messageId}`,
+        editEphemeralMessage: (channelId: string, messageId: string) => `/v1/channels/${channelId}/messages/${messageId}`,
         editAttachments: (channelId: string, messageId: string) => `/v1/channels/${channelId}/messages/${messageId}/attachments`,
         deleteMessage: (channelId: string, messageId: string) => `/v1/channels/${channelId}/messages/${messageId}`,
         fetchThreadReplies: (channelId: string, threadRootId: string) =>
@@ -96,6 +97,19 @@ export class MessagesApiClientV1 extends BaseApiClient {
             url,
             data: typeof payload === 'string' ? { text: payload } : payload,
         });
+    }
+
+    public async editEphemeralMessage(
+        messageId: string,
+        channelId: string,
+        payload: V1.EditEphemeralMessageRequestBody
+    ): Promise<V1.Message> {
+        const url = this.urls.editEphemeralMessage(channelId, messageId);
+        return await this.request({
+            method: 'PUT',
+            url,
+            data: payload
+        })
     }
 
     public async editAttachments(
