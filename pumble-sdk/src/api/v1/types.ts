@@ -476,6 +476,13 @@ export namespace V1 {
         alsoSendToChannel?: boolean;
     }
 
+    export interface EditEphemeralMessageRequestBody {
+        text: string;
+        blocks?: MainBlock[],
+        attachments?: MessageAttachment[];
+        ephemeral: EphemeralMessageParams;
+    }
+
     export interface Avatar {
         fullPath: string;
         scaledPath: string;

@@ -138,7 +138,18 @@ const app: App = {
                         console.log(e)
                     }
                 }
-            
+            }
+        },
+        {
+            command: '/slash_4',
+            handler: async (ctx) => {
+                await ctx.ack();
+                const client = await ctx.getUserClient();
+
+                if (client) {
+                    const ephemeralMessage = await client.v1.messages.postEphemeral(ctx.payload.channelId, {text: "Test ephemeral message"}, ctx.payload.userId);
+                    client.v1.messages.editEphemeralMessage(ephemeralMessage.id, ephemeralMessage.channelId, {text: "Edited ephemeral message.", ephemeral: {sendToUsers: [ctx.payload.userId]}})
+                }
                 console.log('Received slash command!');
             },
         },
