@@ -21,8 +21,16 @@ export namespace V1 {
               text: string;
               blocks?: MainBlock[];
               attachments?: MessageAttachment[];
+              files?: FileToUpload[]
           }
         | string;
+
+    export type MessageRequest = {
+        text: string;
+        blocks?: MainBlock[];
+        attachments?: MessageAttachment[];
+        files?: String[]
+    }
 
     export type BlockRichTextSection = {
         type: 'rich_text_section';
@@ -647,5 +655,54 @@ export namespace V1 {
          * @minItems 0
          */
         hiddenFor?: string[];
+    }
+
+    export interface FileUploadTokenRequest {
+        filename: string,
+        length:  number
+    }
+
+    export interface FileUploadToken {
+        token: string;
+        remoteProductToken?: string;
+    }
+
+    export interface File {
+        id: string;
+        path: string;
+        name: string;
+    }
+
+    export interface FileDataResponse {
+        mimeType: string;
+        width: number;
+        height: number;
+        size: number;
+        path: string;
+        duration: number;
+        waveform: number[],
+        requestedFileUploadId: string;
+        base64Value: string
+    }
+
+    export interface CompleteFileUpload {
+        original: FileDataResponse;
+        thumbs: FileDataResponse[];
+    }
+
+    export interface FileUploadOptions {
+        name: string,
+        mimeType: string
+    }
+
+    export interface ProccessedFile {
+        blob: Blob,
+        name: string,
+        length: number
+    }
+
+    export interface FileToUpload {
+        input: Buffer|Blob|String,
+        options?: V1.FileUploadOptions
     }
 }

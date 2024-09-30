@@ -1,6 +1,6 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders} from 'axios';
 import {OAuth2Client} from '../auth';
-import {PUMBLE_API_URL} from '../constants';
+import {PUMBLE_API_URL, PUMBLE_FILEUPLOAD_URL} from '../constants';
 import {ChannelsApiClientV1} from './v1/ChannelsApiClientV1';
 import {MessagesApiClientV1} from './v1/MessagesApiClientV1';
 import {UsersApiClientV1} from './v1/UsersApiClientV1';
@@ -11,6 +11,7 @@ import {AppClientV1} from "./v1/AppClientV1";
 
 export class ApiClient {
     private axiosInstance: AxiosInstance;
+    private fileuploadAxiosInstance: AxiosInstance;
     public readonly v1: {
         channels: ChannelsApiClientV1;
         messages: MessagesApiClientV1;
@@ -36,6 +37,9 @@ export class ApiClient {
                 'x-app-token': client.appKey,
             },
         });
+        this.fileuploadAxiosInstance = axios.create({
+            baseURL: PUMBLE_FILEUPLOAD_URL
+        })
         this.axiosInstance.interceptors.request.use(async (request) => {
             const controller = new AbortController();
             if (request.method &&
@@ -71,11 +75,11 @@ export class ApiClient {
         });
         this.v1 = {
             channels: new ChannelsApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
-            messages: new MessagesApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
+            messages: new MessagesApiClientV1(this.axiosInstance, this.fileuploadAxiosInstance, this.workspaceId, this.workspaceUserId),
             users: new UsersApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
             workspace: new WorkspaceApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
             calls: new CallsApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
-            app: new AppClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
+            app: new AppClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId)
         };
     }
 

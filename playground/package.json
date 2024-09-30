@@ -16,7 +16,8 @@
         "info": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli info",
         "help": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli --help",
         "update": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli update --program ./dist/playground/example-1.js",
-        "update_host": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli update --host=https://www.google.com --program ./dist/playground/example-1.js"
+        "update_host": "rm -rf dist && tsc && cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && node ../pumble-cli/bin/pumble-cli update --host=https://www.google.com --program ./dist/playground/example-1.js",
+        "dev-local": "cd ../pumble-cli && rm -rf dist && tsc && cd ../playground && PUMBLE_API_URL=http://localhost:8080 PUMBLE_FILEUPLOAD_URL=http://localhost:8888 ../pumble-cli/bin/pumble-cli --program ./dist/playground/example-1.js --inspect 0.0.0.0:9231"
     },
     "keywords": [],
     "author": "",
@@ -26,6 +27,10 @@
         "axios": "^1.6.7",
         "express": "^4.18.2",
         "lodash": "^4.17.21",
+        "mime-types": "^2.1.35",
         "ws": "^8.16.0"
+    },
+    "devDependencies": {
+        "@types/node": "^22.5.5"
     }
 }

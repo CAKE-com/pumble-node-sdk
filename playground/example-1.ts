@@ -1,4 +1,8 @@
-import {App, JsonFileTokenStore, start} from '../pumble-sdk/src';
+import { App, JsonFileTokenStore, start, V1 } from '../pumble-sdk/src';
+var mime = require('mime-types')
+var path = require('path'); 
+var fs = require('fs');
+
 /*
 Insert this value in manifest.json in the root of your project project
 {
@@ -7,8 +11,8 @@ Insert this value in manifest.json in the root of your project project
   "botTitle": "Example 1 Bot",
   "bot": true,
   "scopes": {
-    "botScopes": ["messages:read", "messages:write"],
-    "userScopes": ["messages:read"]
+    "botScopes": ["messages:read", "messages:write", "files:write"],
+    "userScopes": ["messages:read, "files:write"]
   }
 }
  */
@@ -106,6 +110,35 @@ const app: App = {
                 await ctx.ack();
                 console.log('Received slash command!');
             },
+        },
+        {
+            command: '/slash_3',
+            handler: async (ctx) => {
+                await ctx.ack();
+                const client = await ctx.getUserClient();  
+                if (client) {
+                    try {
+                        const filePath = "./fileupload/example.jpg";     
+                        const files: V1.FileToUpload[] = []; 
+                        files.push({input: filePath})
+
+                        const fileBuffer = fs.readFileSync(filePath);
+                        const mimeType = mime.lookup(filePath);
+                        const name = path.parse(filePath).base;
+                        files.push({input: fileBuffer, options: {name: name, mimeType: mimeType}});
+
+                        const blob = new Blob([fileBuffer], {type: mimeType});
+                        files.push({input: blob, options: {name: name, mimeType: mimeType}});
+
+                        const message = await client.v1.messages.postMessageToChannel(ctx.payload.channelId, {
+                            text: "File in message",
+                            files: files
+                        })
+                    } catch(e) {
+                        console.log(e)
+                    }
+                }
+            }
         },
         {
             command: '/slash_4',
