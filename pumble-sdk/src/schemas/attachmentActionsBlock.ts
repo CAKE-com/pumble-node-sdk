@@ -15,6 +15,10 @@ export const attachmentActionsBlock = {
                 "actions"
             ]
         },
+        "blockId": {
+            "maxLength": 100,
+            "type": "string"
+        },
         "elements": {
             "type": "array",
             "items": {
@@ -32,6 +36,10 @@ export const attachmentActionsBlock = {
                                 "enum": [
                                     "button"
                                 ]
+                            },
+                            "blockId": {
+                                "maxLength": 100,
+                                "type": "string"
                             },
                             "text": {
                                 "title": "BlockTextElement75",
@@ -216,6 +224,10 @@ export const attachmentActionsBlock = {
                                 "enum": [
                                     "static_select_menu"
                                 ]
+                            },
+                            "blockId": {
+                                "maxLength": 100,
+                                "type": "string"
                             },
                             "placeholder": {
                                 "title": "BlockTextElement75",
@@ -739,6 +751,10 @@ export const attachmentActionsBlock = {
                                 "enum": [
                                     "dynamic_select_menu"
                                 ]
+                            },
+                            "blockId": {
+                                "maxLength": 100,
+                                "type": "string"
                             },
                             "placeholder": {
                                 "title": "BlockTextElement75",
