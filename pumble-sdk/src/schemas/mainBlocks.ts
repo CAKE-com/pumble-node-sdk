@@ -21,6 +21,7 @@ export const mainBlocks = {
                         ]
                     },
                     "elements": {
+                        "maxItems": 10000,
                         "type": "array",
                         "items": {
                             "title": "RichTextElement",
@@ -52,6 +53,7 @@ export const mainBlocks = {
                                             ]
                                         },
                                         "elements": {
+                                            "maxItems": 10000,
                                             "type": "array",
                                             "items": {
                                                 "type": "object",
@@ -290,6 +292,7 @@ export const mainBlocks = {
                                             ]
                                         },
                                         "elements": {
+                                            "maxItems": 10000,
                                             "type": "array",
                                             "items": {
                                                 "type": "object",
@@ -528,6 +531,7 @@ export const mainBlocks = {
                                             ]
                                         },
                                         "elements": {
+                                            "maxItems": 10000,
                                             "type": "array",
                                             "items": {
                                                 "required": [
@@ -594,6 +598,7 @@ export const mainBlocks = {
                                             ]
                                         },
                                         "elements": {
+                                            "maxItems": 10000,
                                             "type": "array",
                                             "items": {
                                                 "required": [
@@ -609,6 +614,7 @@ export const mainBlocks = {
                                                         ]
                                                     },
                                                     "elements": {
+                                                        "maxItems": 10000,
                                                         "type": "array",
                                                         "items": {
                                                             "type": "object",
@@ -859,6 +865,10 @@ export const mainBlocks = {
                             "input"
                         ]
                     },
+                    "blockId": {
+                        "maxLength": 100,
+                        "type": "string"
+                    },
                     "label": {
                         "title": "BlockTextElement75",
                         "required": [
@@ -907,6 +917,10 @@ export const mainBlocks = {
                                         "enum": [
                                             "button"
                                         ]
+                                    },
+                                    "blockId": {
+                                        "maxLength": 100,
+                                        "type": "string"
                                     },
                                     "text": {
                                         "title": "BlockTextElement75",
@@ -1091,6 +1105,10 @@ export const mainBlocks = {
                                         "enum": [
                                             "static_select_menu"
                                         ]
+                                    },
+                                    "blockId": {
+                                        "maxLength": 100,
+                                        "type": "string"
                                     },
                                     "placeholder": {
                                         "title": "BlockTextElement75",
@@ -1615,6 +1633,10 @@ export const mainBlocks = {
                                             "dynamic_select_menu"
                                         ]
                                     },
+                                    "blockId": {
+                                        "maxLength": 100,
+                                        "type": "string"
+                                    },
                                     "placeholder": {
                                         "title": "BlockTextElement75",
                                         "required": [
@@ -1967,6 +1989,10 @@ export const mainBlocks = {
                             "actions"
                         ]
                     },
+                    "blockId": {
+                        "maxLength": 100,
+                        "type": "string"
+                    },
                     "elements": {
                         "type": "array",
                         "items": {
@@ -1984,6 +2010,10 @@ export const mainBlocks = {
                                             "enum": [
                                                 "button"
                                             ]
+                                        },
+                                        "blockId": {
+                                            "maxLength": 100,
+                                            "type": "string"
                                         },
                                         "text": {
                                             "title": "BlockTextElement75",
@@ -2168,6 +2198,10 @@ export const mainBlocks = {
                                             "enum": [
                                                 "static_select_menu"
                                             ]
+                                        },
+                                        "blockId": {
+                                            "maxLength": 100,
+                                            "type": "string"
                                         },
                                         "placeholder": {
                                             "title": "BlockTextElement75",
@@ -2691,6 +2725,10 @@ export const mainBlocks = {
                                             "enum": [
                                                 "dynamic_select_menu"
                                             ]
+                                        },
+                                        "blockId": {
+                                            "maxLength": 100,
+                                            "type": "string"
                                         },
                                         "placeholder": {
                                             "title": "BlockTextElement75",
