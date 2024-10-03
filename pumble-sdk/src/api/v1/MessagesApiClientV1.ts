@@ -44,7 +44,7 @@ export class MessagesApiClientV1 extends BaseApiClient {
         channelId: string,
         cursor: string | null = null,
         count = 1,
-        strategy : string = 'BEFORE'
+        strategy : 'BEFORE' | 'AROUND' | 'AFTER' = 'BEFORE'
     ): Promise<{ messages: V1.Message[] }> {
         const url = this.urls.fetchMessages(channelId);
         return await this.request<{ messages: V1.Message[] }>({
