@@ -43,13 +43,14 @@ export class MessagesApiClientV1 extends BaseApiClient {
     public async fetchMessages(
         channelId: string,
         cursor: string | null = null,
-        count = 1
+        count = 1,
+        strategy : 'BEFORE' | 'AROUND' | 'AFTER' = 'BEFORE'
     ): Promise<{ messages: V1.Message[] }> {
         const url = this.urls.fetchMessages(channelId);
         return await this.request<{ messages: V1.Message[] }>({
             method: 'get',
             url,
-            params: { limit: count, strategy: 'BEFORE', cursor },
+            params: { limit: count, strategy: strategy, cursor },
         });
     }
 
