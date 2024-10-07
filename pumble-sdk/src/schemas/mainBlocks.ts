@@ -1994,6 +1994,7 @@ export const mainBlocks = {
                         "type": "string"
                     },
                     "elements": {
+                        "maxItems": 100,
                         "type": "array",
                         "items": {
                             "oneOf": [

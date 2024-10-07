@@ -20,6 +20,7 @@ export const attachmentActionsBlock = {
             "type": "string"
         },
         "elements": {
+            "maxItems": 100,
             "type": "array",
             "items": {
                 "oneOf": [
