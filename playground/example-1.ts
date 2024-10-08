@@ -11,8 +11,8 @@ Insert this value in manifest.json in the root of your project project
   "botTitle": "Example 1 Bot",
   "bot": true,
   "scopes": {
-    "botScopes": ["messages:read", "messages:write", "files:write"],
-    "userScopes": ["messages:read, "files:write"]
+    "botScopes": ["messages:read", "messages:write", "files:write", "messages:delete"],
+    "userScopes": ["messages:read, "files:write", "messages:delete"]
   }
 }
  */
@@ -151,6 +151,25 @@ const app: App = {
                     client.v1.messages.editEphemeralMessage(ephemeralMessage.id, ephemeralMessage.channelId, {text: "Edited ephemeral message.", ephemeral: {sendToUsers: [ctx.payload.userId]}})
                 }
                 console.log('Received slash command!');
+            },
+        },
+        {
+            command: '/slash_5',
+            handler: async (ctx) => {
+                await ctx.ack();
+                const client = await ctx.getUserClient();
+
+                const commandParts = ctx.payload.text.split(' ').map((x) => x.trim());
+                const messageId: string|null = commandParts?.at(0) ? commandParts?.at(0) as string : null
+
+                if (!messageId) {
+                    return;
+                }
+
+                if (client) {
+                    client.v1.messages.deleteEphemeralMessage(messageId, ctx.payload.channelId, {deleteForUsers: [ctx.payload.userId]})
+                }
+                console.log('Finished slash command 5!');
             },
         },
     ],
