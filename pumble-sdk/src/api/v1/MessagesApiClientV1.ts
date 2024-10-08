@@ -28,6 +28,7 @@ export class MessagesApiClientV1 extends BaseApiClient {
         editEphemeralMessage: (channelId: string, messageId: string) => `/v1/channels/${channelId}/messages/${messageId}`,
         editAttachments: (channelId: string, messageId: string) => `/v1/channels/${channelId}/messages/${messageId}/attachments`,
         deleteMessage: (channelId: string, messageId: string) => `/v1/channels/${channelId}/messages/${messageId}`,
+        deleteEphemeralMessage: (channelId: string, messageId: string) => `/v1/channels/${channelId}/messages/${messageId}/ephemeral`,
         fetchThreadReplies: (channelId: string, threadRootId: string) =>
             `/v1/channels/${channelId}/messages/${threadRootId}/replies`,
         searchMessages: () => '/v1/messages/search',
@@ -181,6 +182,19 @@ export class MessagesApiClientV1 extends BaseApiClient {
             method: 'DELETE',
             url,
         });
+    }
+
+    public async deleteEphemeralMessage(messageId: string, channelId: string, payload: V1.DeleteEphemeralMessageRequestBody): Promise<void> {
+        if (payload.deleteForUsers.length <= 0) {
+            throw new Error("The list of users to whom the message should be deleted is empty.")
+        }
+
+        const url = this.urls.deleteEphemeralMessage(channelId, messageId);
+        return await this.request({
+            method: 'POST',
+            url,
+            data: payload
+        })
     }
 
     public async fetchThreadReplies(
