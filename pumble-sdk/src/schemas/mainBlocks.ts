@@ -1,6 +1,7 @@
 // DO NOT CHANGE THIS MANUALLY
 // this is part of the PumbleAPI schema (BlocksArray subschema) so it should be compatible with it or exactly the same
 export const mainBlocks = {
+    "maxItems": 115,
     "type": "array",
     "items": {
         "type": "object",
