@@ -191,7 +191,7 @@ export class MessagesApiClientV1 extends BaseApiClient {
 
         const url = this.urls.deleteEphemeralMessage(channelId, messageId);
         return await this.request({
-            method: 'POST',
+            method: 'DELETE',
             url,
             data: payload
         })
