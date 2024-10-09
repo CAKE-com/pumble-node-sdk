@@ -483,6 +483,11 @@ export namespace V1 {
         ephemeral: EphemeralMessageParams;
     }
 
+    export interface DeleteEphemeralMessageRequestBody {
+        threadRootId?: string,
+        deleteForUsers: string[]
+    }
+
     export interface Avatar {
         fullPath: string;
         scaledPath: string;
