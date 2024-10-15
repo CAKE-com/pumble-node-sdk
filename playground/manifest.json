@@ -8,14 +8,16 @@
             "messages:write",
             "channels:write",
             "channels:read",
-            "files:write"
+            "files:write",
+            "messages:delete"
         ],
         "userScopes": [
             "messages:read",
             "messages:edit",
             "channels:read",
             "messages:write",
-            "files:write"
+            "files:write",
+            "messages:delete"
         ]
     }
 }
