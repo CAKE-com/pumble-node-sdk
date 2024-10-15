@@ -107,6 +107,7 @@ export class AddonHttpListener<T extends AddonManifest> {
         try {
             res.send(this.manifest);
         } catch (e) {
+            console.error(`Unable to serve manifest: ${e}`);
             res.status(500).send();
         }
     }
