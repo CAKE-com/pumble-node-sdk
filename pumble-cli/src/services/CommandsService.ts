@@ -1,7 +1,7 @@
 import { cyan, green } from 'ansis';
 import { cliAppDirectory } from './AppDirectory';
 import { createAddon } from './Create';
-import { cliEnvironment } from './Environment';
+import {ADDON_HOST_KEY, cliEnvironment} from './Environment';
 import { cliGlobals } from './Globals';
 import { logger } from './Logger';
 import { cliLogin } from './Login';
@@ -158,6 +158,7 @@ class CommandsService {
                 host = args.host;
             }
             const hostUrl = new URL(host);
+            await cliEnvironment.setGlobalEnvironment({[ADDON_HOST_KEY]: hostUrl.toString()});
             startUpdater({ ...args, host: hostUrl.toString() });
         } catch (err) {
             this.handleCommandError(err);

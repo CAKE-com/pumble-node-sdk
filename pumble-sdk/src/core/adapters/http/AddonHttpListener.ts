@@ -106,7 +106,7 @@ export class AddonHttpListener<T extends AddonManifest> {
 
     private serveManifest(req: Request, res: Response) {
         try {
-            const host = process.env.ADDON_HOST ? process.env.ADDON_HOST : req.baseUrl;
+            const host = process.env.ADDON_HOST ? process.env.ADDON_HOST : `https://${req.hostname}`;
             res.send(ManifestProcessor.replaceRelativeUrlsWithAbsolute(this.manifest, host));
         } catch (e) {
             console.error(`Unable to serve manifest: ${e}`);
