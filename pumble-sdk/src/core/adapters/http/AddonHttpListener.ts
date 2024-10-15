@@ -60,6 +60,9 @@ export class AddonHttpListener<T extends AddonManifest> {
         this.server.post(Array.from(paths), rawBody(), verifySignature(this.manifest.signingSecret), (req, res) => {
             this.handleMessage(req, res);
         });
+        this.server.get('/manifest', async (req, res) => {
+            this.serveManifest(req, res);
+        });
     }
 
     private handleMessage(req: Request, res: Response) {
@@ -97,6 +100,14 @@ export class AddonHttpListener<T extends AddonManifest> {
             if (isDynamicMenuInteraction(message)) {
                 this.service.postDynamicSelectMenu(message, response, nack);
             }
+        }
+    }
+
+    private serveManifest(_req: Request, res: Response) {
+        try {
+            res.send(this.manifest);
+        } catch (e) {
+            res.status(500).send();
         }
     }
 
