@@ -13,6 +13,7 @@ import {
     isSlashCommand,
 } from '../../types/payloads';
 import path from 'path';
+import {ManifestProcessor} from "../../util/ManifestProcessor";
 
 export type AddonHttpServerOptions = {
     serverPort: number;
@@ -103,9 +104,10 @@ export class AddonHttpListener<T extends AddonManifest> {
         }
     }
 
-    private serveManifest(_req: Request, res: Response) {
+    private serveManifest(req: Request, res: Response) {
         try {
-            res.send(this.manifest);
+            const host = process.env.ADDON_HOST ? process.env.ADDON_HOST : req.baseUrl;
+            res.send(ManifestProcessor.replaceRelativeUrlsWithAbsolute(this.manifest, host));
         } catch (e) {
             console.error(`Unable to serve manifest: ${e}`);
             res.status(500).send();
