@@ -3,14 +3,15 @@ import {AddonManifest} from "../types/types";
 
 export class ManifestProcessor {
 
-    public static replaceRelativeUrlsWithAbsolute(manifest: AddonManifest, host: string) {
+    public static prepareForServing(manifest: AddonManifest, host: string) {
+        const {appKey, clientSecret, signingSecret, ...removedSecrets} = manifest;
         return {
-            ...manifest,
+            ...removedSecrets,
             redirectUrls: manifest.redirectUrls.map((url) => {
                 return this.getAbsoluteUrl(host, url);
             }),
             blockInteraction: manifest.blockInteraction
-                ? { url: this.getAbsoluteUrl(host, manifest.blockInteraction.url) }
+                ? {url: this.getAbsoluteUrl(host, manifest.blockInteraction.url)}
                 : undefined,
             dynamicMenus: manifest.dynamicMenus ? manifest.dynamicMenus.map((dynamicMenu) => {
                 return {
