@@ -1,5 +1,5 @@
 import localtunnel from 'localtunnel';
-import { cliEnvironment } from './Environment';
+import {ADDON_HOST_KEY, cliEnvironment} from './Environment';
 import findFreePorts from 'find-free-ports';
 import childProcess from 'child_process';
 import { cliLogin } from './Login';
@@ -102,6 +102,7 @@ class Watcher {
         if (!cliLogin.isLoggedIn()) {
             await cliLogin.login();
         }
+        await cliEnvironment.setGlobalEnvironment({[ADDON_HOST_KEY]: tunnelUrl});
         console.log(`Using host: ${tunnelUrl}`);
         console.log(`Using port: ${port}`);
         const tsConfigFile = jsonc.parse((await fs.readFile(args.tsconfig)).toString());

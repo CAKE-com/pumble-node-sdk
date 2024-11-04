@@ -6,6 +6,7 @@ export const PUMBLE_ACCESS_TOKEN_KEY = 'PUMBLE_ACCESS_TOKEN';
 export const PUMBLE_REFRESH_TOKEN_KEY = 'PUMBLE_REFRESH_TOKEN';
 export const PUMBLE_WORKSPACE_ID_KEY = 'PUMBLE_WORKSPACE_ID';
 export const PUMBLE_WORKSPACE_USER_ID_KEY = 'PUMBLE_WORKSPACE_USER_ID';
+export const ADDON_HOST_KEY = "ADDON_HOST";
 
 class Environment {
     get workspaceId() {
