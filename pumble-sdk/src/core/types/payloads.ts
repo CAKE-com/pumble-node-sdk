@@ -55,6 +55,7 @@ export type SlashCommandPayload = AppMessage & {
     channelId: string;
     threadRootId?: string;
     workspaceId: string;
+    triggerId: string
 };
 
 export type GlobalShortcutPayload = AppMessage & {
@@ -62,6 +63,7 @@ export type GlobalShortcutPayload = AppMessage & {
     userId: string;
     channelId: string;
     workspaceId: string;
+    triggerId: string;
 };
 
 export type MessageShortcutPayload = AppMessage & {
@@ -70,6 +72,7 @@ export type MessageShortcutPayload = AppMessage & {
     userId: string;
     channelId: string;
     workspaceId: string;
+    triggerId: string;
 };
 
 export type BlockInteractionPayload<T extends BlockInteractionSourceType = BlockInteractionSourceType> = AppMessage & {
@@ -81,6 +84,7 @@ export type BlockInteractionPayload<T extends BlockInteractionSourceType = Block
     actionType: string;
     onAction: string;
     payload: string;
+    triggerId: string;
 };
 
 export function isPumbleEvent(message: AppMessage): message is Omit<PumbleEventPayload, 'body'> & { body: string } {
