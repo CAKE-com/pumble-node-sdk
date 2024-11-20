@@ -105,7 +105,7 @@ export class AddonWebsocketListener<T extends AddonManifest> {
             }
 
             if (isGlobalShortcut(message)) {
-                this.service.postGlobalShortcut(message, ack, nack);
+                this.service.postGlobalShortcut(message, response, ack, nack);
                 return;
             }
 

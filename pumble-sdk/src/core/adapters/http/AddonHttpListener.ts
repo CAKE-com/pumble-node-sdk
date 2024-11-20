@@ -82,7 +82,7 @@ export class AddonHttpListener<T extends AddonManifest> {
                 return;
             }
             if (isGlobalShortcut(message)) {
-                this.service.postGlobalShortcut(message, ack, nack);
+                this.service.postGlobalShortcut(message, response, ack, nack);
                 return;
             }
             if (isSlashCommand(message)) {

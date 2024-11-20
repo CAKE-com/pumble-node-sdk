@@ -35,6 +35,10 @@ export type DynamicMenuOptionsResponse = {
     triggerId: string
 }
 
+export type GlobalShortcutResponse = {
+    key: string
+}
+
 export type PumbleEventPayload<T extends PumbleEventType = PumbleEventType> = AppMessage & {
     body: PumbleEventNotificationPayload<T>;
     eventType: T;

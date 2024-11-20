@@ -178,9 +178,8 @@ const app: App = {
             name: 'Global 1',
             description: 'test',
             handler: async (ctx) => {
-                await ctx.ack();
-                console.log('Received global shortcut');
-            },
+                await ctx.spawnModal("Hello World This is a test");
+            }
         },
     ],
     messageShortcuts: [
