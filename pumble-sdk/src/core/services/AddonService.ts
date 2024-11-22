@@ -31,8 +31,9 @@ import { AddonHttpListener, AddonHttpServerOptions } from '../adapters/http/Addo
 import { AddonWebsocketListener } from '../adapters/socket/AddonWebsocketListener';
 import { Express } from 'express';
 import {
+    AppActionPayload,
     BlockInteractionPayload, DynamicMenuOptionsResponse, DynamicMenuPayload,
-    GlobalShortcutPayload, GlobalShortcutResponse,
+    GlobalShortcutPayload,
     MessageShortcutPayload,
     PumbleEventPayload,
     SlashCommandPayload,
@@ -203,7 +204,7 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         this.emit(GLOBAL_SHORTCUT, ctx);
     }
 
-    public postMessageShortcut(payload: MessageShortcutPayload, ack: AckCallback, nack: NackCallback): void {
+    public postMessageShortcut(payload: MessageShortcutPayload, response: ResponseCallback<SpawnModalRequest>, ack: AckCallback, nack: NackCallback): void {
         const cache: ContextCache = {};
         const eventContext = this.createEventContext(payload, payload.workspaceId, payload.userId, cache);
         const fetchMessageContext = this.createFetchMessageContext(
@@ -218,27 +219,31 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             payload.userId,
             payload.channelId
         );
+        const spawnModalContext = this.createSpawnModalContext(eventContext, response);
         const ctx: MessageShortcutContext = {
             ack,
             nack,
             ...eventContext,
             ...fetchMessageContext,
             ...replyContext,
+            ...spawnModalContext
         };
         this.emit(MESSAGE_SHORTCUT, ctx);
     }
 
-    public postSlashCommand(payload: SlashCommandPayload, ack: AckCallback, nack: NackCallback): void {
+    public postSlashCommand(payload: SlashCommandPayload, response: ResponseCallback<SpawnModalRequest>, ack: AckCallback, nack: NackCallback): void {
         const cache: ContextCache = {};
         const eventContext = this.createEventContext(payload, payload.workspaceId, payload.userId, cache);
         const sayContext = this.createSayContext(eventContext, payload.userId, payload.channelId, payload.threadRootId);
         const channelDetailsContext = this.createChannelDetailsContext(eventContext, payload.channelId);
+        const spawnModalContext = this.createSpawnModalContext(eventContext, response);
         const appEventArg: SlashCommandContext = {
             ack,
             nack,
             ...eventContext,
             ...sayContext,
             ...channelDetailsContext,
+            ...spawnModalContext
         };
         this.emit(SLASH, appEventArg);
     }
@@ -662,7 +667,7 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         return { fetchMessage };
     }
 
-    private createSpawnModalContext(eventContext: EventContext<GlobalShortcutPayload>, response: ResponseCallback<SpawnModalRequest>): SpawnModalContext {
+    private createSpawnModalContext(eventContext: EventContext<AppActionPayload>, response: ResponseCallback<SpawnModalRequest>): SpawnModalContext {
         const spawnModal = async (credentials: GoogleDriveModalCredentials) => {
             await response({
                 triggerId: eventContext.payload.triggerId,

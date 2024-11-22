@@ -35,10 +35,6 @@ export type DynamicMenuOptionsResponse = {
     triggerId: string
 }
 
-export type GlobalShortcutResponse = {
-    key: string
-}
-
 export type PumbleEventPayload<T extends PumbleEventType = PumbleEventType> = AppMessage & {
     body: PumbleEventNotificationPayload<T>;
     eventType: T;
@@ -90,6 +86,8 @@ export type BlockInteractionPayload<T extends BlockInteractionSourceType = Block
     payload: string;
     triggerId: string;
 };
+
+export type AppActionPayload = GlobalShortcutPayload | MessageShortcutPayload | SlashCommandPayload | BlockInteractionPayload;
 
 export function isPumbleEvent(message: AppMessage): message is Omit<PumbleEventPayload, 'body'> & { body: string } {
     return message.messageType === MessageType.PUMBLE_EVENT || message.messageType === MessageType.APP_EVENT;

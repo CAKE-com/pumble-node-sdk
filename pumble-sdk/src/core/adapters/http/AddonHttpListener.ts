@@ -78,7 +78,7 @@ export class AddonHttpListener<T extends AddonManifest> {
             const nack = this.nackFunction(res);
             const response = this.responseFunction(res);
             if (isMessageShortcut(message)) {
-                this.service.postMessageShortcut(message, ack, nack);
+                this.service.postMessageShortcut(message, response, ack, nack);
                 return;
             }
             if (isGlobalShortcut(message)) {
@@ -86,7 +86,7 @@ export class AddonHttpListener<T extends AddonManifest> {
                 return;
             }
             if (isSlashCommand(message)) {
-                this.service.postSlashCommand(message, ack, nack);
+                this.service.postSlashCommand(message, response, ack, nack);
                 return;
             }
             if (isBlockInteractionView(message)) {

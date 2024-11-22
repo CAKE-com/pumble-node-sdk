@@ -100,7 +100,7 @@ export class AddonWebsocketListener<T extends AddonManifest> {
             };
 
             if (isMessageShortcut(message)) {
-                this.service.postMessageShortcut(message, ack, nack);
+                this.service.postMessageShortcut(message, response, ack, nack);
                 return;
             }
 
@@ -110,7 +110,7 @@ export class AddonWebsocketListener<T extends AddonManifest> {
             }
 
             if (isSlashCommand(message)) {
-                this.service.postSlashCommand(message, ack, nack);
+                this.service.postSlashCommand(message, response, ack, nack);
             }
 
             if (isBlockInteractionView(message)) {

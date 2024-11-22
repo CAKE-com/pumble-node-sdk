@@ -86,12 +86,14 @@ export type PumbleEventContext<T extends PumbleEventType> = EventContext<PumbleE
 export type SlashCommandContext = EventContext<SlashCommandPayload> &
     SayContext &
     AcknowledgeContext &
-    ChannelDetailsContext;
+    ChannelDetailsContext &
+    SpawnModalContext;
 export type GlobalShortcutContext = EventContext<GlobalShortcutPayload> & SayContext & AcknowledgeContext & SpawnModalContext;
 export type MessageShortcutContext = EventContext<MessageShortcutPayload> &
     ReplyContext &
     AcknowledgeContext &
-    FetchMessageContext;
+    FetchMessageContext &
+    SpawnModalContext;
 export type BlockInteractionContext<T extends BlockInteractionSourceType = BlockInteractionSourceType> =
     T extends 'VIEW'
         ? EventContext<BlockInteractionPayload<'VIEW'>> & AcknowledgeContext
