@@ -1,4 +1,4 @@
-import { AddonManifest, Shortcut } from '../types/types';
+import {AddonManifest, GoogleDriveModalCredentials, Shortcut, SpawnModalRequest} from '../types/types';
 import { CredentialsStore, OAuth2AccessTokenResponse } from '../../auth';
 import {
     AckCallback,
@@ -188,11 +188,11 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         this.emit(evt.eventType, ctx);
     }
 
-    public postGlobalShortcut(payload: GlobalShortcutPayload, response: ResponseCallback<GlobalShortcutResponse>, ack: AckCallback, nack: NackCallback): void {
+    public postGlobalShortcut(payload: GlobalShortcutPayload, response: ResponseCallback<SpawnModalRequest>, ack: AckCallback, nack: NackCallback): void {
         const cache: ContextCache = {};
         const eventContext = this.createEventContext(payload, payload.workspaceId, payload.userId, cache);
         const sayContext = this.createSayContext(eventContext, payload.userId, payload.channelId);
-        const spawnModalContext = this.createSpawnModalContext(response);
+        const spawnModalContext = this.createSpawnModalContext(eventContext, response);
         const ctx: GlobalShortcutContext = {
             ack,
             nack,
@@ -662,10 +662,11 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         return { fetchMessage };
     }
 
-    private createSpawnModalContext(response: ResponseCallback<GlobalShortcutResponse>): SpawnModalContext {
-        const spawnModal = async (message: string) => {
+    private createSpawnModalContext(eventContext: EventContext<GlobalShortcutPayload>, response: ResponseCallback<SpawnModalRequest>): SpawnModalContext {
+        const spawnModal = async (credentials: GoogleDriveModalCredentials) => {
             await response({
-                key: message,
+                triggerId: eventContext.payload.triggerId,
+                credentials
             });
         }
 

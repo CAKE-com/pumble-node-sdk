@@ -178,7 +178,13 @@ const app: App = {
             name: 'Global 1',
             description: 'test',
             handler: async (ctx) => {
-                await ctx.spawnModal("Hello World This is a test");
+                console.log(ctx.payload.triggerId);
+                await ctx.spawnModal({
+                    accessToken: 'accessToken',
+                    appId: 'appId',
+                    apiKey: 'apiKey',
+                    clientId: 'clientId'
+                });
             }
         },
     ],

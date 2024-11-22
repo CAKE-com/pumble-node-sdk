@@ -4,14 +4,11 @@ import { ApiClient } from '../../api';
 import { V1 } from '../../api';
 import {
     BlockInteractionPayload, DynamicMenuOptionsResponse, DynamicMenuPayload,
-    GlobalShortcutPayload, GlobalShortcutResponse,
-    MessageShortcutPayload,
+    GlobalShortcutPayload, MessageShortcutPayload,
     PumbleEventPayload,
     SlashCommandPayload,
 } from './payloads';
-import { AddonManifest, BlockInteractionSourceType } from './types';
-import Option = V1.Option;
-import OptionGroup = V1.OptionGroup;
+import {AddonManifest, BlockInteractionSourceType, GoogleDriveModalCredentials} from './types';
 
 export type AckCallback = (arg?: string) => Promise<void>;
 export type NackCallback = (arg?: string, status?: number) => Promise<void>;
@@ -107,7 +104,7 @@ export type BlockInteractionContext<T extends BlockInteractionSourceType = Block
               ChannelDetailsContext;
 export type DynamicMenuContext = ResponseContext<DynamicMenuOptionsResponse> & EventContext<DynamicMenuPayload>;
 export type SpawnModalContext = {
-    spawnModal: SpawnModalCallback<any>
+    spawnModal: SpawnModalCallback<GoogleDriveModalCredentials>
 };
 export type OnMessageContext = EventContext<PumbleEventPayload<'NEW_MESSAGE'>> & ReplyContext;
 export type OnReactionContext = EventContext<PumbleEventPayload<'REACTION_ADDED'>> & ReplyContext & FetchMessageContext;
