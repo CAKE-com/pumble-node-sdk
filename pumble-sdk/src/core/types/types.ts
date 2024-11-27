@@ -160,14 +160,16 @@ export type SlashCommandKeys<T extends { slashCommands: readonly SlashCommand[] 
     ? string
     : I_SlashCommands<GetSlashCommands<T>>;
 
+export type SpawnModalRequest = {
+    triggerId: string;
+    credentials: StorageIntegrationModalCredentials
+}
+
+export type StorageIntegrationModalCredentials = GoogleDriveModalCredentials;
+
 export type GoogleDriveModalCredentials = {
     googleAccessToken: string;
     googleAppId: string;
     googleApiKey: string;
     googleClientId: string;
-}
-
-export type SpawnModalRequest = {
-    triggerId: string;
-    credentials: GoogleDriveModalCredentials
 }

@@ -1,4 +1,9 @@
-import {AddonManifest, GoogleDriveModalCredentials, Shortcut, SpawnModalRequest} from '../types/types';
+import {
+    AddonManifest,
+    Shortcut,
+    SpawnModalRequest,
+    StorageIntegrationModalCredentials
+} from '../types/types';
 import { CredentialsStore, OAuth2AccessTokenResponse } from '../../auth';
 import {
     AckCallback,
@@ -675,7 +680,7 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
     }
 
     private createSpawnModalContext(eventContext: EventContext<AppActionPayload>, response: ResponseCallback<SpawnModalRequest>): SpawnModalContext {
-        const spawnModal = async (credentials: GoogleDriveModalCredentials) => {
+        const spawnModal = async (credentials: StorageIntegrationModalCredentials) => {
             await response({
                 triggerId: eventContext.payload.triggerId,
                 credentials

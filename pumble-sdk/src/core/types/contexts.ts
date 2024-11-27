@@ -8,7 +8,11 @@ import {
     PumbleEventPayload,
     SlashCommandPayload,
 } from './payloads';
-import {AddonManifest, BlockInteractionSourceType, GoogleDriveModalCredentials} from './types';
+import {
+    AddonManifest,
+    BlockInteractionSourceType,
+    StorageIntegrationModalCredentials
+} from './types';
 
 export type AckCallback = (arg?: string) => Promise<void>;
 export type NackCallback = (arg?: string, status?: number) => Promise<void>;
@@ -107,7 +111,7 @@ export type BlockInteractionContext<T extends BlockInteractionSourceType = Block
               SpawnModalContext;
 export type DynamicMenuContext = ResponseContext<DynamicMenuOptionsResponse> & EventContext<DynamicMenuPayload>;
 export type SpawnModalContext = {
-    spawnModal: SpawnModalCallback<GoogleDriveModalCredentials>
+    spawnModal: SpawnModalCallback<StorageIntegrationModalCredentials>
 };
 export type OnMessageContext = EventContext<PumbleEventPayload<'NEW_MESSAGE'>> & ReplyContext;
 export type OnReactionContext = EventContext<PumbleEventPayload<'REACTION_ADDED'>> & ReplyContext & FetchMessageContext;
