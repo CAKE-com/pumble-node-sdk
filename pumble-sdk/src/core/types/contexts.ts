@@ -96,14 +96,15 @@ export type MessageShortcutContext = EventContext<MessageShortcutPayload> &
     SpawnModalContext;
 export type BlockInteractionContext<T extends BlockInteractionSourceType = BlockInteractionSourceType> =
     T extends 'VIEW'
-        ? EventContext<BlockInteractionPayload<'VIEW'>> & AcknowledgeContext
+        ? EventContext<BlockInteractionPayload<'VIEW'>> & AcknowledgeContext & SpawnModalContext
         : T extends 'EPHEMERAL_MESSAGE'
-        ? EventContext<BlockInteractionPayload<'EPHEMERAL_MESSAGE'>> & AcknowledgeContext & ChannelDetailsContext
+        ? EventContext<BlockInteractionPayload<'EPHEMERAL_MESSAGE'>> & AcknowledgeContext & ChannelDetailsContext & SpawnModalContext
         : EventContext<BlockInteractionPayload<'MESSAGE'>> &
               AcknowledgeContext &
               ReplyContext &
               FetchMessageContext &
-              ChannelDetailsContext;
+              ChannelDetailsContext &
+              SpawnModalContext;
 export type DynamicMenuContext = ResponseContext<DynamicMenuOptionsResponse> & EventContext<DynamicMenuPayload>;
 export type SpawnModalContext = {
     spawnModal: SpawnModalCallback<GoogleDriveModalCredentials>

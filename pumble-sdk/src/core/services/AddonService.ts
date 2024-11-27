@@ -248,7 +248,7 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         this.emit(SLASH, appEventArg);
     }
 
-    public postBlockInteractionMessage(payload: BlockInteractionPayload, ack: AckCallback, nack: NackCallback): void {
+    public postBlockInteractionMessage(payload: BlockInteractionPayload, response: ResponseCallback<SpawnModalRequest>, ack: AckCallback, nack: NackCallback): void {
         const cache: ContextCache = {};
         const eventContext = this.createEventContext(
             payload,
@@ -269,6 +269,7 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             payload.userId,
             payload.channelId!
         );
+        const spawnModalContext = this.createSpawnModalContext(eventContext, response);
 
         const appEventArg: BlockInteractionContext<'MESSAGE'> = {
             ack,
@@ -277,12 +278,14 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             ...replyContext,
             ...channelDetailsContext,
             ...fetchMessageContext,
+            ...spawnModalContext
         };
         this.emit(BLOCK_INTERACTION_MESSAGE, appEventArg);
     }
 
     public postBlockInteractionEphemeralMessage(
         payload: BlockInteractionPayload,
+        response: ResponseCallback<SpawnModalRequest>,
         ack: AckCallback,
         nack: NackCallback
     ): void {
@@ -294,17 +297,19 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             cache
         ) as EventContext<BlockInteractionPayload<'EPHEMERAL_MESSAGE'>>;
         const channelDetailsContext = this.createChannelDetailsContext(eventContext, payload.channelId!);
+        const spawnModalContext = this.createSpawnModalContext(eventContext, response);
 
         const appEventArg: BlockInteractionContext<'EPHEMERAL_MESSAGE'> = {
             ack,
             nack,
             ...eventContext,
             ...channelDetailsContext,
+            ...spawnModalContext
         };
         this.emit(BLOCK_INTERACTION_EPHEMERAL_MESSAGE, appEventArg);
     }
 
-    public postBlockInteractionView(payload: BlockInteractionPayload, ack: AckCallback, nack: NackCallback): void {
+    public postBlockInteractionView(payload: BlockInteractionPayload, response: ResponseCallback<SpawnModalRequest>, ack: AckCallback, nack: NackCallback): void {
         const cache: ContextCache = {};
         const eventContext = this.createEventContext(
             payload,
@@ -312,11 +317,13 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             payload.userId,
             cache
         ) as EventContext<BlockInteractionPayload<'VIEW'>>;
+        const spawnModalContext = this.createSpawnModalContext(eventContext, response);
 
         const appEventArg: BlockInteractionContext<'VIEW'> = {
             ack,
             nack,
             ...eventContext,
+            ...spawnModalContext
         };
         this.emit(BLOCK_INTERACTION_VIEW, appEventArg);
     }

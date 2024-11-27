@@ -90,13 +90,13 @@ export class AddonHttpListener<T extends AddonManifest> {
                 return;
             }
             if (isBlockInteractionView(message)) {
-                this.service.postBlockInteractionView(message, ack, nack);
+                this.service.postBlockInteractionView(message, response, ack, nack);
             }
             if (isBlockInteractionMessage(message)) {
-                this.service.postBlockInteractionMessage(message, ack, nack);
+                this.service.postBlockInteractionMessage(message, response, ack, nack);
             }
             if (isBlockInteractionEphemeralMessage(message)) {
-                this.service.postBlockInteractionEphemeralMessage(message, ack, nack);
+                this.service.postBlockInteractionEphemeralMessage(message, response, ack, nack);
             }
             if (isDynamicMenuInteraction(message)) {
                 this.service.postDynamicSelectMenu(message, response, nack);
