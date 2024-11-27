@@ -161,10 +161,10 @@ export type SlashCommandKeys<T extends { slashCommands: readonly SlashCommand[] 
     : I_SlashCommands<GetSlashCommands<T>>;
 
 export type GoogleDriveModalCredentials = {
-    accessToken: string;
-    appId: string;
-    apiKey: string;
-    clientId: string;
+    googleAccessToken: string;
+    googleAppId: string;
+    googleApiKey: string;
+    googleClientId: string;
 }
 
 export type SpawnModalRequest = {

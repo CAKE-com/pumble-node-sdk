@@ -178,12 +178,19 @@ const app: App = {
             name: 'Global 1',
             description: 'test',
             handler: async (ctx) => {
-                console.log(ctx.payload.triggerId);
+                await ctx.ack();
+                console.log('Received global shortcut');
+            },
+        },
+        {
+            name: 'GDrive Modal',
+            description: 'spawn google drive modal',
+            handler: async (ctx) => {
                 await ctx.spawnModal({
-                    accessToken: 'accessToken',
-                    appId: 'appId',
-                    apiKey: 'apiKey',
-                    clientId: 'clientId'
+                    googleAccessToken: 'accessToken',
+                    googleAppId: 'appId',
+                    googleApiKey: 'apiKey',
+                    googleClientId: 'clientId'
                 });
             }
         },
