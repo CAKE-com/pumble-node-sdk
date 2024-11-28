@@ -162,8 +162,14 @@ export type SlashCommandKeys<T extends { slashCommands: readonly SlashCommand[] 
 
 export type SpawnModalRequest = {
     triggerId: string;
-    credentials: StorageIntegrationModalCredentials
+    view: StorageIntegrationModalCredentials | View,
+    viewType: ViewType
 }
+
+export type ViewType = 'NATIVE' | 'INTEGRATION';
+
+// Will be implemented in the future
+export type View = {}
 
 export type StorageIntegrationModalCredentials = GoogleDriveModalCredentials;
 

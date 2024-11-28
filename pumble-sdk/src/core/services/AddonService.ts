@@ -1,8 +1,8 @@
 import {
-    AddonManifest,
+    AddonManifest, GoogleDriveModalCredentials,
     Shortcut,
     SpawnModalRequest,
-    StorageIntegrationModalCredentials
+    StorageIntegrationModalCredentials, View
 } from '../types/types';
 import { CredentialsStore, OAuth2AccessTokenResponse } from '../../auth';
 import {
@@ -680,14 +680,20 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
     }
 
     private createSpawnModalContext(eventContext: EventContext<AppActionPayload>, response: ResponseCallback<SpawnModalRequest>): SpawnModalContext {
-        const spawnModal = async (credentials: StorageIntegrationModalCredentials) => {
+        const spawnModal = async (view: StorageIntegrationModalCredentials | View) => {
+            const viewType = this.isStorageIntegrationModalCredentials(view) ? 'INTEGRATION' : 'NATIVE';
             await response({
                 triggerId: eventContext.payload.triggerId,
-                credentials
+                view,
+                viewType
             });
         }
 
         return { spawnModal };
+    }
+
+    private isStorageIntegrationModalCredentials(view: StorageIntegrationModalCredentials | View): boolean {
+        return (view as GoogleDriveModalCredentials).googleAccessToken !== undefined;
     }
 
     private setupOAuth(config: OAuth2Config) {
