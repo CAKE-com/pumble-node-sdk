@@ -39,6 +39,8 @@ export class ManifestProcessor {
     }
 
     private static getAbsoluteUrl(host: string, relativePath: string): string {
-        return new URL(path.join(host, relativePath)).toString();
+        return relativePath.startsWith('http://') || relativePath.startsWith('https://') ?
+            relativePath :
+            new URL(path.join(host, relativePath)).toString();
     }
 }
