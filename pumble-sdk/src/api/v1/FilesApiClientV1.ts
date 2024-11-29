@@ -52,30 +52,30 @@ export class FilesApiClientV1 extends BaseApiClient {
             };
         }
 
-        if (input instanceof Buffer) {
-            if (!options) {
+        if (input instanceof String) {
+            const buffer = await this.readFile(input);
+            if (!buffer) {
                 return null;
             }
 
+
+            const name = options?.name ? options.name : path.parse(input).base;
+            const mimeTypeFromPath = mime.lookup(input);
             return {
-                blob: new Blob([input], {type: options.mimeType ? options.mimeType : 'application/octet-stream'}),
-                name: options.name,
-                length: input.length
+                blob: new Blob([buffer], {type: options?.mimeType ? options.mimeType : mimeTypeFromPath}),
+                name: name,
+                length: buffer.length
             };
         }
 
-        const buffer = await this.readFile(input);
-        if (!buffer) {
+        if (!options) {
             return null;
         }
 
-
-        const name = options?.name ? options.name : path.parse(input).base;
-        const mimeTypeFromPath = mime.lookup(input);
         return {
-            blob: new Blob([buffer], {type: options?.mimeType ? options.mimeType : mimeTypeFromPath}),
-            name: name,
-            length: buffer.length
+            blob: new Blob([input], {type: options.mimeType ? options.mimeType : 'application/octet-stream'}),
+            name: options.name,
+            length: input.length
         };
     }
 
