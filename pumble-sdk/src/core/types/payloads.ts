@@ -87,6 +87,8 @@ export type BlockInteractionPayload<T extends BlockInteractionSourceType = Block
     triggerId: string;
 };
 
+export type AppActionPayload = GlobalShortcutPayload | MessageShortcutPayload | SlashCommandPayload | BlockInteractionPayload;
+
 export function isPumbleEvent(message: AppMessage): message is Omit<PumbleEventPayload, 'body'> & { body: string } {
     return message.messageType === MessageType.PUMBLE_EVENT || message.messageType === MessageType.APP_EVENT;
 }

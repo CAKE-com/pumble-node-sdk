@@ -159,3 +159,23 @@ export type SlashCommandKeys<T extends { slashCommands: readonly SlashCommand[] 
 > extends never
     ? string
     : I_SlashCommands<GetSlashCommands<T>>;
+
+export type SpawnModalRequest = {
+    triggerId: string;
+    view: StorageIntegrationModalCredentials | View,
+    viewType: ViewType
+}
+
+export type ViewType = 'NATIVE' | 'INTEGRATION';
+
+// Will be implemented in the future
+export type View = {}
+
+export type StorageIntegrationModalCredentials = GoogleDriveModalCredentials;
+
+export type GoogleDriveModalCredentials = {
+    googleAccessToken: string;
+    googleAppId: string;
+    googleApiKey: string;
+    googleClientId: string;
+}

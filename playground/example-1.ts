@@ -182,6 +182,18 @@ const app: App = {
                 console.log('Received global shortcut');
             },
         },
+        {
+            name: 'GDrive Modal',
+            description: 'spawn google drive modal',
+            handler: async (ctx) => {
+                await ctx.spawnModal({
+                    googleAccessToken: 'accessToken',
+                    googleAppId: 'appId',
+                    googleApiKey: 'apiKey',
+                    googleClientId: 'clientId'
+                });
+            }
+        },
     ],
     messageShortcuts: [
         {

@@ -100,28 +100,28 @@ export class AddonWebsocketListener<T extends AddonManifest> {
             };
 
             if (isMessageShortcut(message)) {
-                this.service.postMessageShortcut(message, ack, nack);
+                this.service.postMessageShortcut(message, response, ack, nack);
                 return;
             }
 
             if (isGlobalShortcut(message)) {
-                this.service.postGlobalShortcut(message, ack, nack);
+                this.service.postGlobalShortcut(message, response, ack, nack);
                 return;
             }
 
             if (isSlashCommand(message)) {
-                this.service.postSlashCommand(message, ack, nack);
+                this.service.postSlashCommand(message, response, ack, nack);
             }
 
             if (isBlockInteractionView(message)) {
-                this.service.postBlockInteractionView(message, ack, nack);
+                this.service.postBlockInteractionView(message, response, ack, nack);
             }
 
             if (isBlockInteractionMessage(message)) {
-                this.service.postBlockInteractionMessage(message, ack, nack);
+                this.service.postBlockInteractionMessage(message, response, ack, nack);
             }
             if (isBlockInteractionEphemeralMessage(message)) {
-                this.service.postBlockInteractionEphemeralMessage(message, ack, nack);
+                this.service.postBlockInteractionEphemeralMessage(message, response, ack, nack);
             }
             if (isDynamicMenuInteraction(message)) {
                 this.service.postDynamicSelectMenu(message, response, nack);
