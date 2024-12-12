@@ -4,6 +4,7 @@ import { V1 } from './types';
 export class UsersApiClientV1 extends BaseApiClient {
     private urls = {
         listWorkspaceUsers: () => `/v1/workspaceUsers`,
+        listUserGroups: () => `/v1/workspaceUsers/groups`,
         getProfile: () => `/oauth2/me`,
         userInfo: (userId: string) => `/v1/workspaceUsers/${userId}`,
         updateCustomStatus: () => `/v1/workspaceUsers/customStatus`,
@@ -11,6 +12,11 @@ export class UsersApiClientV1 extends BaseApiClient {
 
     public async listWorkspaceUsers(): Promise<Array<V1.WorkspaceUser>> {
         const url = this.urls.listWorkspaceUsers();
+        return this.request({ method: 'get', url });
+    }
+
+    public async listUserGroups(): Promise<Array<V1.UserGroup>> {
+        const url = this.urls.listUserGroups();
         return this.request({ method: 'get', url });
     }
 
