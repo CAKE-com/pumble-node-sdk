@@ -542,6 +542,17 @@ export namespace V1 {
         isAddonBot?: boolean;
     }
 
+    export interface UserGroup {
+        id: string;
+        workspaceId: string;
+        createdBy: string;
+        disabled: boolean;
+        name: string;
+        handle: string;
+        description: string;
+        workspaceUserIds: string[];
+    }
+
     export interface Messages {
         messages?: Message[];
         hasMoreBefore?: boolean;
@@ -693,6 +704,7 @@ export namespace V1 {
     export interface CompleteFileUpload {
         original: FileDataResponse;
         thumbs: FileDataResponse[];
+        signature: string;
     }
 
     export interface FileUploadOptions {

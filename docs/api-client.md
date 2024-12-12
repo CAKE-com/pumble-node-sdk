@@ -40,8 +40,9 @@ Each ApiClient method has its own set of required scopes.
 
 ## Users
 | method                             | scopes         | description                     |
-| :--------------------------------- | :------------- | :------------------------------ |
+|:-----------------------------------| :------------- |:--------------------------------|
 | client.v1.users.listWorkspaceUsers | `users:list`   | List Workspace Users            |
+| client.v1.users.listUserGroups     | `users:list`   | List User Groups                |
 | client.v1.users.getProfile         |                | Get authorizing user basic info |
 | client.v1.users.userInfo           | `user:read`    | Get user by id                  |
 | client.v1.users.updateCustomStatus | `status:write` | Update user status              |

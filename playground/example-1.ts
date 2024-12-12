@@ -172,6 +172,19 @@ const app: App = {
                 console.log('Finished slash command 5!');
             },
         },
+        {
+            command: '/slash_6',
+            handler: async (ctx) => {
+                await ctx.ack();
+                const client = await ctx.getUserClient();
+
+                let userGroups = await  client!.v1.users.listUserGroups();
+
+                console.log('user groups : ', userGroups);
+
+                console.log('Finished slash command 5!');
+            },
+        },
     ],
     globalShortcuts: [
         {
