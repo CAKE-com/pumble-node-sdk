@@ -174,7 +174,7 @@ export namespace V1 {
         footer_icon?: string;
         /** @format int64 */
         ts?: number;
-        actions?: BlockActions
+        blocks?: MainBlock[];
     }
 
     export interface MessageUpdateRequestBody {
