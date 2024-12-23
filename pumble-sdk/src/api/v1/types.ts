@@ -540,6 +540,7 @@ export namespace V1 {
         isPumbleBot?: boolean;
         broadcastWarningShownTs?: string;
         isAddonBot?: boolean;
+        timeFormat : number;
     }
 
     export interface Messages {
