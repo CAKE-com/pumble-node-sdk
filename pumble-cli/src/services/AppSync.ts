@@ -25,28 +25,28 @@ class AppSync {
             manifest = {
                 ...manifest,
                 redirectUrls: manifest.redirectUrls.map((url) => {
-                    return new URL(path.join(host, url)).toString();
+                    return this.getAbsoluteUrl(host, url);
                 }),
                 blockInteraction: manifest.blockInteraction
                     ? {
-                        url: new URL(path.join(host, manifest.blockInteraction.url)).toString(),
+                        url: this.getAbsoluteUrl(host, manifest.blockInteraction.url),
                     }
                     : undefined,
                 dynamicMenus: manifest.dynamicMenus ? manifest.dynamicMenus.map((dynamicMenu) => {
                     return {
-                        url: new URL(path.join(host, dynamicMenu.url)).toString(),
+                        url: this.getAbsoluteUrl(host, dynamicMenu.url),
                         onAction: dynamicMenu.onAction
                     };
                 }) : [],
                 slashCommands: manifest.slashCommands.map((cmd) => {
-                    return {...cmd, url: new URL(path.join(host, cmd.url)).toString()};
+                    return {...cmd, url: this.getAbsoluteUrl(host, cmd.url)};
                 }),
                 shortcuts: manifest.shortcuts.map((sh) => {
-                    return {...sh, url: new URL(path.join(host, sh.url)).toString()};
+                    return {...sh, url: this.getAbsoluteUrl(host, sh.url)};
                 }),
                 eventSubscriptions: {
                     ...manifest.eventSubscriptions,
-                    url: new URL(path.join(host, manifest.eventSubscriptions.url)).toString(),
+                    url: this.getAbsoluteUrl(host, manifest.eventSubscriptions.url),
                     events: manifest.eventSubscriptions.events.map((event) => {
                         if (typeof event === 'string') {
                             return event;
@@ -477,6 +477,12 @@ class AppSync {
             ' -> ' +
             green`${change.newValue?.toString() || '(none)'}`;
         console.log(`${str}\n${valueChange}\n`);
+    }
+
+    private getAbsoluteUrl(host: string, relativePath: string): string {
+        return relativePath.startsWith('http://') || relativePath.startsWith('https://') ?
+            relativePath :
+            new URL(path.join(host, relativePath)).toString();
     }
 }
 
