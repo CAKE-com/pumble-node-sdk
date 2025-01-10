@@ -282,10 +282,6 @@ class Runner {
         manifest.offlineMessage = app.offlineMessage;
         return manifest;
     }
-
-    private async assertNotEmpty() {
-
-    }
 }
 
 const runner = new Runner();
