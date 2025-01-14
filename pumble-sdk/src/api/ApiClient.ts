@@ -46,8 +46,11 @@ export class ApiClient {
                 ['post', 'put'].includes(request.method.toLowerCase()) &&
                 request.url?.includes('/messages')
             ) {
-                if (request.data?.blocks &&
-                    !(await schemasLoader.blocksValid(request.data.blocks))) {
+
+                let hasInvalidBlocks = request.data?.blocks && !(await schemasLoader.blocksValid(request.data.blocks));
+                let hasInvalidAttachmentBlocks = request.data?.attachments?.blocks && !(await schemasLoader.blocksValid(request.data.attachments.blocks));
+
+                if (hasInvalidBlocks || hasInvalidAttachmentBlocks) {
                     controller.abort('Blocks model invalid. Aborting request...');
                     return {
                         ...request,
@@ -57,16 +60,6 @@ export class ApiClient {
                     };
                 }
 
-                if (request.data?.attachments &&
-                    !(await schemasLoader.attachmentBlocksValid(request.data.attachments))) {
-                    controller.abort('Attachment block model invalid. Aborting request...');
-                    return {
-                        ...request,
-                        headers: {} as AxiosRequestHeaders,
-                        reason: controller.signal.reason,
-                        signal: controller.signal,
-                    };
-                }
             }
 
             return {
