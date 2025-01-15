@@ -195,7 +195,7 @@ class Runner {
         manifest.blockInteraction = app.blockInteraction
             ? {
                   url: app.blockInteraction?.path ?? hookUrl,
-                  handlerView: (ctx: BlockInteractionContext<'VIEW'>) => {
+                  handlerView: async (ctx: BlockInteractionContext<'VIEW'>) => {
                       if (!app.blockInteraction?.interactions) {
                           return;
                       }
@@ -205,41 +205,59 @@ class Runner {
                               i.sourceType === 'VIEW' &&
                               i.viewId === ctx.payload.sourceId
                       );
+                      let handlerFound = false;
                       for (let i = 0; i < handlersList?.length; ++i) {
                           const currentHandler = handlersList[i];
                           if (currentHandler.sourceType === 'VIEW') {
                               currentHandler.handlers[ctx.payload.onAction](ctx as BlockInteractionContext<'VIEW'>);
+                              handlerFound = true;
                           }
                       }
+                      if (!handlerFound) {
+                          console.error(`No ${ctx.payload.onAction} handlers found, source: VIEW`);
+                          await ctx.nack('No handlers were found for the given event.', 400);
+                      }
                   },
-                  handlerMessage: (ctx: BlockInteractionContext<'MESSAGE'>) => {
+                  handlerMessage: async (ctx: BlockInteractionContext<'MESSAGE'>) => {
                       if (!app.blockInteraction?.interactions) {
                           return;
                       }
                       var handlersList = app.blockInteraction?.interactions?.filter(
                           (i) => !!i.handlers[ctx.payload.onAction]
                       );
+                      let handlerFound = false;
                       for (let i = 0; i < handlersList?.length; ++i) {
                           const currentHandler = handlersList[i];
                           if (currentHandler.sourceType === 'MESSAGE') {
                               currentHandler.handlers[ctx.payload.onAction](ctx as BlockInteractionContext<'MESSAGE'>);
+                              handlerFound = true;
                           }
                       }
+                      if (!handlerFound) {
+                          console.error(`No ${ctx.payload.onAction} handlers found, source: MESSAGE`);
+                          await ctx.nack('No handlers were found for the given event.', 400);
+                      }
                   },
-                  handlerEphemeralMessage: (ctx: BlockInteractionContext<'EPHEMERAL_MESSAGE'>) => {
+                  handlerEphemeralMessage: async (ctx: BlockInteractionContext<'EPHEMERAL_MESSAGE'>) => {
                       if (!app.blockInteraction?.interactions) {
                           return;
                       }
                       var handlersList = app.blockInteraction?.interactions?.filter(
                           (i) => !!i.handlers[ctx.payload.onAction]
                       );
+                      let handlerFound = false;
                       for (let i = 0; i < handlersList?.length; ++i) {
                           const currentHandler = handlersList[i];
                           if (currentHandler.sourceType === 'EPHEMERAL_MESSAGE') {
                               currentHandler.handlers[ctx.payload.onAction](
                                   ctx as BlockInteractionContext<'EPHEMERAL_MESSAGE'>
                               );
+                              handlerFound = true;
                           }
+                      }
+                      if (!handlerFound) {
+                          console.error(`No ${ctx.payload.onAction} handlers found, source: EPHEMERAL_MESSAGE`);
+                          await ctx.nack('No handlers were found for the given event.', 400);
                       }
                   },
               }
