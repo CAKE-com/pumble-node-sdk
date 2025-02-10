@@ -113,6 +113,6 @@ export type DynamicMenuContext = ResponseContext<DynamicMenuOptionsResponse> & E
 export type SpawnModalContext = {
     spawnModal: SpawnModalCallback<StorageIntegrationModalCredentials>
 };
-export type OnMessageContext = EventContext<PumbleEventPayload<'NEW_MESSAGE'>> & ReplyContext;
+export type OnMessageContext = EventContext<PumbleEventPayload<'NEW_MESSAGE' | 'UPDATED_MESSAGE'>> & ReplyContext;
 export type OnReactionContext = EventContext<PumbleEventPayload<'REACTION_ADDED'>> & ReplyContext & FetchMessageContext;
 export type OnErrorCallback = (arg: EventHandlingException<any>) => void;
