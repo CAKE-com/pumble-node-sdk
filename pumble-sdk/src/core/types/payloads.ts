@@ -62,6 +62,7 @@ export type GlobalShortcutPayload = AppMessage & {
     shortcut: string;
     userId: string;
     channelId: string;
+    threadRootId?: string;
     workspaceId: string;
     triggerId: string;
 };
