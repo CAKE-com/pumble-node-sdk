@@ -1,4 +1,4 @@
-import {ApiClient, V1} from '../../api';
+import { ApiClient } from '../../api';
 import { OAuth2AccessTokenResponse } from '../../auth';
 import {
     BlockInteractionContext,
@@ -12,8 +12,6 @@ import {
 } from '../types/contexts';
 import { AddonManifest, EventKeys, GlobalShortcutsKeys, MessageShortcutsKeys, SlashCommandKeys } from '../types/types';
 import { Express } from 'express';
-import Option = V1.Option;
-import OptionGroup = V1.OptionGroup;
 
 export type ContextCallback<TContext> = (ctx: TContext) => void | Promise<void>;
 
@@ -34,11 +32,12 @@ export interface Addon<T extends AddonManifest = AddonManifest> {
 
     blockInteractionEphemeralMessage(cb: ContextCallback<BlockInteractionContext<'EPHEMERAL_MESSAGE'>>): this;
 
-    message(message: string, cb: ContextCallback<OnMessageContext>): this;
+    message(eventName: 'NEW_MESSAGE' | 'UPDATED_MESSAGE', message: string, cb: ContextCallback<OnMessageContext>): this;
 
-    message(message: RegExp, cb: ContextCallback<OnMessageContext>): this;
+    message(eventName: 'NEW_MESSAGE' | 'UPDATED_MESSAGE', message: RegExp, cb: ContextCallback<OnMessageContext>): this;
 
     message(
+        eventName: 'NEW_MESSAGE' | 'UPDATED_MESSAGE',
         options: {
             match: string | RegExp;
             includeBotMessages?: boolean;
