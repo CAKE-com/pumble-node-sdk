@@ -129,9 +129,9 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
                 if (event.name === 'REACTION_ADDED') {
                     const options = event.options || { match: /.*/ };
                     this.reaction(options.match, event.handler);
-                } else if (event.name === 'NEW_MESSAGE') {
+                } else if (event.name === 'NEW_MESSAGE' || event.name === 'UPDATED_MESSAGE') {
                     const options = event.options || { match: /.*/, includeBotMessages: false };
-                    this.message(options, event.handler);
+                    this.message(event.name, options, event.handler);
                 } else {
                     this.event(event.name, event.handler as ContextCallback<PumbleEventContext<typeof event.name>>);
                 }
@@ -446,10 +446,11 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
 
 
     public message(
+        eventName: 'NEW_MESSAGE' | 'UPDATED_MESSAGE',
         opt: string | RegExp | { match: string | RegExp; includeBotMessages?: boolean },
         cb: ContextCallback<OnMessageContext>
     ): this {
-        return this.event('NEW_MESSAGE', async (evt) => {
+        return this.event(eventName, async (evt) => {
             const matcher: {
                 match: string | RegExp;
                 includeBotMessages?: boolean;

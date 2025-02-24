@@ -113,6 +113,7 @@ export type DynamicMenuContext = ResponseContext<DynamicMenuOptionsResponse> & E
 export type ViewContext = {
     spawnModalView: ResponseCallback<V1.StorageIntegrationModalCredentials | V1.View<"MODAL">>
 };
+
 export type ViewActionFunctionContext = {
     updateView: ResponseCallback<V1.View<"MODAL" | "HOME">>
     pushModalView: ResponseCallback<V1.View<"MODAL">>
@@ -120,6 +121,6 @@ export type ViewActionFunctionContext = {
 
 export type ViewActionContext = EventContext<ViewActionPayload> & AcknowledgeContext & ViewActionFunctionContext;
 
-export type OnMessageContext = EventContext<PumbleEventPayload<'NEW_MESSAGE'>> & ReplyContext;
+export type OnMessageContext = EventContext<PumbleEventPayload<'NEW_MESSAGE' | 'UPDATED_MESSAGE'>> & ReplyContext;
 export type OnReactionContext = EventContext<PumbleEventPayload<'REACTION_ADDED'>> & ReplyContext & FetchMessageContext;
 export type OnErrorCallback = (arg: EventHandlingException<any>) => void;

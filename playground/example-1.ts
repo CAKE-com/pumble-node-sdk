@@ -1,6 +1,6 @@
 import { App, JsonFileTokenStore, start, V1 } from '../pumble-sdk/src';
 var mime = require('mime-types')
-var path = require('path'); 
+var path = require('path');
 var fs = require('fs');
 
 /*
@@ -333,6 +333,14 @@ const app: App = {
                 console.log('RECEIVED MESSAGE');
             },
         },
+        {
+            name: 'UPDATED_MESSAGE',
+            options: {includeBotMessages: false, match: /^test/},
+            handler: async (ctx) => {
+                console.log('Updated message', ctx.payload.body.mId);
+                await ctx.say('updated it', 'in_channel', true);
+            }
+        }
     ],
     onServerConfiguring: (e, addon) => {
     },
