@@ -6,18 +6,16 @@ import {
     BlockInteractionPayload, DynamicMenuOptionsResponse, DynamicMenuPayload,
     GlobalShortcutPayload, MessageShortcutPayload,
     PumbleEventPayload,
-    SlashCommandPayload,
+    SlashCommandPayload, SpawnModalResponse, ViewActionPayload,
 } from './payloads';
 import {
     AddonManifest,
-    BlockInteractionSourceType,
-    StorageIntegrationModalCredentials
+    BlockInteractionSourceType
 } from './types';
 
 export type AckCallback = (arg?: string) => Promise<void>;
 export type NackCallback = (arg?: string, status?: number) => Promise<void>;
 export type ResponseCallback<T> = (arg: T) => Promise<void>;
-export type SpawnModalCallback<T> = (arg: T) => Promise<void>;
 
 export type SayFunction = (message: V1.SendMessagePayload, type?: 'in_channel' | 'ephemeral') => Promise<void>;
 
@@ -91,28 +89,37 @@ export type SlashCommandContext = EventContext<SlashCommandPayload> &
     SayContext &
     AcknowledgeContext &
     ChannelDetailsContext &
-    SpawnModalContext;
-export type GlobalShortcutContext = EventContext<GlobalShortcutPayload> & SayContext & AcknowledgeContext & SpawnModalContext;
+    ViewContext;
+export type GlobalShortcutContext = EventContext<GlobalShortcutPayload> & SayContext & AcknowledgeContext & ViewContext;
 export type MessageShortcutContext = EventContext<MessageShortcutPayload> &
     ReplyContext &
     AcknowledgeContext &
     FetchMessageContext &
-    SpawnModalContext;
+    ViewContext;
 export type BlockInteractionContext<T extends BlockInteractionSourceType = BlockInteractionSourceType> =
     T extends 'VIEW'
-        ? EventContext<BlockInteractionPayload<'VIEW'>> & AcknowledgeContext & SpawnModalContext
+        ? EventContext<BlockInteractionPayload<'VIEW'>> & AcknowledgeContext & ViewContext & ViewActionFunctionContext
         : T extends 'EPHEMERAL_MESSAGE'
-        ? EventContext<BlockInteractionPayload<'EPHEMERAL_MESSAGE'>> & AcknowledgeContext & ChannelDetailsContext & SpawnModalContext
+        ? EventContext<BlockInteractionPayload<'EPHEMERAL_MESSAGE'>> & AcknowledgeContext & ChannelDetailsContext & ViewContext & ViewActionFunctionContext
         : EventContext<BlockInteractionPayload<'MESSAGE'>> &
               AcknowledgeContext &
               ReplyContext &
               FetchMessageContext &
               ChannelDetailsContext &
-              SpawnModalContext;
+              ViewContext &
+              ViewActionFunctionContext;
 export type DynamicMenuContext = ResponseContext<DynamicMenuOptionsResponse> & EventContext<DynamicMenuPayload>;
-export type SpawnModalContext = {
-    spawnModal: SpawnModalCallback<StorageIntegrationModalCredentials>
+
+export type ViewContext = {
+    spawnModalView: ResponseCallback<V1.StorageIntegrationModalCredentials | V1.View<"MODAL">>
 };
+export type ViewActionFunctionContext = {
+    updateView: ResponseCallback<V1.View<"MODAL" | "HOME">>
+    pushModalView: ResponseCallback<V1.View<"MODAL">>
+};
+
+export type ViewActionContext = EventContext<ViewActionPayload> & AcknowledgeContext & ViewActionFunctionContext;
+
 export type OnMessageContext = EventContext<PumbleEventPayload<'NEW_MESSAGE'>> & ReplyContext;
 export type OnReactionContext = EventContext<PumbleEventPayload<'REACTION_ADDED'>> & ReplyContext & FetchMessageContext;
 export type OnErrorCallback = (arg: EventHandlingException<any>) => void;

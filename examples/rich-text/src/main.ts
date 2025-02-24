@@ -1,6 +1,13 @@
-import { App, JsonFileTokenStore, start } from "pumble-sdk";
+import {App, JsonFileTokenStore, start, V1} from "pumble-sdk";
+import Option = V1.Option;
 
 const addon: App = {
+  dynamicMenus: [{
+    onAction: "dropDown1",
+    producer: (ctx) => {
+      return [{text: {type: "plain_text", text: "any"}, value: "any"}];
+    }
+  }],
   globalShortcuts: [
     {
       name: "Global shortcut",
@@ -56,8 +63,11 @@ const addon: App = {
                 ]
               }
             ]
+          }, {
+            type: "actions",
+            elements: [{type: "dynamic_select_menu", min_query_length: 1, onAction: "dropDown1", placeholder: {text: "Select something", type: "plain_text"}}]
           }]
-        });
+        }, "in_channel");
       },
     },
     {

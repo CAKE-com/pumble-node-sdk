@@ -31,7 +31,6 @@ const app: App = {
     blockInteraction: {
         interactions: [
             {
-                viewId: 'view-1',
                 sourceType: 'VIEW',
                 handlers: {
                     onClick1: async (ctx) => {
@@ -59,6 +58,24 @@ const app: App = {
                 },
             },
         ],
+    },
+    viewAction: {
+        onSubmit: {
+            view1Callback: async (ctx) => {
+                await ctx.ack();
+                console.log("View submitted");
+            },
+            otherViewCallback: async (ctx) => {
+                await ctx.ack();
+                // do whatever
+            }
+        },
+        onClose: {
+            view1Callback: async (ctx) => {
+                await ctx.ack();
+                console.log("View closed");
+            }
+        }
     },
     slashCommands: [
         {
@@ -199,7 +216,7 @@ const app: App = {
             name: 'GDrive Modal',
             description: 'spawn google drive modal',
             handler: async (ctx) => {
-                await ctx.spawnModal({
+                await ctx.spawnModalView({
                     googleAccessToken: 'accessToken',
                     googleAppId: 'appId',
                     googleApiKey: 'apiKey',
@@ -207,6 +224,61 @@ const app: App = {
                 });
             }
         },
+        {
+            name: 'Native Modal',
+            description: 'spawn native modal',
+            handler: async (ctx) => {
+                await ctx.spawnModalView({
+                    callbackId: "view1Callback",
+                    type: "MODAL",
+                    submit: {type: "plain_text", text: "Submit"},
+                    title: {type: "plain_text", text: "Title"},
+                    close: {type: "plain_text", text: "Close"},
+                    notifyOnClose: true,
+                    state: {
+                        values: {
+                            input_static_1: {
+                                ssm1: {
+                                    type: 'static_select_menu',
+                                    value: '1'
+                                }
+                            }
+                        }
+                    },
+                    blocks: [
+                        {
+                            type: "rich_text",
+                            elements: [{
+                                type: "rich_text_section",
+                                elements: [{type: "text", text: "Really cool view content"}]
+                            }]
+                        },
+                        {
+                            type: "input",
+                            blockId: "input_static_1",
+                            label: {text: "Input static menu", type: "plain_text"},
+                            element: {
+                                type: "static_select_menu",
+                                placeholder: {text: "text", type: "plain_text"},
+                                onAction: "ssm1",
+                                options: [
+                                    {text: {type: "plain_text", text: "Option 1"}, value: "1"},
+                                    {text: {type: "plain_text", text: "Option 2"}, value: "2"}
+                                ]
+                            },
+                            dispatchAction: true
+                        },
+                        {
+                            type: "actions",
+                            elements: [
+                                {type: "button", text: {type: "plain_text", text: "BTN"}, onAction: "onClick1"},
+                                {type: "plain_text_input", onAction: "input_text_1"}
+                            ]
+                        }
+                    ],
+                });
+            }
+        }
     ],
     messageShortcuts: [
         {

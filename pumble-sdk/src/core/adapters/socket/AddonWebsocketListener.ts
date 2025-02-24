@@ -14,6 +14,7 @@ import {
     isMessageShortcut,
     isPumbleEvent,
     isSlashCommand,
+    isViewAction,
 } from '../../types/payloads';
 
 type WebsocketMessage = {
@@ -125,6 +126,9 @@ export class AddonWebsocketListener<T extends AddonManifest> {
             }
             if (isDynamicMenuInteraction(message)) {
                 this.service.postDynamicSelectMenu(message, response, nack);
+            }
+            if (isViewAction(message)) {
+                this.service.postViewAction(message, response, ack, nack);
             }
         }
     }
