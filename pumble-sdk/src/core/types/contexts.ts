@@ -98,7 +98,7 @@ export type MessageShortcutContext = EventContext<MessageShortcutPayload> &
     ViewContext;
 export type BlockInteractionContext<T extends BlockInteractionSourceType = BlockInteractionSourceType> =
     T extends 'VIEW'
-        ? EventContext<BlockInteractionPayload<'VIEW'>> & AcknowledgeContext & ViewContext & ViewActionFunctionContext
+        ? EventContext<BlockInteractionPayload<'VIEW'>> & AcknowledgeContext & ViewActionFunctionContext
         : T extends 'EPHEMERAL_MESSAGE'
         ? EventContext<BlockInteractionPayload<'EPHEMERAL_MESSAGE'>> & AcknowledgeContext & ChannelDetailsContext & ViewContext & ViewActionFunctionContext
         : EventContext<BlockInteractionPayload<'MESSAGE'>> &

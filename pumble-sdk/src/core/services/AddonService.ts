@@ -330,14 +330,12 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             payload.userId,
             cache
         ) as EventContext<BlockInteractionPayload<'VIEW'>>;
-        const viewContext = this.createViewContext(eventContext, response);
         const viewActionContext = this.createViewFunctionActionContext(eventContext, response);
 
         const appEventArg: BlockInteractionContext<'VIEW'> = {
             ack,
             nack,
             ...eventContext,
-            ...viewContext,
             ...viewActionContext
         };
         this.emit(BLOCK_INTERACTION_VIEW, appEventArg);
