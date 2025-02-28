@@ -12,9 +12,9 @@
   "license": "ISC",
   "devDependencies": {
     "typescript": "^5.3.3",
-    "pumble-cli": "0.0.10"
+    "pumble-cli": "0.0.18"
   },
   "dependencies": {
-    "pumble-sdk": "0.0.10"
+    "pumble-sdk": "0.0.18"
   }
 }

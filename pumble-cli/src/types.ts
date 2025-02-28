@@ -21,6 +21,10 @@ type BlockInteraction = {
     url: string;
 };
 
+type ViewAction = {
+    url: string;
+};
+
 type DynamicMenu = {
     url: string;
     onAction: string;
@@ -43,6 +47,7 @@ export type AddonManifest = {
     shortcuts: readonly Shortcut[];
     slashCommands: readonly SlashCommand[];
     blockInteraction?: BlockInteraction;
+    viewAction?: ViewAction;
     dynamicMenus: readonly DynamicMenu[];
     redirectUrls: readonly string[];
     eventSubscriptions: ManifestEvents;

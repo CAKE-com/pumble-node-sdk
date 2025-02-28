@@ -103,6 +103,16 @@ export namespace V1 {
         confirm?: ConfirmDialog;
     };
 
+    export type BlockPlainTextInput = Input & {
+        type: 'plain_text_input';
+        initial_value?: string;
+        placeholder?: BlockTextElement;
+        multiline?: boolean;
+        min_length?: number;
+        max_length?: number;
+        interaction_triggers?: InteractionTriggers[];
+    };
+
     export type BlockStaticSelectMenu = Input & {
         type: 'static_select_menu';
         placeholder: BlockTextElement;
@@ -120,7 +130,9 @@ export namespace V1 {
         confirm?: ConfirmDialog;
     };
 
-    type ActionableBlock = BlockButton | BlockStaticSelectMenu | BlockDynamicSelectMenu;
+    type ActionableBlock = BlockButton | BlockStaticSelectMenu | BlockDynamicSelectMenu | BlockPlainTextInput;
+    export type ActionableBlockNames = 'button' | 'static_select_menu' | 'dynamic_select_menu' | 'plain_text_input';
+    export type InteractionTriggers = 'on_enter_pressed' | 'on_input';
 
     export type BlockRichText = {
         type: 'rich_text';
@@ -129,6 +141,7 @@ export namespace V1 {
 
     export type BlockInput = {
         type: 'input';
+        blockId: string;
         label: BlockTextElement;
         element: ActionableBlock;
         dispatchAction?: boolean;
@@ -723,4 +736,47 @@ export namespace V1 {
         input: Buffer|Blob|String,
         options?: V1.FileUploadOptions
     }
+
+    export interface PublishHomeViewRequest {
+        blocks: MainBlock[];
+        notifyOnClose?: boolean,
+        title?: BlockTextElement,
+        submit?: BlockTextElement,
+        state?: any
+    }
+
+    export type ViewType = "MODAL" | "HOME";
+
+    export type View<T extends ViewType> = {
+        id?: string,
+        type: T,
+        blocks: MainBlock[]
+        notifyOnClose: boolean,
+        title: BlockTextElement,
+        submit?: BlockTextElement,
+        state?: State,
+        parentViewId?: string,
+        callbackId: string
+    } & (T extends "MODAL" ? {close: BlockTextElement} : {close?: BlockTextElement})
+
+    export type State = {
+        values: {
+            [key: string]: {
+                [key: string]: {
+                    type: ActionableBlockNames;
+                    value: string;
+                }
+            }
+        }
+    };
+
+    export type StorageIntegrationModalCredentials = GoogleDriveModalCredentials;
+
+    export interface GoogleDriveModalCredentials {
+        googleAccessToken: string,
+        googleAppId: string,
+        googleApiKey: string,
+        googleClientId: string
+    }
+
 }

@@ -6,7 +6,7 @@ import {
     OnMessageContext,
     OnReactionContext,
     PumbleEventContext,
-    SlashCommandContext,
+    SlashCommandContext, ViewActionContext,
 } from './contexts';
 import { PumbleEventType } from './pumble-events';
 import {V1} from "../../api";
@@ -52,6 +52,13 @@ type DynamicMenu = {
     producer: Callback<DynamicMenuContext, Promise<Option[] | OptionGroup[]>>
 };
 
+type ViewAction = {
+    url: string;
+    handler: ContextCallback<ViewActionContext>;
+}
+
+export type ViewActionType = 'SUBMIT' | 'CLOSE';
+
 type OptionsForEvent<T extends PumbleEventType> = T extends 'NEW_MESSAGE'
     ? { match: string | RegExp; includeBotMessages?: boolean }
     : T extends 'UPDATED_MESSAGE'
@@ -90,6 +97,7 @@ export type AddonManifest = {
     shortcuts: readonly Shortcut[];
     slashCommands: readonly SlashCommand[];
     blockInteraction?: BlockInteraction;
+    viewAction?: ViewAction,
     dynamicMenus: readonly DynamicMenu[];
     redirectUrls: readonly string[];
     eventSubscriptions: ManifestEvents;
@@ -159,23 +167,3 @@ export type SlashCommandKeys<T extends { slashCommands: readonly SlashCommand[] 
 > extends never
     ? string
     : I_SlashCommands<GetSlashCommands<T>>;
-
-export type SpawnModalRequest = {
-    triggerId: string;
-    view: StorageIntegrationModalCredentials | View,
-    viewType: ViewType
-}
-
-export type ViewType = 'NATIVE' | 'INTEGRATION';
-
-// Will be implemented in the future
-export type View = {}
-
-export type StorageIntegrationModalCredentials = GoogleDriveModalCredentials;
-
-export type GoogleDriveModalCredentials = {
-    googleAccessToken: string;
-    googleAppId: string;
-    googleApiKey: string;
-    googleClientId: string;
-}

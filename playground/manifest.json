@@ -16,6 +16,7 @@
             "messages:edit",
             "channels:read",
             "messages:write",
+            "channels:write",
             "files:write",
             "messages:delete"
         ]

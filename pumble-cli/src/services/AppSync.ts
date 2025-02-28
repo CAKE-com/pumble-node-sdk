@@ -32,6 +32,11 @@ class AppSync {
                         url: this.getAbsoluteUrl(host, manifest.blockInteraction.url),
                     }
                     : undefined,
+                viewAction: manifest.viewAction
+                    ? {
+                        url: this.getAbsoluteUrl(host, manifest.viewAction.url),
+                    }
+                    : undefined,
                 dynamicMenus: manifest.dynamicMenus ? manifest.dynamicMenus.map((dynamicMenu) => {
                     return {
                         url: this.getAbsoluteUrl(host, dynamicMenu.url),
@@ -210,6 +215,15 @@ class AppSync {
                 action: 'change',
                 oldValue: oldApp.blockInteraction?.url,
                 newValue: newApp.blockInteraction?.url,
+            });
+        }
+
+        if (oldApp.viewAction?.url != newApp.viewAction?.url) {
+            changes.push({
+                key: 'View Actions URL',
+                action: 'change',
+                oldValue: oldApp.viewAction?.url,
+                newValue: newApp.viewAction?.url,
             });
         }
 

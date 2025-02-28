@@ -1,8 +1,6 @@
 import {
-    AddonManifest, GoogleDriveModalCredentials,
-    Shortcut,
-    SpawnModalRequest,
-    StorageIntegrationModalCredentials, View
+    AddonManifest,
+    Shortcut
 } from '../types/types';
 import { CredentialsStore, OAuth2AccessTokenResponse } from '../../auth';
 import {
@@ -25,7 +23,7 @@ import {
     BlockInteractionContext,
     DynamicMenuContext,
     ResponseCallback,
-    SpawnModalContext
+    ViewContext, ViewActionContext, ViewActionFunctionContext
 } from '../types/contexts';
 import {Addon, Callback, ContextCallback} from './Addon';
 import { PumbleEventType } from '../types/pumble-events';
@@ -41,7 +39,8 @@ import {
     GlobalShortcutPayload,
     MessageShortcutPayload,
     PumbleEventPayload,
-    SlashCommandPayload,
+    SlashCommandPayload, ViewActionPayload,
+    SpawnModalResponse, ViewActionResponse
 } from '../types/payloads';
 import path from 'path';
 import { ClientUtils } from './ClientUtils';
@@ -64,6 +63,7 @@ const BLOCK_INTERACTION_VIEW = 'block_interaction_view';
 const BLOCK_INTERACTION_MESSAGE = 'block_interaction_message';
 const BLOCK_INTERACTION_EPHEMERAL_MESSAGE = 'block_interaction_ephemeral_message';
 const DYNAMIC_SELECT_MENU = 'dynamic_select_menu';
+const VIEW_ACTION = 'view_action';
 const ERROR = 'error';
 
 const availableEvents = [
@@ -74,7 +74,8 @@ const availableEvents = [
     BLOCK_INTERACTION_VIEW,
     BLOCK_INTERACTION_MESSAGE,
     BLOCK_INTERACTION_EPHEMERAL_MESSAGE,
-    DYNAMIC_SELECT_MENU
+    DYNAMIC_SELECT_MENU,
+    VIEW_ACTION
 ] as const;
 
 export type AvailableEvents = (typeof availableEvents)[number];
@@ -116,6 +117,9 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             this.blockInteractionView(this.manifest.blockInteraction.handlerView);
             this.blockInteractionMessage(this.manifest.blockInteraction.handlerMessage);
             this.blockInteractionEphemeralMessage(this.manifest.blockInteraction.handlerEphemeralMessage);
+        }
+        if (this.manifest.viewAction) {
+            this.viewAction(this.manifest.viewAction.handler);
         }
         this.manifest.dynamicMenus.forEach((selectMenu) => {
             this.dynamicSelectMenu(selectMenu.onAction, selectMenu.producer);
@@ -194,22 +198,22 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         this.emit(evt.eventType, ctx);
     }
 
-    public postGlobalShortcut(payload: GlobalShortcutPayload, response: ResponseCallback<SpawnModalRequest>, ack: AckCallback, nack: NackCallback): void {
+    public postGlobalShortcut(payload: GlobalShortcutPayload, response: ResponseCallback<SpawnModalResponse>, ack: AckCallback, nack: NackCallback): void {
         const cache: ContextCache = {};
         const eventContext = this.createEventContext(payload, payload.workspaceId, payload.userId, cache);
         const sayContext = this.createSayContext(eventContext, payload.userId, payload.channelId);
-        const spawnModalContext = this.createSpawnModalContext(eventContext, response);
+        const viewContext = this.createViewContext(eventContext, response);
         const ctx: GlobalShortcutContext = {
             ack,
             nack,
             ...eventContext,
             ...sayContext,
-            ...spawnModalContext
+            ...viewContext
         };
         this.emit(GLOBAL_SHORTCUT, ctx);
     }
 
-    public postMessageShortcut(payload: MessageShortcutPayload, response: ResponseCallback<SpawnModalRequest>, ack: AckCallback, nack: NackCallback): void {
+    public postMessageShortcut(payload: MessageShortcutPayload, response: ResponseCallback<SpawnModalResponse>, ack: AckCallback, nack: NackCallback): void {
         const cache: ContextCache = {};
         const eventContext = this.createEventContext(payload, payload.workspaceId, payload.userId, cache);
         const fetchMessageContext = this.createFetchMessageContext(
@@ -224,36 +228,36 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             payload.userId,
             payload.channelId
         );
-        const spawnModalContext = this.createSpawnModalContext(eventContext, response);
+        const viewContext = this.createViewContext(eventContext, response);
         const ctx: MessageShortcutContext = {
             ack,
             nack,
             ...eventContext,
             ...fetchMessageContext,
             ...replyContext,
-            ...spawnModalContext
+            ...viewContext
         };
         this.emit(MESSAGE_SHORTCUT, ctx);
     }
 
-    public postSlashCommand(payload: SlashCommandPayload, response: ResponseCallback<SpawnModalRequest>, ack: AckCallback, nack: NackCallback): void {
+    public postSlashCommand(payload: SlashCommandPayload, response: ResponseCallback<SpawnModalResponse>, ack: AckCallback, nack: NackCallback): void {
         const cache: ContextCache = {};
         const eventContext = this.createEventContext(payload, payload.workspaceId, payload.userId, cache);
         const sayContext = this.createSayContext(eventContext, payload.userId, payload.channelId, payload.threadRootId);
         const channelDetailsContext = this.createChannelDetailsContext(eventContext, payload.channelId);
-        const spawnModalContext = this.createSpawnModalContext(eventContext, response);
+        const viewContext = this.createViewContext(eventContext, response);
         const appEventArg: SlashCommandContext = {
             ack,
             nack,
             ...eventContext,
             ...sayContext,
             ...channelDetailsContext,
-            ...spawnModalContext
+            ...viewContext
         };
         this.emit(SLASH, appEventArg);
     }
 
-    public postBlockInteractionMessage(payload: BlockInteractionPayload, response: ResponseCallback<SpawnModalRequest>, ack: AckCallback, nack: NackCallback): void {
+    public postBlockInteractionMessage(payload: BlockInteractionPayload, response: ResponseCallback<SpawnModalResponse | ViewActionResponse>, ack: AckCallback, nack: NackCallback): void {
         const cache: ContextCache = {};
         const eventContext = this.createEventContext(
             payload,
@@ -274,7 +278,8 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             payload.userId,
             payload.channelId!
         );
-        const spawnModalContext = this.createSpawnModalContext(eventContext, response);
+        const viewContext = this.createViewContext(eventContext, response);
+        const viewActionFunctionContext = this.createViewFunctionActionContext(eventContext, response);
 
         const appEventArg: BlockInteractionContext<'MESSAGE'> = {
             ack,
@@ -283,14 +288,15 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             ...replyContext,
             ...channelDetailsContext,
             ...fetchMessageContext,
-            ...spawnModalContext
+            ...viewContext,
+            ...viewActionFunctionContext
         };
         this.emit(BLOCK_INTERACTION_MESSAGE, appEventArg);
     }
 
     public postBlockInteractionEphemeralMessage(
         payload: BlockInteractionPayload,
-        response: ResponseCallback<SpawnModalRequest>,
+        response: ResponseCallback<SpawnModalResponse | ViewActionResponse>,
         ack: AckCallback,
         nack: NackCallback
     ): void {
@@ -302,19 +308,21 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             cache
         ) as EventContext<BlockInteractionPayload<'EPHEMERAL_MESSAGE'>>;
         const channelDetailsContext = this.createChannelDetailsContext(eventContext, payload.channelId!);
-        const spawnModalContext = this.createSpawnModalContext(eventContext, response);
+        const viewContext = this.createViewContext(eventContext, response);
+        const viewActionFunctionContext = this.createViewFunctionActionContext(eventContext, response);
 
         const appEventArg: BlockInteractionContext<'EPHEMERAL_MESSAGE'> = {
             ack,
             nack,
             ...eventContext,
             ...channelDetailsContext,
-            ...spawnModalContext
+            ...viewContext,
+            ...viewActionFunctionContext,
         };
         this.emit(BLOCK_INTERACTION_EPHEMERAL_MESSAGE, appEventArg);
     }
 
-    public postBlockInteractionView(payload: BlockInteractionPayload, response: ResponseCallback<SpawnModalRequest>, ack: AckCallback, nack: NackCallback): void {
+    public postBlockInteractionView(payload: BlockInteractionPayload, response: ResponseCallback<SpawnModalResponse | ViewActionResponse>, ack: AckCallback, nack: NackCallback): void {
         const cache: ContextCache = {};
         const eventContext = this.createEventContext(
             payload,
@@ -322,13 +330,13 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             payload.userId,
             cache
         ) as EventContext<BlockInteractionPayload<'VIEW'>>;
-        const spawnModalContext = this.createSpawnModalContext(eventContext, response);
+        const viewActionContext = this.createViewFunctionActionContext(eventContext, response);
 
         const appEventArg: BlockInteractionContext<'VIEW'> = {
             ack,
             nack,
             ...eventContext,
-            ...spawnModalContext
+            ...viewActionContext
         };
         this.emit(BLOCK_INTERACTION_VIEW, appEventArg);
     }
@@ -342,6 +350,19 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             ...eventContext,
         };
         this.emit(DYNAMIC_SELECT_MENU, appEventArg);
+    }
+
+    public postViewAction(payload: ViewActionPayload, response: ResponseCallback<ViewActionResponse>, ack: AckCallback, nack: NackCallback): void {
+        const cache: ContextCache = {};
+        const eventContext = this.createEventContext(payload, payload.workspaceId, payload.userId, cache);
+        const viewActionFunctionContext = this.createViewFunctionActionContext(eventContext, response);
+        const appEventArg: ViewActionContext = {
+            ack,
+            nack,
+            ...viewActionFunctionContext,
+            ...eventContext,
+        };
+        this.emit(VIEW_ACTION, appEventArg);
     }
 
     public event<E extends PumbleEventType>(name: E, cb: ContextCallback<PumbleEventContext<E>>): this {
@@ -412,6 +433,13 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             }
         };
         return this.on(DYNAMIC_SELECT_MENU, wrapperCallback);
+    }
+
+    public viewAction(cb: ContextCallback<ViewActionContext>): this {
+        const wrapperCallback: ContextCallback<ViewActionContext> = (ctx) => {
+            return cb(ctx);
+        };
+        return this.on(VIEW_ACTION, wrapperCallback);
     }
 
 
@@ -680,21 +708,48 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         return { fetchMessage };
     }
 
-    private createSpawnModalContext(eventContext: EventContext<AppActionPayload>, response: ResponseCallback<SpawnModalRequest>): SpawnModalContext {
-        const spawnModal = async (view: StorageIntegrationModalCredentials | View) => {
+    private createViewContext(eventContext: EventContext<AppActionPayload>, response: ResponseCallback<SpawnModalResponse>): ViewContext {
+        const spawnModalView = async (view: V1.StorageIntegrationModalCredentials | V1.View<"MODAL">) => {
             const viewType = this.isStorageIntegrationModalCredentials(view) ? 'INTEGRATION' : 'NATIVE';
+            const action = "OPEN";
             await response({
                 triggerId: eventContext.payload.triggerId,
                 view,
-                viewType
+                viewType,
+                action
             });
         }
 
-        return { spawnModal };
+        return { spawnModalView };
     }
 
-    private isStorageIntegrationModalCredentials(view: StorageIntegrationModalCredentials | View): boolean {
-        return (view as GoogleDriveModalCredentials).googleAccessToken !== undefined;
+    private createViewFunctionActionContext(eventContext: EventContext<AppActionPayload>, response: ResponseCallback<ViewActionResponse>): ViewActionFunctionContext {
+        const updateView = async (view: V1.View<"MODAL" | "HOME">) => {
+            const viewType = 'NATIVE';
+            const action = "UPDATE";
+            await response({
+                triggerId: eventContext.payload.triggerId,
+                view,
+                viewType,
+                action
+            });
+        }
+        const pushModalView = async (view: V1.View<"MODAL">) => {
+            const viewType = 'NATIVE';
+            const action = "PUSH";
+            await response({
+                triggerId: eventContext.payload.triggerId,
+                view,
+                viewType,
+                action
+            });
+        }
+
+        return { updateView, pushModalView };
+    }
+
+    private isStorageIntegrationModalCredentials(view: V1.StorageIntegrationModalCredentials | V1.View<"MODAL">): boolean {
+        return (view as V1.GoogleDriveModalCredentials).googleAccessToken !== undefined;
     }
 
     private setupOAuth(config: OAuth2Config) {
