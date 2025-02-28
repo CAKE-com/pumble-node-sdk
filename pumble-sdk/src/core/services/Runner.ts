@@ -273,9 +273,6 @@ class Runner {
         manifest.viewAction = app.viewAction ? {
             url: app.viewAction?.path ?? hookUrl,
             handler: async (ctx: ViewActionContext) => {
-                if (!app.viewAction) {
-                    return;
-                }
                 let callbackFound = false;
                 if (ctx.payload.viewActionType === "SUBMIT") {
                     const callback = app.viewAction?.onSubmit[ctx.payload.view!.callbackId];
