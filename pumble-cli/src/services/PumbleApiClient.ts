@@ -66,13 +66,6 @@ class PumbleApiClient {
         return data;
     }
 
-    public async createWorkspace(workspaceName: string, leadId: string): Promise<WorkspaceResponse> {
-        const timeZoneId = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const payload = { workspaceName, timeZoneId, leadId };
-        const { data } = await this.client.post<WorkspaceResponse>('/createWorkspace', payload);
-        return data;
-    }
-
     public async exchangeToken(workspaceId: string, exchangeToken: string): Promise<TokensResponse> {
         const { data } = await this.client.post<TokensResponse>(`/workspaces/${workspaceId}/exchange`, {
             exchangeToken,
