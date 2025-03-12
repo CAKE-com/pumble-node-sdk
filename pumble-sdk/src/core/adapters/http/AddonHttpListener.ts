@@ -10,7 +10,7 @@ import {
     isGlobalShortcut,
     isMessageShortcut,
     isPumbleEvent,
-    isSlashCommand,
+    isSlashCommand, isViewAction,
 } from '../../types/payloads';
 import path from 'path';
 import {ManifestProcessor} from "../../util/ManifestProcessor";
@@ -48,6 +48,9 @@ export class AddonHttpListener<T extends AddonManifest> {
         }
         if (this.manifest.blockInteraction) {
             paths.add(this.getPathname(this.manifest.blockInteraction.url));
+        }
+        if (this.manifest.viewAction) {
+            paths.add(this.getPathname(this.manifest.viewAction.url));
         }
         this.manifest.dynamicMenus.forEach((selectMenu) => {
             paths.add(this.getPathname(selectMenu.url));
@@ -100,6 +103,9 @@ export class AddonHttpListener<T extends AddonManifest> {
             }
             if (isDynamicMenuInteraction(message)) {
                 this.service.postDynamicSelectMenu(message, response, nack);
+            }
+            if (isViewAction(message)) {
+                this.service.postViewAction(message, response, ack, nack);
             }
         }
     }

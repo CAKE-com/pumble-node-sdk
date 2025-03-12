@@ -10,7 +10,6 @@ Every Request to Pumble api must be sent with two headers
 Each ApiClient method has its own set of required scopes.
 
 ## Messages
-
 | method                                  | scopes                           | description                                                      |
 |:----------------------------------------|:---------------------------------|:-----------------------------------------------------------------|
 | client.v1.messages.fetchMessage         | `messages:read`                  | Get message by id and channel id                                 |
@@ -53,11 +52,14 @@ Each ApiClient method has its own set of required scopes.
 | client.v1.workspace.getWorkspaceInfo | `workspace:read` | Get workspace info |
 
 ## Calls
-
 | method                              | scopes        | description             |
 | :---------------------------------- | :------------ | :---------------------- |
 | client.v1.calls.createPermanentCall | `calls:write` | Create a permanent call |
 
+## App
+| method                        | scopes           | description       |
+|:------------------------------|:-----------------|:------------------|
+| client.v1.app.publishHomeView | `channels:write` | Publish home view |
 
 ## Scopes
 
@@ -76,7 +78,7 @@ The list of all available scopes
 | `reaction:write`      | React to messages          |
 | `channels:list`       | List channels              |
 | `channels:read`       | Get channel information    |
-| `channels:write`      | Create channels            |
+| `channels:write`      | Write channels             |
 | `users:list`          | List all workspace users   |
 | `workspace:read`      | Read workspace information |
 | `calls:write`         | Create permanent calls     |

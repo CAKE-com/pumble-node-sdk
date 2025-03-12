@@ -7,11 +7,12 @@ import {
     OnReactionContext,
     PumbleEventContext,
     SlashCommandContext,
+    ViewActionContext,
 } from '../types/contexts';
 import { PumbleEventType } from '../types/pumble-events';
 import { Express } from 'express';
 import { promises as fs } from 'fs';
-import { AddonManifest } from '../types/types';
+import {AddonManifest, ViewActionType} from '../types/types';
 import { setup } from './AddonService';
 import { Addon } from './Addon';
 import {V1} from "../../api";
@@ -68,7 +69,6 @@ export type App = {
         path?: string;
         interactions: (
             | {
-                  viewId: string;
                   sourceType: 'VIEW';
                   handlers: {
                       [key: string]: (ctx: BlockInteractionContext<'VIEW'>) => void | Promise<void>;
@@ -87,6 +87,15 @@ export type App = {
                   };
               }
         )[];
+    };
+    viewAction?: {
+        path?: string;
+        onSubmit: (
+            | { [callbackId: string]: (ctx: ViewActionContext) => void | Promise<void>; }
+            );
+        onClose: (
+            | { [callbackId: string]: (ctx: ViewActionContext) => void | Promise<void>; }
+            );
     };
     dynamicMenus?: {
         path?: string;
@@ -202,8 +211,7 @@ class Runner {
                       var handlersList = app.blockInteraction?.interactions?.filter(
                           (i) =>
                               !!i.handlers[ctx.payload.onAction] &&
-                              i.sourceType === 'VIEW' &&
-                              i.viewId === ctx.payload.sourceId
+                              i.sourceType === 'VIEW'
                       );
                       let handlerFound = false;
                       for (let i = 0; i < handlersList?.length; ++i) {
@@ -262,6 +270,30 @@ class Runner {
                   },
               }
             : undefined;
+        manifest.viewAction = app.viewAction ? {
+            url: app.viewAction?.path ?? hookUrl,
+            handler: async (ctx: ViewActionContext) => {
+                let callbackFound = false;
+                if (ctx.payload.viewActionType === "SUBMIT") {
+                    const callback = app.viewAction?.onSubmit[ctx.payload.view!.callbackId];
+                    if (callback) {
+                        callbackFound = true;
+                        callback(ctx);
+                    }
+                }
+                if (ctx.payload.viewActionType === "CLOSE") {
+                    const callback = app.viewAction?.onClose[ctx.payload.view!.callbackId];
+                    if (callback) {
+                        callbackFound = true;
+                        callback(ctx);
+                    }
+                }
+                if (!callbackFound) {
+                    console.error(`No ${ctx.payload.view!.callbackId} callbacks found, source: VIEW`);
+                    await ctx.nack('No callbacks were found for the given view event.', 400);
+                }
+            }
+        } : undefined;
         manifest.dynamicMenus = (app.dynamicMenus || []).map((x) => {
             return {
                 url: x.path || hookUrl,

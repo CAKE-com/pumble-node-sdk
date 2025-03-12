@@ -1,5 +1,5 @@
 import { PumbleEventNotificationPayload, PumbleEventType } from './pumble-events';
-import { BlockInteractionSourceType, ShortcutType } from './types';
+import {BlockInteractionSourceType, ShortcutType, ViewActionType} from './types';
 import {V1} from "../../api";
 import OptionGroup = V1.OptionGroup;
 import Option = V1.Option;
@@ -10,7 +10,8 @@ export enum MessageType {
     APP_EVENT = 'APP_EVENT',
     PUMBLE_EVENT = 'PUMBLE_EVENT',
     BLOCK_INTERACTION = 'BLOCK_INTERACTION',
-    DYNAMIC_MENU = 'DYNAMIC_MENU'
+    DYNAMIC_MENU = 'DYNAMIC_MENU',
+    VIEW_ACTION = 'VIEW_ACTION'
 }
 
 export type AppMessage = {
@@ -34,6 +35,23 @@ export type DynamicMenuOptionsResponse = {
     options: Option[] | OptionGroup[];
     triggerId: string
 }
+
+export type SpawnModalResponse = {
+    triggerId: string;
+    view: V1.StorageIntegrationModalCredentials | V1.View<"MODAL">,
+    viewType: ViewType,
+    action: ViewAction,
+}
+
+export type ViewActionResponse = {
+    triggerId: string;
+    view: V1.View<"MODAL" | "HOME">,
+    viewType: ViewType,
+    action: ViewAction,
+}
+
+export type ViewType = 'NATIVE' | 'INTEGRATION';
+export type ViewAction = "OPEN" | "UPDATE" | "PUSH"
 
 export type PumbleEventPayload<T extends PumbleEventType = PumbleEventType> = AppMessage & {
     body: PumbleEventNotificationPayload<T>;
@@ -85,10 +103,19 @@ export type BlockInteractionPayload<T extends BlockInteractionSourceType = Block
     actionType: string;
     onAction: string;
     payload: string;
+    view?: V1.View<"HOME" | "MODAL">
     triggerId: string;
 };
 
-export type AppActionPayload = GlobalShortcutPayload | MessageShortcutPayload | SlashCommandPayload | BlockInteractionPayload;
+export type ViewActionPayload = AppMessage & {
+    workspaceId: string;
+    userId: string;
+    viewActionType: ViewActionType,
+    view: V1.View<"HOME" | "MODAL">,
+    triggerId: string;
+};
+
+export type AppActionPayload = GlobalShortcutPayload | MessageShortcutPayload | SlashCommandPayload | BlockInteractionPayload | ViewActionPayload;
 
 export function isPumbleEvent(message: AppMessage): message is Omit<PumbleEventPayload, 'body'> & { body: string } {
     return message.messageType === MessageType.PUMBLE_EVENT || message.messageType === MessageType.APP_EVENT;
@@ -128,4 +155,8 @@ export function isBlockInteractionEphemeralMessage(message: AppMessage): message
 
 export function isDynamicMenuInteraction(message: AppMessage): message is DynamicMenuPayload {
     return message.messageType === 'DYNAMIC_MENU';
+}
+
+export function isViewAction(message: AppMessage): message is ViewActionPayload {
+    return message.messageType === 'VIEW_ACTION';
 }
