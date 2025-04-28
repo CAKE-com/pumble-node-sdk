@@ -1,6 +1,7 @@
 // DO NOT CHANGE THIS MANUALLY
 // this is part of the PumbleAPI schema (BlocksArray subschema) so it should be compatible with it or exactly the same
 export const mainBlocks = {
+    "maxItems": 115,
     "type": "array",
     "items": {
         "type": "object",
@@ -184,6 +185,10 @@ export const mainBlocks = {
                                                             "text": {
                                                                 "type": "string",
                                                                 "description": "Text"
+                                                            },
+                                                            "unlinked": {
+                                                                "type": "boolean",
+                                                                "description": "Is text unlinked"
                                                             }
                                                         },
                                                         "additionalProperties": false
@@ -423,6 +428,10 @@ export const mainBlocks = {
                                                             "text": {
                                                                 "type": "string",
                                                                 "description": "Text"
+                                                            },
+                                                            "unlinked": {
+                                                                "type": "boolean",
+                                                                "description": "Is text unlinked"
                                                             }
                                                         },
                                                         "additionalProperties": false
@@ -550,6 +559,10 @@ export const mainBlocks = {
                                                         "enum": [
                                                             "text"
                                                         ]
+                                                    },
+                                                    "unlinked": {
+                                                        "type": "boolean",
+                                                        "description": "Is text unlinked"
                                                     }
                                                 },
                                                 "additionalProperties": false
@@ -745,6 +758,10 @@ export const mainBlocks = {
                                                                         "text": {
                                                                             "type": "string",
                                                                             "description": "Text"
+                                                                        },
+                                                                        "unlinked": {
+                                                                            "type": "boolean",
+                                                                            "description": "Is text unlinked"
                                                                         }
                                                                     },
                                                                     "additionalProperties": false
@@ -1968,6 +1985,79 @@ export const mainBlocks = {
                                     }
                                 },
                                 "additionalProperties": false
+                            },
+                            {
+                                "title": "BlockPlainTextInput",
+                                "required": [
+                                    "type"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "plain_text_input"
+                                        ]
+                                    },
+                                    "blockId": {
+                                        "maxLength": 100,
+                                        "type": "string"
+                                    },
+                                    "placeholder": {
+                                        "title": "BlockTextElement75",
+                                        "required": [
+                                            "text",
+                                            "type"
+                                        ],
+                                        "type": "object",
+                                        "properties": {
+                                            "type": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "plain_text"
+                                                ]
+                                            },
+                                            "text": {
+                                                "maxLength": 75,
+                                                "type": "string"
+                                            },
+                                            "emoji": {
+                                                "type": "boolean",
+                                                "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
+                                            }
+                                        },
+                                        "additionalProperties": false
+                                    },
+                                    "initial_value": {
+                                        "maxLength": 1000,
+                                        "type": "string"
+                                    },
+                                    "onAction": {
+                                        "type": "string",
+                                        "description": "Action identifier defined by addon (controlled and used on addon side)."
+                                    },
+                                    "multiline": {
+                                        "type": "boolean"
+                                    },
+                                    "min_length": {
+                                        "maximum": 1000,
+                                        "minimum": 0,
+                                        "type": "number"
+                                    },
+                                    "max_length": {
+                                        "maximum": 1000,
+                                        "minimum": 0,
+                                        "type": "number"
+                                    },
+                                    "interaction_triggers": {
+                                        "type": "string",
+                                        "enum": [
+                                            "on_enter_pressed",
+                                            "on_input"
+                                        ]
+                                    }
+                                },
+                                "additionalProperties": false
                             }
                         ]
                     }
@@ -3059,6 +3149,79 @@ export const mainBlocks = {
                                             },
                                             "additionalProperties": false,
                                             "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
+                                        }
+                                    },
+                                    "additionalProperties": false
+                                },
+                                {
+                                    "title": "BlockPlainTextInput",
+                                    "required": [
+                                        "type"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "type": "string",
+                                            "enum": [
+                                                "plain_text_input"
+                                            ]
+                                        },
+                                        "blockId": {
+                                            "maxLength": 100,
+                                            "type": "string"
+                                        },
+                                        "placeholder": {
+                                            "title": "BlockTextElement75",
+                                            "required": [
+                                                "text",
+                                                "type"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "type": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "plain_text"
+                                                    ]
+                                                },
+                                                "text": {
+                                                    "maxLength": 75,
+                                                    "type": "string"
+                                                },
+                                                "emoji": {
+                                                    "type": "boolean",
+                                                    "description": "Indicates whether emojis in a text field should be escaped into the colon emoji format."
+                                                }
+                                            },
+                                            "additionalProperties": false
+                                        },
+                                        "initial_value": {
+                                            "maxLength": 1000,
+                                            "type": "string"
+                                        },
+                                        "onAction": {
+                                            "type": "string",
+                                            "description": "Action identifier defined by addon (controlled and used on addon side)."
+                                        },
+                                        "multiline": {
+                                            "type": "boolean"
+                                        },
+                                        "min_length": {
+                                            "maximum": 1000,
+                                            "minimum": 0,
+                                            "type": "number"
+                                        },
+                                        "max_length": {
+                                            "maximum": 1000,
+                                            "minimum": 0,
+                                            "type": "number"
+                                        },
+                                        "interaction_triggers": {
+                                            "type": "string",
+                                            "enum": [
+                                                "on_enter_pressed",
+                                                "on_input"
+                                            ]
                                         }
                                     },
                                     "additionalProperties": false
