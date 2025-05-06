@@ -2050,11 +2050,11 @@ export const mainBlocks = {
                                         "type": "number"
                                     },
                                     "interaction_triggers": {
-                                        "type": "string",
-                                        "enum": [
-                                            "on_enter_pressed",
-                                            "on_input"
-                                        ]
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "enum": ["on_enter_pressed", "on_input"]
+                                        }
                                     }
                                 },
                                 "additionalProperties": false
@@ -3217,11 +3217,11 @@ export const mainBlocks = {
                                             "type": "number"
                                         },
                                         "interaction_triggers": {
-                                            "type": "string",
-                                            "enum": [
-                                                "on_enter_pressed",
-                                                "on_input"
-                                            ]
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "enum": ["on_enter_pressed", "on_input"]
+                                            }
                                         }
                                     },
                                     "additionalProperties": false
