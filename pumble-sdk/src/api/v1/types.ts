@@ -738,6 +738,7 @@ export namespace V1 {
     }
 
     export interface PublishHomeViewRequest {
+        callbackId: string,
         blocks: MainBlock[];
         notifyOnClose?: boolean,
         title?: BlockTextElement,
