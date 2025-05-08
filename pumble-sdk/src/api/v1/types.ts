@@ -56,10 +56,12 @@ export namespace V1 {
         elements: BlockRichTextSection[];
     };
 
+    type TextStyle = {code?: boolean; bold?: boolean; strike?: boolean; italic?: boolean};
+
     export type BlockBasic =
-        | { type: 'link'; url: string; text?: string; }
-        | { type: 'text'; text: string; style?: Record<string, unknown> }
-        | { type: 'emoji'; name: string }
+        | { type: 'link'; url: string; text?: string; raw?: boolean; style?: TextStyle}
+        | { type: 'text'; text: string; unlinked?: boolean; style?: TextStyle }
+        | { type: 'emoji'; name: string; skin_tone?: number }
         | { type: 'usergroup'; usergroup_id: string }
         | { type: 'user'; user_id: string }
         | { type: 'channel'; channel_id: string }
