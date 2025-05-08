@@ -202,6 +202,23 @@ const app: App = {
                 console.log('Finished slash command 5!');
             },
         },
+        {
+            command: '/slash_7',
+            usageHint: 'file_name file_path',
+            handler: async (ctx) => {
+                await ctx.ack();
+                const client = await ctx.getUserClient();
+                const commandParts = ctx.payload.text.split(' ').map((x) => x.trim());
+                const fileName = commandParts[0];
+                const fileUrl = commandParts[1];
+                if (fileName && fileUrl) {
+                    const fileStream = await client!.v1.files.fetchFile(fileUrl);
+                    const writer = fs.createWriteStream(`./files/${fileName}`);
+                    fileStream.pipe(writer);
+                    await ctx.say('File downloaded successfully.');
+                }
+            }
+        }
     ],
     globalShortcuts: [
         {

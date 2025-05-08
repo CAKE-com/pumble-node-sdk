@@ -8,10 +8,12 @@ import {WorkspaceApiClientV1} from './v1/WorkspaceApiClientV1';
 import {CallsApiClientV1} from './v1/CallsApiClientV1';
 import {schemasLoader} from "../schemas";
 import {AppClientV1} from "./v1/AppClientV1";
+import {FileHostClientV1} from "./v1/FileHostClientV1";
 
 export class ApiClient {
     private axiosInstance: AxiosInstance;
     private fileuploadAxiosInstance: AxiosInstance;
+    private fileHostAxiosInstance: AxiosInstance;
     public readonly v1: {
         channels: ChannelsApiClientV1;
         messages: MessagesApiClientV1;
@@ -19,6 +21,7 @@ export class ApiClient {
         workspace: WorkspaceApiClientV1;
         calls: CallsApiClientV1;
         app: AppClientV1;
+        files: FileHostClientV1
     };
 
     public constructor(
@@ -39,7 +42,13 @@ export class ApiClient {
         });
         this.fileuploadAxiosInstance = axios.create({
             baseURL: PUMBLE_FILEUPLOAD_URL
-        })
+        });
+        this.fileHostAxiosInstance = axios.create({
+            headers: {
+                token: client.accessToken,
+                'x-app-token': client.appKey
+            }
+        });
         this.axiosInstance.interceptors.request.use(async (request) => {
             const controller = new AbortController();
             if (request.method &&
@@ -72,7 +81,8 @@ export class ApiClient {
             users: new UsersApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
             workspace: new WorkspaceApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
             calls: new CallsApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
-            app: new AppClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId)
+            app: new AppClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
+            files: new FileHostClientV1(this.fileHostAxiosInstance, this.workspaceId, this.workspaceUserId)
         };
     }
 
