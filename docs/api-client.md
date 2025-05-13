@@ -61,6 +61,11 @@ Each ApiClient method has its own set of required scopes.
 |:------------------------------|:-----------------|:------------------|
 | client.v1.app.publishHomeView | `channels:write` | Publish home view |
 
+## Files
+| method                    | scopes          | description         |
+|:--------------------------|:----------------|:--------------------|
+| client.v1.files.fetchFile | `messages:read` | Fetch a file by URL |
+
 ## Scopes
 
 The list of all available scopes
