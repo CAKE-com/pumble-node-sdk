@@ -676,6 +676,36 @@ export namespace V1 {
         skinTone?: number;
     }
 
+    export interface ScheduleMessageRequest {
+        /**
+         * @format int64
+         * @min 0
+         * @max 4000000000000
+         */
+        sendAt: number;
+        /**
+         * @minLength 0
+         * @maxLength 100000
+         */
+        text: string;
+        channelId: string;
+        blocks?: MainBlock[];
+        attachments?: MessageAttachment[];
+        files?: string[];
+    }
+
+    export interface ScheduledMessage {
+        id: string;
+        workspaceId: string;
+        author: string;
+        channelId: string;
+        text: string;
+        sentAt: number;
+        files: MessageFile[];
+        blocks?: MainBlock[];
+        attachments: Record<string, object>[];
+    }
+
     export interface CreateDirectChannelRequest {
         /**
          * @maxItems 8
