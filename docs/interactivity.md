@@ -1,5 +1,4 @@
-# Interactivity 
-###### Coming soon
+# Interactivity
 
 ## Interactive messages
 
@@ -107,6 +106,8 @@ blockInteraction: {
     ]
 }
 ```
+>[!NOTE]
+> `approve_btn` handler must correspond to the button's `onAction` field to correctly handle button interaction events.
 
 For more types of interactive elements, click [here](/interactive-elements-reference).
 
@@ -134,7 +135,8 @@ dynamicMenus: [
     }
 ]
 ```
-`onAction` must match the `onAction` field of the dynamic select menu, otherwise the handler won't be called.
+>[!NOTE]
+>`onAction` must match the `onAction` field of the dynamic select menu, otherwise the handler won't be called.
 
 The provided handler will be executed when the following message is sent:
 ```typescript
@@ -155,3 +157,5 @@ await ctx.say({
     ]
 }, "in_channel");
 ```
+
+#### Take a look at code examples at [rich-text-examples](https://github.com/CAKE-com/pumble-node-sdk/tree/master/examples/rich-text) and [interactivity-examples](https://github.com/CAKE-com/pumble-node-sdk/tree/master/examples/interactivity).

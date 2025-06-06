@@ -377,6 +377,21 @@ export function createBasicHomeView(): V1.PublishHomeViewRequest {
                         ]
                     }
                 ]
+            },
+            {
+                type: "actions",
+                elements: [
+                    {
+                        type: "button",
+                        onAction: "info_btn_action",
+                        value: `test metadata`,
+                        text: {
+                            text: 'Read info',
+                            type: "plain_text"
+                        },
+                        style: "danger",
+                    }
+                ]
             }
         ]
     }
