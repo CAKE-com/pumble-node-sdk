@@ -277,9 +277,8 @@ const app: App = {
 
 ### Global Shortcuts 
 
-Global shortcuts are similar to Slash Commands with 2 main differences:
+Global shortcuts are similar to Slash Commands with a slight difference:
 - Global shortcut does not have a `text` property
-- Global shortcut does not have thread information if triggered in a thread
 
 ```typescript
 globalShortcuts: [
@@ -299,7 +298,7 @@ Message shortcuts are shortcuts that are always associated with a single message
 Also message shortcuts have `fetchMessage()` method in their context, so it can be used to easily fetch the message where it was triggered.
 
 ```typescript
-globalShortcuts: [
+messageShortcuts: [
 	{
 		name: 'My Global Shortcut',
 		handler: async (ctx) => {
