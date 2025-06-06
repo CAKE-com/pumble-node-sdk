@@ -300,7 +300,7 @@ Also message shortcuts have `fetchMessage()` method in their context, so it can 
 ```typescript
 messageShortcuts: [
 	{
-		name: 'My Global Shortcut',
+		name: 'My Message Shortcut',
 		handler: async (ctx) => {
 			await ctx.ack();
 			await ctx.say(`Received message shortcut by <<@${ctx.payload.userId}>>`);

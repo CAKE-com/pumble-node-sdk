@@ -26,7 +26,7 @@ Modals are best suited for situations where you need to:
 1. Triggering the modal: A modal is typically opened in response to a user action, such as:
    - Clicking a button in a message (or interacting with any interactive component)
    - Using a slash command, global shortcut or message shortcut
-2. Composing the view:Your app constructs a JSON object defining the modal's content and layout using blocks. This includes all the blocks and input elements.
+2. Composing the view: Your app constructs a JSON object defining the modal's content and layout using blocks. This includes all the blocks and input elements.
 3. Opening the modal: Your app makes call to `context.spawnModalView` to display the constructed view as a modal to the user.
 4. User interaction: The user interacts with the elements within the modal (e.g., filling out forms, clicking buttons).
 5. Handling submissions/closures: When the user submits the form or dismisses the modal, Pumble sends an interaction payload to your app's configured Request URL.

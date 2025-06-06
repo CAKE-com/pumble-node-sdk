@@ -17,7 +17,7 @@
 | type                 | String                           | The type of element. In this case type is always `plain_text_input`.                                              |
 | initial_value        | String                           | Text that will be displayed initially.                                                                            |
 | placeholder          | TextElement                      | A text object that defines input placeholder text. Max length for the text field in this object is 75 characters. |
-| multiline            | boolean                          | Indicates if input field can contain multiple lines.                                                              |
+| multiline            | Boolean                          | Indicates if input field can contain multiple lines.                                                              |
 | min_length           | Integer                          | Min text length.                                                                                                  |
 | max_length           | Integer                          | Max text length.                                                                                                  |
 | interaction_triggers | ['on_enter_pressed', 'on_input'] | Determines which user action(s) will dispatch block interaction event.                                            |

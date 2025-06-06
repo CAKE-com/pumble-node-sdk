@@ -10,23 +10,23 @@ Every Request to Pumble api must be sent with two headers
 Each ApiClient method has its own set of required scopes.
 
 ## Messages
-| method                                    | scopes                           | description                                                      |
-|:------------------------------------------|:---------------------------------|:-----------------------------------------------------------------|
-| client.v1.messages.fetchMessage           | `messages:read`                  | Get message by id and channel id                                 |
-| client.v1.messages.fetchMessages          | `channels:read`                  | Paginate through channel messages                                |
-| client.v1.messages.fetchThreadReplies     | `channels:read`                  | Fetch thread messages                                            |
-| client.v1.messages.postMessageToChannel   | `messages:write`, `files:write`  | Post a message to a channel                                      |
-| client.v1.messages.reply                  | `messages:write`, `files:write`  | Reply in a thread                                                |
-| client.v1.messages.postEphemeral          | `messages:write`                 | Send an ephemeral message to a user or list of users             |
-| client.v1.messages.replyEphemeral         | `messages:write`                 | Send an ephemeral message to a user or list of users in a thread |
-| client.v1.messages.editMessage            | `messages:edit`                  | Edit a message                                                   |
-| client.v1.messages.deleteMessage          | `messages:delete`                | Delete a message                                                 |
-| client.v1.messages.editEphemeralMessage   | `messages:edit`                  | Edit an ephemeral message                                        |
-| client.v1.messages.deleteEphemeralMessage | `messages:delete`                | Delete an ephemeral message                                      |
-| client.v1.messages.editAttachments        | `attachments:write`              | Edit a message attachment                                        |
-| client.v1.messages.addReaction            | `reaction:write`                 | React to a message                                               |
-| client.v1.messages.removeReaction         | `reaction:write`                 | Remove reaction from a message                                   |
-| client.v1.messages.searchMessages         | `messages:read`, `channels:list` | Search messages                                                  |
+| method                                    | scopes                                     | description                                                      |
+|:------------------------------------------|:-------------------------------------------|:-----------------------------------------------------------------|
+| client.v1.messages.fetchMessage           | `messages:read`                            | Get message by id and channel id                                 |
+| client.v1.messages.fetchMessages          | `channels:read`                            | Paginate through channel messages                                |
+| client.v1.messages.fetchThreadReplies     | `channels:read`                            | Fetch thread messages                                            |
+| client.v1.messages.postMessageToChannel   | `messages:write`, `files:write`(optional)  | Post a message to a channel                                      |
+| client.v1.messages.reply                  | `messages:write`, `files:write`(optional)  | Reply in a thread                                                |
+| client.v1.messages.postEphemeral          | `messages:write`                           | Send an ephemeral message to a user or list of users             |
+| client.v1.messages.replyEphemeral         | `messages:write`                           | Send an ephemeral message to a user or list of users in a thread |
+| client.v1.messages.editMessage            | `messages:edit`                            | Edit a message                                                   |
+| client.v1.messages.deleteMessage          | `messages:delete`                          | Delete a message                                                 |
+| client.v1.messages.editEphemeralMessage   | `messages:edit`                            | Edit an ephemeral message                                        |
+| client.v1.messages.deleteEphemeralMessage | `messages:delete`                          | Delete an ephemeral message                                      |
+| client.v1.messages.editAttachments        | `attachments:write`                        | Edit a message attachment                                        |
+| client.v1.messages.addReaction            | `reaction:write`                           | React to a message                                               |
+| client.v1.messages.removeReaction         | `reaction:write`                           | Remove reaction from a message                                   |
+| client.v1.messages.searchMessages         | `messages:read`, `channels:list`           | Search messages                                                  |
 
 ## Channels
 | method                                   | scopes           | description                                                             |
