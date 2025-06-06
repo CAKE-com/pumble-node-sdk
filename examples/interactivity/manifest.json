@@ -1,0 +1,10 @@
+{
+    "name": "interactivity",
+    "displayName": "interactivity",
+    "botTitle": "Addon example with interactive message and modals",
+    "bot": true,
+    "scopes": {
+        "botScopes": ["messages:read", "messages:write", "channels:write"],
+        "userScopes": ["messages:read", "messages:write", "attachments:write", "channels:write"]
+    }
+}

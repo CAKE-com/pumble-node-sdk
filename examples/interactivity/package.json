@@ -1,0 +1,20 @@
+{
+  "name": "interactivity",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "tsc && node dist/main.js",
+    "dev": "pumble-cli"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "pumble-cli": "^0.0.29",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "pumble-sdk": "0.0.29"
+  }
+}

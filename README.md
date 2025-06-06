@@ -1,4 +1,5 @@
 # Pumble SDK
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/CAKE-com/pumble-node-sdk)
 
 This repository contains the tools to create [Pumble](https://pumble.com/) apps.
 
