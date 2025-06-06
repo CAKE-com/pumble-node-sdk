@@ -1,5 +1,3 @@
-###### Coming soon
-
 ## Button
 
 | name     | type          | description                                                                                                                     |
@@ -11,6 +9,18 @@
 | style    | String        | Decorates buttons with alternative visual color schemes. Options include: `primary`, `secondary`, `warning`, `danger`.          |
 | onAction | String        | Action identifier defined by the app (controlled and used on the app's side).                                                   |
 | confirm  | ConfirmDialog | A confirmation modal that will be shown just before triggering the block interaction, prompting the user to confirm the action. |
+
+## Plain text input
+
+| name                 | type                             | description                                                                                                       |
+|:---------------------|:---------------------------------|:------------------------------------------------------------------------------------------------------------------|
+| type                 | String                           | The type of element. In this case type is always `plain_text_input`.                                              |
+| initial_value        | String                           | Text that will be displayed initially.                                                                            |
+| placeholder          | TextElement                      | A text object that defines input placeholder text. Max length for the text field in this object is 75 characters. |
+| multiline            | Boolean                          | Indicates if input field can contain multiple lines.                                                              |
+| min_length           | Integer                          | Min text length.                                                                                                  |
+| max_length           | Integer                          | Max text length.                                                                                                  |
+| interaction_triggers | ['on_enter_pressed', 'on_input'] | Determines which user action(s) will dispatch block interaction event.                                            |
 
 ## Select menu (static)
 
