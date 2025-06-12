@@ -119,7 +119,7 @@ export type ViewActionFunctionContext = {
     pushModalView: ResponseCallback<V1.View<"MODAL">>
 };
 
-export type ViewActionContext = EventContext<ViewActionPayload> & AcknowledgeContext & ViewActionFunctionContext;
+export type ViewActionContext = EventContext<ViewActionPayload> & AcknowledgeContext & ViewContext;
 
 export type OnMessageContext = EventContext<PumbleEventPayload<'NEW_MESSAGE' | 'UPDATED_MESSAGE'>> & ReplyContext;
 export type OnReactionContext = EventContext<PumbleEventPayload<'REACTION_ADDED'>> & ReplyContext & FetchMessageContext;
