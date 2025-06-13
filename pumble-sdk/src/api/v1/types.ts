@@ -676,7 +676,7 @@ export namespace V1 {
         skinTone?: number;
     }
 
-    export interface ScheduleMessageRequest {
+    export interface ScheduledMessageRequest {
         /**
          * @format int64
          * @min 0
@@ -691,8 +691,39 @@ export namespace V1 {
         channelId: string;
         blocks?: MainBlock[];
         attachments?: MessageAttachment[];
-        files?: string[];
+        recurrence?: ScheduledMessageRecurrenceRequest;
     }
+
+    export interface CreateScheduledMessageRequest extends ScheduledMessageRequest{
+        files?: FileToUpload[];
+    }
+
+    export interface ScheduledMessageRecurrenceRequest {
+        recurrenceType: ScheduledMessageRecurrenceType,
+        /**
+         * @format int32
+         * @min 0
+         * @max 9999
+         */
+        endAfterOccurrences?: number;
+        /**
+         * @format int64
+         * @min 0
+         * @max 4000000000000
+         */
+        endDate?: number;
+    }
+
+    export type ScheduledMessageRecurrenceType =
+        'DAILY' |
+        'BUSINESSDAYS' |
+        'WEEKLY'  |
+        'BIWEEKLY'  |
+        'MONTHLY_NTH_WEEKDAY' |
+        'MONTHLY_LAST_WEEKDAY' |
+        'QUARTERLY_NTH_WEEKDAY' |
+        'QUARTERLY_LAST_WEEKDAY' |
+        'ANNUALLY';
 
     export interface ScheduledMessage {
         id: string;
@@ -704,6 +735,18 @@ export namespace V1 {
         files: MessageFile[];
         blocks?: MainBlock[];
         attachments: Record<string, object>[];
+        recurrence?: ScheduledMessageRecurrence;
+    }
+
+    export interface ScheduledMessageRecurrence {
+        recurrenceType: ScheduledMessageRecurrenceType,
+        endAfterOccurrences: number;
+        endDate: number;
+    }
+
+    export interface ScheduledMessages {
+        scheduledMessages: ScheduledMessage[];
+        hasMore: boolean;
     }
 
     export interface CreateDirectChannelRequest {

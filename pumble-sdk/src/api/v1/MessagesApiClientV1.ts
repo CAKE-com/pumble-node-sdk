@@ -72,34 +72,30 @@ export class MessagesApiClientV1 extends BaseApiClient {
         if (typeof payload === 'string') {
             return { text: payload };
         }
-
-        if (!payload.files) {
-            return {
-                text: payload.text,
-                blocks: payload.blocks,
-                attachments: payload.attachments,
-                files: []
-            }
-        }
-
-        if (payload.files.length > 20) {
-            throw new Error("Message can not have more than 20 files.")
-        }
-
-        const fileIds: String[] = [];
-        await Promise.all(payload.files.map(async (file) => {
-            const uploadedFile = await this.fileApiClientV1.uploadFile(file.input, file?.options);
-            if (uploadedFile) {
-                fileIds.push(uploadedFile?.id);
-            }
-        }));
-
+        const fileIds = await this.processFiles(payload.files);
         return {
             text: payload.text,
             blocks: payload.blocks,
             attachments: payload.attachments,
             files: fileIds
         }
+    }
+
+    private async processFiles(files: V1.FileToUpload[] | null | undefined): Promise<String[]> {
+        if (!files) {
+            return [];
+        }
+        if (files.length > 20) {
+            throw new Error("Message can not have more than 20 files.")
+        }
+        const fileIds: String[] = [];
+        await Promise.all(files.map(async (file) => {
+            const uploadedFile = await this.fileApiClientV1.uploadFile(file.input, file?.options);
+            if (uploadedFile) {
+                fileIds.push(uploadedFile?.id);
+            }
+        }));
+        return fileIds;
     }
 
     public async reply(threadRootId: string, channelId: string, payload: V1.SendMessagePayload): Promise<V1.Message> {
@@ -252,26 +248,36 @@ export class MessagesApiClientV1 extends BaseApiClient {
         });
     }
 
-    public async fetchScheduledMessages() {
-        return await this.request<{ scheduledMessages: V1.ScheduledMessage[] }>({
+    public async fetchScheduledMessages(
+        channelId?: string | null,
+        cursor?: string | null,
+        limit?: number | null
+    ) {
+        return await this.request<{ scheduledMessages: V1.ScheduledMessages }>({
             method: 'get',
-            url: this.urls.fetchScheduledMessages()
+            url: this.urls.fetchScheduledMessages(),
+            params: {
+                channelId,
+                cursor,
+                limit
+            }
         });
     }
 
-    public async createScheduledMessage(request: V1.ScheduleMessageRequest) {
+    public async createScheduledMessage(request: V1.CreateScheduledMessageRequest) {
+        const fileIds = await this.processFiles(request.files);
         return await this.request<V1.ScheduledMessage>({
             method: 'post',
             url: this.urls.createScheduledMessage(),
-            data: request
+            data: { ...request, files: fileIds }
         });
     }
 
-    public async editScheduledMessage(scheduledMessageId: string, request: V1.ScheduleMessageRequest) {
+    public async editScheduledMessage(scheduledMessageId: string, request: V1.ScheduledMessageRequest) {
         return await this.request<V1.ScheduledMessage>({
             method: 'put',
             url: this.urls.editScheduledMessage(scheduledMessageId),
-            data: request
+            data: { ...request, files: [] }
         });
     }
 
