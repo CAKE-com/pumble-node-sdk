@@ -352,14 +352,14 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         this.emit(DYNAMIC_SELECT_MENU, appEventArg);
     }
 
-    public postViewAction(payload: ViewActionPayload, response: ResponseCallback<ViewActionResponse>, ack: AckCallback, nack: NackCallback): void {
+    public postViewAction(payload: ViewActionPayload, response: ResponseCallback<SpawnModalResponse>, ack: AckCallback, nack: NackCallback): void {
         const cache: ContextCache = {};
         const eventContext = this.createEventContext(payload, payload.workspaceId, payload.userId, cache);
-        const viewActionFunctionContext = this.createViewFunctionActionContext(eventContext, response);
+        const viewContext = this.createViewContext(eventContext, response);
         const appEventArg: ViewActionContext = {
             ack,
             nack,
-            ...viewActionFunctionContext,
+            ...viewContext,
             ...eventContext,
         };
         this.emit(VIEW_ACTION, appEventArg);
