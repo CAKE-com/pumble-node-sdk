@@ -1,4 +1,5 @@
 import { App, JsonFileTokenStore, start, V1 } from '../pumble-sdk/src';
+import CreateScheduledMessageRequest = V1.CreateScheduledMessageRequest;
 var mime = require('mime-types')
 var path = require('path');
 var fs = require('fs');
@@ -216,6 +217,31 @@ const app: App = {
                     const writer = fs.createWriteStream(`./files/${fileName}`);
                     fileStream.pipe(writer);
                     await ctx.say('File downloaded successfully.');
+                }
+            }
+        },
+        {
+            command: '/slash_8',
+            usageHint: 'message text',
+            handler: async (ctx) => {
+                await ctx.ack();
+                const client = await ctx.getUserClient();
+                const scheduledMessageRequest: CreateScheduledMessageRequest = {
+                    channelId: ctx.payload.channelId,
+                    text: ctx.payload.text,
+                    sendAt: Date.now() + 10000,
+                    recurrence: {
+                        recurrenceType: 'DAILY'
+                    },
+                    attachments: [{
+                        color: 'green',
+                        title: 'Attachment',
+                        text: 'Attachment text'
+                    }]
+                }
+                const scheduledMessage = await client?.v1.messages.createScheduledMessage(scheduledMessageRequest);
+                if (scheduledMessage) {
+                    await ctx.say(`Created scheduled message with id ${scheduledMessage.id}`)
                 }
             }
         }
