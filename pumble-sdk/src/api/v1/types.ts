@@ -740,11 +740,8 @@ export namespace V1 {
     }
 
     export interface PublishHomeViewRequest {
-        callbackId: string,
         blocks: MainBlock[];
-        notifyOnClose?: boolean,
         title?: BlockTextElement,
-        submit?: BlockTextElement,
         state?: any
     }
 
@@ -754,13 +751,15 @@ export namespace V1 {
         id?: string,
         type: T,
         blocks: MainBlock[]
-        notifyOnClose: boolean,
         title: BlockTextElement,
-        submit?: BlockTextElement,
-        state?: State,
-        parentViewId?: string,
-        callbackId: string
-    } & (T extends "MODAL" ? {close: BlockTextElement} : {close?: BlockTextElement})
+        state?: State
+    } & (T extends "MODAL" ? {
+            callbackId: string,
+            submit?: BlockTextElement,
+            close?: BlockTextElement,
+            notifyOnClose: boolean,
+            parentViewId?: string
+        } : {})
 
     export type State = {
         values: {
