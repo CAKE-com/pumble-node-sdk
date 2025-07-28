@@ -270,7 +270,6 @@ export namespace V1 {
         files?: MessageFile[];
         blocks?: MainBlock[];
         channelId?: string;
-        channelName?: string;
         workspaceUserId?: string;
         /** @format int64 */
         timestamp?: number;
