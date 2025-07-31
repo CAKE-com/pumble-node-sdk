@@ -19,6 +19,7 @@ import {V1} from "../../api";
 import Option = V1.Option;
 import OptionGroup = V1.OptionGroup;
 import {AxiosError} from "axios";
+import View = V1.View;
 
 type OptionsForEvent<T extends PumbleEventType> = T extends 'NEW_MESSAGE'
     ? { match: string | RegExp; includeBotMessages?: boolean }
@@ -274,22 +275,23 @@ class Runner {
             url: app.viewAction?.path ?? hookUrl,
             handler: async (ctx: ViewActionContext) => {
                 let callbackFound = false;
+                const modal = ctx.payload.view as View<"MODAL">;
                 if (ctx.payload.viewActionType === "SUBMIT") {
-                    const callback = app.viewAction?.onSubmit[ctx.payload.view!.callbackId];
+                    const callback = app.viewAction?.onSubmit[modal.callbackId];
                     if (callback) {
                         callbackFound = true;
                         callback(ctx);
                     }
                 }
                 if (ctx.payload.viewActionType === "CLOSE") {
-                    const callback = app.viewAction?.onClose[ctx.payload.view!.callbackId];
+                    const callback = app.viewAction?.onClose[modal.callbackId];
                     if (callback) {
                         callbackFound = true;
                         callback(ctx);
                     }
                 }
                 if (!callbackFound) {
-                    console.error(`No ${ctx.payload.view!.callbackId} callbacks found, source: VIEW`);
+                    console.error(`No ${modal.callbackId} callbacks found, source: VIEW`);
                     await ctx.nack('No callbacks were found for the given view event.', 400);
                 }
             }
