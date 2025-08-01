@@ -111,7 +111,7 @@ export type ViewActionPayload = AppMessage & {
     workspaceId: string;
     userId: string;
     viewActionType: ViewActionType,
-    view: V1.View<"HOME" | "MODAL">,
+    view: V1.View<"MODAL">,
     triggerId: string;
 };
 

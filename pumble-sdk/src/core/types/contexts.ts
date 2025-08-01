@@ -1,17 +1,17 @@
 import type { AvailableEvents } from '../services/AddonService';
 import { PumbleEventType } from './pumble-events';
-import { ApiClient } from '../../api';
-import { V1 } from '../../api';
+import {ApiClient, V1} from '../../api';
 import {
     BlockInteractionPayload, DynamicMenuOptionsResponse, DynamicMenuPayload,
     GlobalShortcutPayload, MessageShortcutPayload,
     PumbleEventPayload,
-    SlashCommandPayload, SpawnModalResponse, ViewActionPayload,
+    SlashCommandPayload, ViewActionPayload,
 } from './payloads';
 import {
     AddonManifest,
     BlockInteractionSourceType
 } from './types';
+import { ViewBuilder } from "../util/ViewUtils";
 
 export type AckCallback = (arg?: string) => Promise<void>;
 export type NackCallback = (arg?: string, status?: number) => Promise<void>;
@@ -98,7 +98,7 @@ export type MessageShortcutContext = EventContext<MessageShortcutPayload> &
     ViewContext;
 export type BlockInteractionContext<T extends BlockInteractionSourceType = BlockInteractionSourceType> =
     T extends 'VIEW'
-        ? EventContext<BlockInteractionPayload<'VIEW'>> & AcknowledgeContext & ViewActionFunctionContext
+        ? EventContext<BlockInteractionPayload<'VIEW'>> & AcknowledgeContext & ViewActionFunctionContext & ViewPayloadContext
         : T extends 'EPHEMERAL_MESSAGE'
         ? EventContext<BlockInteractionPayload<'EPHEMERAL_MESSAGE'>> & AcknowledgeContext & ChannelDetailsContext & ViewContext & ViewActionFunctionContext
         : EventContext<BlockInteractionPayload<'MESSAGE'>> &
@@ -120,6 +120,20 @@ export type ViewActionFunctionContext = {
 };
 
 export type ViewActionContext = EventContext<ViewActionPayload> & AcknowledgeContext & ViewContext;
+
+export type ViewPayloadContext = {
+    viewId: () => string | undefined;
+    viewType: () => V1.ViewType | undefined;
+    viewTitle: () => V1.BlockTextElement | undefined;
+    viewBlocks: () => V1.MainBlock[] | undefined;
+    viewState: () => V1.State | undefined;
+    viewCallbackId: () => string | undefined;
+    viewNotifyOnClose: () => boolean | undefined;
+    viewSubmit: () => V1.BlockTextElement | undefined;
+    viewClose: () => V1.BlockTextElement | undefined;
+    parentViewId: () => string | undefined;
+    viewBuilder: <T extends V1.ViewType>(view: V1.View<T>) => ViewBuilder<T>;
+}
 
 export type OnMessageContext = EventContext<PumbleEventPayload<'NEW_MESSAGE' | 'UPDATED_MESSAGE'>> & ReplyContext;
 export type OnReactionContext = EventContext<PumbleEventPayload<'REACTION_ADDED'>> & ReplyContext & FetchMessageContext;

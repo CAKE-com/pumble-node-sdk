@@ -35,8 +35,68 @@ const app: App = {
                 sourceType: 'VIEW',
                 handlers: {
                     onClick1: async (ctx) => {
-                        ctx.ack();
-                        console.log(ctx);
+                        const view = ctx.payload.view;
+                        if (!view) {
+                            return;
+                        }
+                        console.log(view);
+                        const blocksToAdd: V1.MainBlock[] = [
+                            {
+                                type: "rich_text",
+                                elements: [{
+                                    type: "rich_text_section",
+                                    elements: [{
+                                        type: "text",
+                                        text: "This is some additional text"
+                                    }]
+                                }]
+                            },
+                            {
+                                type: "input",
+                                blockId: "input_text_field_2",
+                                label: {
+                                    type: "plain_text",
+                                    text: "Additional input field"
+                                },
+                                dispatchAction: true,
+                                optional: true,
+                                element: {
+                                    type: "plain_text_input",
+                                    onAction: "input_text_2",
+                                    placeholder: {
+                                        type: "plain_text",
+                                        text: "Type something"
+                                    },
+                                    interaction_triggers: ["on_input"]
+                                },
+                            }
+                        ];
+
+                        const updatedView = ctx.viewBuilder(view)
+                            .insertBlocks(1, blocksToAdd)
+                            .updateTitle({ type: 'plain_text', text: 'Updated modal' })
+                            .removeBlock(0)
+                            .updateNotifyOnClose(false)
+                            .updateCallbackId('otherViewCallback')
+                            .updateSubmit({ type: 'plain_text', text: 'New submit button' })
+                            .removeClose()
+                            .updateState({
+                                values: {
+                                    input_static_1: {
+                                        ssm1: {
+                                            type: 'static_select_menu',
+                                            value: '2'
+                                        }
+                                    }
+                                }
+                            })
+                            .build();
+                        await ctx.updateView({...updatedView, notifyOnClose: false});
+                    },
+                    onClick2: async (ctx) => {
+                        await ctx.ack();
+                        console.log("Callback id: " + ctx.viewCallbackId());
+                        console.log(ctx.payload.view);
                     },
                 },
             },
@@ -68,6 +128,7 @@ const app: App = {
             },
             otherViewCallback: async (ctx) => {
                 await ctx.ack();
+                console.log("Other view submitted");
                 // do whatever
             }
         },
@@ -244,7 +305,42 @@ const app: App = {
                     await ctx.say(`Created scheduled message with id ${scheduledMessage.id}`)
                 }
             }
-        }
+        },
+        {
+            command: '/slash_9',
+            handler: async (ctx) => {
+                await ctx.ack();
+                const client = await ctx.getBotClient();
+                if (!client) {
+                    return;
+                }
+                const payload: V1.PublishHomeViewRequest = {
+                    title: { type: "plain_text", text: "Playground addon" },
+                    blocks: [
+                        {
+                            type: "rich_text",
+                            elements: [{
+                                type: "rich_text_section",
+                                elements: [{
+                                    type: "text",
+                                    text: "Hello"
+                                }]
+                            }]
+                        },
+                        {
+                            type: "actions",
+                            elements: [
+                                {
+                                    type: "button",
+                                    text: {type: "plain_text", text: "Click here"}, onAction: "onClick1"
+                                }
+                            ]
+                        }
+                    ]
+                }
+                await client.v1.app.publishHomeView(ctx.payload.userId, payload)
+            }
+        },
     ],
     globalShortcuts: [
         {
@@ -388,7 +484,6 @@ const app: App = {
     onServerConfiguring: (e, addon) => {
     },
     tokenStore: new JsonFileTokenStore('tokens.json'),
-    listingUrl: 'https://listing.com',
     helpUrl: 'https://help.com',
     welcomeMessage: 'Hello',
     offlineMessage: 'Demo app cannot respond at this moment. Please try again later',
