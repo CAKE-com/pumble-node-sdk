@@ -23,7 +23,7 @@ import {
     BlockInteractionContext,
     DynamicMenuContext,
     ResponseCallback,
-    ViewContext, ViewActionContext, ViewActionFunctionContext
+    ViewContext, ViewActionContext, ViewActionFunctionContext, ViewPayloadContext
 } from '../types/contexts';
 import {Addon, Callback, ContextCallback} from './Addon';
 import { PumbleEventType } from '../types/pumble-events';
@@ -47,6 +47,7 @@ import { ClientUtils } from './ClientUtils';
 import { V1 } from '../../api/v1/types';
 import OptionGroup = V1.OptionGroup;
 import Option = V1.Option;
+import {ViewBuilder} from "../util/ViewUtils";
 
 type ContextCache = {
     botUserId?: string | null;
@@ -331,12 +332,14 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             cache
         ) as EventContext<BlockInteractionPayload<'VIEW'>>;
         const viewActionContext = this.createViewFunctionActionContext(eventContext, response);
+        const viewPayloadContext = this.createViewPayloadContext(payload);
 
         const appEventArg: BlockInteractionContext<'VIEW'> = {
             ack,
             nack,
             ...eventContext,
-            ...viewActionContext
+            ...viewActionContext,
+            ...viewPayloadContext
         };
         this.emit(BLOCK_INTERACTION_VIEW, appEventArg);
     }
@@ -356,11 +359,13 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         const cache: ContextCache = {};
         const eventContext = this.createEventContext(payload, payload.workspaceId, payload.userId, cache);
         const viewContext = this.createViewContext(eventContext, response);
+        const viewPayloadContext = this.createViewPayloadContext(payload);
         const appEventArg: ViewActionContext = {
             ack,
             nack,
             ...viewContext,
             ...eventContext,
+            ...viewPayloadContext
         };
         this.emit(VIEW_ACTION, appEventArg);
     }
@@ -721,6 +726,23 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         }
 
         return { spawnModalView };
+    }
+
+    private createViewPayloadContext(payload: ViewActionPayload | BlockInteractionPayload): ViewPayloadContext {
+        const modal = payload.view ? payload.view as V1.View<'MODAL'> : undefined;
+        return {
+            viewId: payload.view?.id,
+            viewType: payload.view?.type,
+            viewBlocks: payload.view?.blocks,
+            viewState: payload.view?.state,
+            viewTitle: payload.view?.title,
+            viewCallbackId: modal?.callbackId,
+            viewSubmit: modal?.submit,
+            viewClose: modal?.close,
+            viewNotifyOnClose: modal?.notifyOnClose,
+            parentViewId: modal?.parentViewId,
+            viewBuilder: <T extends V1.ViewType>(view: V1.View<T>) => new ViewBuilder<T>(view)
+        };
     }
 
     private createViewFunctionActionContext(eventContext: EventContext<AppActionPayload>, response: ResponseCallback<ViewActionResponse>): ViewActionFunctionContext {

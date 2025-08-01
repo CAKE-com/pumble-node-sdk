@@ -1,17 +1,17 @@
 import type { AvailableEvents } from '../services/AddonService';
 import { PumbleEventType } from './pumble-events';
-import { ApiClient } from '../../api';
-import { V1 } from '../../api';
+import {ApiClient, V1} from '../../api';
 import {
     BlockInteractionPayload, DynamicMenuOptionsResponse, DynamicMenuPayload,
     GlobalShortcutPayload, MessageShortcutPayload,
     PumbleEventPayload,
-    SlashCommandPayload, SpawnModalResponse, ViewActionPayload,
+    SlashCommandPayload, ViewActionPayload,
 } from './payloads';
 import {
     AddonManifest,
     BlockInteractionSourceType
 } from './types';
+import { ViewBuilder } from "../util/ViewUtils";
 
 export type AckCallback = (arg?: string) => Promise<void>;
 export type NackCallback = (arg?: string, status?: number) => Promise<void>;
@@ -98,7 +98,7 @@ export type MessageShortcutContext = EventContext<MessageShortcutPayload> &
     ViewContext;
 export type BlockInteractionContext<T extends BlockInteractionSourceType = BlockInteractionSourceType> =
     T extends 'VIEW'
-        ? EventContext<BlockInteractionPayload<'VIEW'>> & AcknowledgeContext & ViewActionFunctionContext
+        ? EventContext<BlockInteractionPayload<'VIEW'>> & AcknowledgeContext & ViewActionFunctionContext & ViewPayloadContext
         : T extends 'EPHEMERAL_MESSAGE'
         ? EventContext<BlockInteractionPayload<'EPHEMERAL_MESSAGE'>> & AcknowledgeContext & ChannelDetailsContext & ViewContext & ViewActionFunctionContext
         : EventContext<BlockInteractionPayload<'MESSAGE'>> &
@@ -119,7 +119,21 @@ export type ViewActionFunctionContext = {
     pushModalView: ResponseCallback<V1.View<"MODAL">>
 };
 
-export type ViewActionContext = EventContext<ViewActionPayload> & AcknowledgeContext & ViewContext;
+export type ViewActionContext = EventContext<ViewActionPayload> & AcknowledgeContext & ViewContext & ViewPayloadContext;
+
+export type ViewPayloadContext = {
+    viewId?: string;
+    viewType?: V1.ViewType;
+    viewTitle?: V1.BlockTextElement;
+    viewBlocks?: V1.MainBlock[];
+    viewState?: V1.State;
+    viewCallbackId?: string;
+    viewNotifyOnClose?: boolean;
+    viewSubmit?: V1.BlockTextElement;
+    viewClose?: V1.BlockTextElement;
+    parentViewId?: string;
+    viewBuilder: <T extends V1.ViewType>(view: V1.View<T>) => ViewBuilder<T>;
+}
 
 export type OnMessageContext = EventContext<PumbleEventPayload<'NEW_MESSAGE' | 'UPDATED_MESSAGE'>> & ReplyContext;
 export type OnReactionContext = EventContext<PumbleEventPayload<'REACTION_ADDED'>> & ReplyContext & FetchMessageContext;
