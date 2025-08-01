@@ -73,9 +73,9 @@ const app: App = {
                         ];
 
                         const updatedView = ctx.viewBuilder(view)
-                            .insertBlocks(1, blocksToAdd)
+                            .insertBlocksAt(1, blocksToAdd)
                             .updateTitle({ type: 'plain_text', text: 'Updated modal' })
-                            .removeBlock(0)
+                            .removeBlockAt(0)
                             .updateNotifyOnClose(false)
                             .updateCallbackId('otherViewCallback')
                             .updateSubmit({ type: 'plain_text', text: 'New submit button' })
@@ -123,7 +123,7 @@ const app: App = {
             },
             otherViewCallback: async (ctx) => {
                 await ctx.ack();
-                console.log("Other view submitted");
+                console.log(`Other view submitted: ${ctx.viewId}`);
                 // do whatever
             }
         },

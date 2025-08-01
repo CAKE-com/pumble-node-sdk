@@ -119,19 +119,19 @@ export type ViewActionFunctionContext = {
     pushModalView: ResponseCallback<V1.View<"MODAL">>
 };
 
-export type ViewActionContext = EventContext<ViewActionPayload> & AcknowledgeContext & ViewContext;
+export type ViewActionContext = EventContext<ViewActionPayload> & AcknowledgeContext & ViewContext & ViewPayloadContext;
 
 export type ViewPayloadContext = {
-    viewId: () => string | undefined;
-    viewType: () => V1.ViewType | undefined;
-    viewTitle: () => V1.BlockTextElement | undefined;
-    viewBlocks: () => V1.MainBlock[] | undefined;
-    viewState: () => V1.State | undefined;
-    viewCallbackId: () => string | undefined;
-    viewNotifyOnClose: () => boolean | undefined;
-    viewSubmit: () => V1.BlockTextElement | undefined;
-    viewClose: () => V1.BlockTextElement | undefined;
-    parentViewId: () => string | undefined;
+    viewId?: string;
+    viewType?: V1.ViewType;
+    viewTitle?: V1.BlockTextElement;
+    viewBlocks?: V1.MainBlock[];
+    viewState?: V1.State;
+    viewCallbackId?: string;
+    viewNotifyOnClose?: boolean;
+    viewSubmit?: V1.BlockTextElement;
+    viewClose?: V1.BlockTextElement;
+    parentViewId?: string;
     viewBuilder: <T extends V1.ViewType>(view: V1.View<T>) => ViewBuilder<T>;
 }
 

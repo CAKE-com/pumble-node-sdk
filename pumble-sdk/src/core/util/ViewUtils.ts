@@ -26,17 +26,17 @@ export class ViewBuilder<T extends ViewType> {
         return this;
     }
 
-    public insertBlocks(index: number, blocks: MainBlock[]): ViewBuilder<T> {
+    public insertBlocksAt(index: number, blocks: MainBlock[]): ViewBuilder<T> {
         this.view.blocks.splice(index, 0, ...blocks);
         return this;
     }
 
-    public removeBlock(index: number): ViewBuilder<T> {
+    public removeBlockAt(index: number): ViewBuilder<T> {
         this.view.blocks.splice(index, 1);
         return this;
     }
 
-    public removeBlocks(index: number, deleteCount: number): ViewBuilder<T> {
+    public removeBlocksAt(index: number, deleteCount: number): ViewBuilder<T> {
         this.view.blocks.splice(index, deleteCount);
         return this;
     }
