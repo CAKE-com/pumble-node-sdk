@@ -479,6 +479,7 @@ const app: App = {
     onServerConfiguring: (e, addon) => {
     },
     tokenStore: new JsonFileTokenStore('tokens.json'),
+    listingUrl: 'https://listing.com',
     helpUrl: 'https://help.com',
     welcomeMessage: 'Hello',
     offlineMessage: 'Demo app cannot respond at this moment. Please try again later',
