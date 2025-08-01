@@ -93,11 +93,6 @@ const app: App = {
                             .build();
                         await ctx.updateView({...updatedView, notifyOnClose: false});
                     },
-                    onClick2: async (ctx) => {
-                        await ctx.ack();
-                        console.log("Callback id: " + ctx.viewCallbackId());
-                        console.log(ctx.payload.view);
-                    },
                 },
             },
             {
