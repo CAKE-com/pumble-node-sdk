@@ -62,7 +62,7 @@ export class FilesApiClientV1 extends BaseApiClient {
             const name = options?.name ? options.name : path.parse(input).base;
             const mimeTypeFromPath = mime.lookup(input);
             return {
-                blob: new Blob([buffer], {type: options?.mimeType ? options.mimeType : mimeTypeFromPath}),
+                blob: new Blob([buffer as BlobPart], {type: options?.mimeType ? options.mimeType : mimeTypeFromPath}),
                 name: name,
                 length: buffer.length
             };
@@ -73,7 +73,7 @@ export class FilesApiClientV1 extends BaseApiClient {
         }
 
         return {
-            blob: new Blob([input], {type: options.mimeType ? options.mimeType : 'application/octet-stream'}),
+            blob: new Blob([input as BlobPart], {type: options.mimeType ? options.mimeType : 'application/octet-stream'}),
             name: options.name,
             length: input.length
         };
