@@ -1,3 +1,5 @@
+import { BlockInteractionSourceType } from "../../core/types/types";
+
 export namespace V1 {
     export interface UpdateWorkspaceUserCustomStatusRequest {
         /**
@@ -103,6 +105,7 @@ export namespace V1 {
         style?: 'primary' | 'secondary' | 'warning' | 'danger';
         url?: string;
         confirm?: ConfirmDialog;
+        loadingTimeout?: number;
     };
 
     export type BlockPlainTextInput = Input & {
@@ -122,6 +125,7 @@ export namespace V1 {
         option_groups?: OptionGroup[];
         initial_option?: Option | OptionGroup;
         confirm?: ConfirmDialog;
+        loadingTimeout?: number;
     };
 
     export type BlockDynamicSelectMenu = Input & {
@@ -130,6 +134,7 @@ export namespace V1 {
         min_query_length?: number;
         initial_option?: Option | OptionGroup;
         confirm?: ConfirmDialog;
+        loadingTimeout?: number;
     };
 
     type ActionableBlock = BlockButton | BlockStaticSelectMenu | BlockDynamicSelectMenu | BlockPlainTextInput;
@@ -853,4 +858,10 @@ export namespace V1 {
         googleClientId: string
     }
 
+    export type CompleteInteractionProcessingRequest = {
+        channelId?: string,
+        sourceType: BlockInteractionSourceType,
+        sourceId: string,
+        triggerId: string
+    };
 }

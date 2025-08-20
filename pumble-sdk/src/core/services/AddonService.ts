@@ -23,7 +23,7 @@ import {
     BlockInteractionContext,
     DynamicMenuContext,
     ResponseCallback,
-    ViewContext, ViewActionContext, ViewActionFunctionContext, ViewPayloadContext
+    ViewContext, ViewActionContext, ViewActionFunctionContext, ViewPayloadContext, PostAckContext
 } from '../types/contexts';
 import {Addon, Callback, ContextCallback} from './Addon';
 import { PumbleEventType } from '../types/pumble-events';
@@ -258,7 +258,12 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         this.emit(SLASH, appEventArg);
     }
 
-    public postBlockInteractionMessage(payload: BlockInteractionPayload, response: ResponseCallback<SpawnModalResponse | ViewActionResponse>, ack: AckCallback, nack: NackCallback): void {
+    public postBlockInteractionMessage(
+        payload: BlockInteractionPayload,
+        response: ResponseCallback<SpawnModalResponse | ViewActionResponse>,
+        ack: AckCallback,
+        nack: NackCallback
+    ): void {
         const cache: ContextCache = {};
         const eventContext = this.createEventContext(
             payload,
@@ -281,10 +286,12 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         );
         const viewContext = this.createViewContext(eventContext, response);
         const viewActionFunctionContext = this.createViewFunctionActionContext(eventContext, response);
+        const postAck = this.createPostAckContext(payload);
 
         const appEventArg: BlockInteractionContext<'MESSAGE'> = {
             ack,
             nack,
+            ...postAck,
             ...eventContext,
             ...replyContext,
             ...channelDetailsContext,
@@ -311,10 +318,12 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         const channelDetailsContext = this.createChannelDetailsContext(eventContext, payload.channelId!);
         const viewContext = this.createViewContext(eventContext, response);
         const viewActionFunctionContext = this.createViewFunctionActionContext(eventContext, response);
+        const postAck = this.createPostAckContext(payload);
 
         const appEventArg: BlockInteractionContext<'EPHEMERAL_MESSAGE'> = {
             ack,
             nack,
+            ...postAck,
             ...eventContext,
             ...channelDetailsContext,
             ...viewContext,
@@ -333,10 +342,12 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         ) as EventContext<BlockInteractionPayload<'VIEW'>>;
         const viewActionContext = this.createViewFunctionActionContext(eventContext, response);
         const viewPayloadContext = this.createViewPayloadContext(payload);
+        const postAck = this.createPostAckContext(payload);
 
         const appEventArg: BlockInteractionContext<'VIEW'> = {
             ack,
             nack,
+            ...postAck,
             ...eventContext,
             ...viewActionContext,
             ...viewPayloadContext
@@ -768,6 +779,15 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         }
 
         return { updateView, pushModalView };
+    }
+
+    private createPostAckContext(payload: BlockInteractionPayload): PostAckContext {
+        return {
+            postAck: async () => {
+                const userClient = await this.clientUtils.getUserClientInternal(payload.workspaceId, payload.userId);
+                await userClient?.v1.interactions.completeProcessing(payload);
+            }
+        };
     }
 
     private isStorageIntegrationModalCredentials(view: V1.StorageIntegrationModalCredentials | V1.View<"MODAL">): boolean {

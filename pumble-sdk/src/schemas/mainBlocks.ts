@@ -1073,6 +1073,10 @@ export const mainBlocks = {
                                             },
                                             "additionalProperties": false,
                                             "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
+                                        },
+                                        "loadingTimeout": {
+                                            "maximum": 100,
+                                            "type": "number"
                                         }
                                     },
                                     "additionalProperties": false
@@ -1601,6 +1605,10 @@ export const mainBlocks = {
                                             },
                                             "additionalProperties": false,
                                             "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
+                                        },
+                                        "loadingTimeout": {
+                                            "maximum": 100,
+                                            "type": "number"
                                         }
                                     },
                                     "additionalProperties": false
@@ -1951,6 +1959,10 @@ export const mainBlocks = {
                                             },
                                             "additionalProperties": false,
                                             "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
+                                        },
+                                        "loadingTimeout": {
+                                            "maximum": 100,
+                                            "type": "number"
                                         }
                                     },
                                     "additionalProperties": false

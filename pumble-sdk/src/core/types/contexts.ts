@@ -16,6 +16,7 @@ import { ViewBuilder } from "../util/ViewUtils";
 export type AckCallback = (arg?: string) => Promise<void>;
 export type NackCallback = (arg?: string, status?: number) => Promise<void>;
 export type ResponseCallback<T> = (arg: T) => Promise<void>;
+export type PostAckCallback = (arg?: string) => Promise<void>;
 
 export type SayFunction = (message: V1.SendMessagePayload, type?: 'in_channel' | 'ephemeral') => Promise<void>;
 
@@ -54,6 +55,10 @@ export type ResponseContext<T> = {
     response: ResponseCallback<T>;
     nack: NackCallback;
 };
+
+export type PostAckContext = {
+    postAck: PostAckCallback;
+}
 
 /**
  * Only events where you have enough information to respond will have this "say" function
@@ -98,11 +103,12 @@ export type MessageShortcutContext = EventContext<MessageShortcutPayload> &
     ViewContext;
 export type BlockInteractionContext<T extends BlockInteractionSourceType = BlockInteractionSourceType> =
     T extends 'VIEW'
-        ? EventContext<BlockInteractionPayload<'VIEW'>> & AcknowledgeContext & ViewActionFunctionContext & ViewPayloadContext
+        ? EventContext<BlockInteractionPayload<'VIEW'>> & AcknowledgeContext & ViewActionFunctionContext & ViewPayloadContext & PostAckContext
         : T extends 'EPHEMERAL_MESSAGE'
-        ? EventContext<BlockInteractionPayload<'EPHEMERAL_MESSAGE'>> & AcknowledgeContext & ChannelDetailsContext & ViewContext & ViewActionFunctionContext
+        ? EventContext<BlockInteractionPayload<'EPHEMERAL_MESSAGE'>> & AcknowledgeContext & ChannelDetailsContext & ViewContext & ViewActionFunctionContext & PostAckContext
         : EventContext<BlockInteractionPayload<'MESSAGE'>> &
               AcknowledgeContext &
+              PostAckContext &
               ReplyContext &
               FetchMessageContext &
               ChannelDetailsContext &
