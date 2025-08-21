@@ -13,7 +13,7 @@ export class ManifestProcessor {
             blockInteraction: manifest.blockInteraction
                 ? {url: this.getAbsoluteUrl(host, manifest.blockInteraction.url)}
                 : undefined,
-            viewAction: manifest.viewAction ? {url: manifest.viewAction.url} : undefined,
+            viewAction: manifest.viewAction ? {url: this.getAbsoluteUrl(host, manifest.viewAction.url)} : undefined,
             dynamicMenus: manifest.dynamicMenus ? manifest.dynamicMenus.map((dynamicMenu) => {
                 return {
                     url: this.getAbsoluteUrl(host, dynamicMenu.url),
