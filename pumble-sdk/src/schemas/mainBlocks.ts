@@ -1075,7 +1075,7 @@ export const mainBlocks = {
                                             "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
                                         },
                                         "loadingTimeout": {
-                                            "maximum": 100,
+                                            "maximum": 60,
                                             "type": "number"
                                         }
                                     },
@@ -1607,7 +1607,7 @@ export const mainBlocks = {
                                             "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
                                         },
                                         "loadingTimeout": {
-                                            "maximum": 100,
+                                            "maximum": 60,
                                             "type": "number"
                                         }
                                     },
@@ -1961,7 +1961,7 @@ export const mainBlocks = {
                                             "description": "Confirm modal that will be shown just before triggering block interaction. User will be prompted to confirm the action."
                                         },
                                         "loadingTimeout": {
-                                            "maximum": 100,
+                                            "maximum": 60,
                                             "type": "number"
                                         }
                                     },
