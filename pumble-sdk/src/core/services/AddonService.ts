@@ -413,9 +413,13 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
     public blockInteractionView(cb: ContextCallback<BlockInteractionContext<'VIEW'>>): this {
         const wrapperCallback: ContextCallback<BlockInteractionContext<'VIEW'>> = async (ctx) => {
             const result = cb(ctx);
-            if (ctx.payload.loadingTimeout > 0) {
-                await this.notifyBlockInteractionProcessingCompleted(ctx.payload);
+            if (ctx.payload.loadingTimeout <= 0) {
+                return result;
             }
+            if (result instanceof Promise) {
+                await result;
+            }
+            await this.notifyBlockInteractionProcessingCompleted(ctx.payload);
             return result;
         };
         return this.on(BLOCK_INTERACTION_VIEW, wrapperCallback);
@@ -424,9 +428,13 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
     public blockInteractionMessage(cb: ContextCallback<BlockInteractionContext<'MESSAGE'>>): this {
         const wrapperCallback: ContextCallback<BlockInteractionContext<'MESSAGE'>> = async (ctx) => {
             const result = cb(ctx);
-            if (ctx.payload.loadingTimeout > 0) {
-                await this.notifyBlockInteractionProcessingCompleted(ctx.payload);
+            if (ctx.payload.loadingTimeout <= 0) {
+                return result;
             }
+            if (result instanceof Promise) {
+                await result;
+            }
+            await this.notifyBlockInteractionProcessingCompleted(ctx.payload);
             return result;
         };
         return this.on(BLOCK_INTERACTION_MESSAGE, wrapperCallback);
@@ -435,9 +443,13 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
     public blockInteractionEphemeralMessage(cb: ContextCallback<BlockInteractionContext<'EPHEMERAL_MESSAGE'>>): this {
         const wrapperCallback: ContextCallback<BlockInteractionContext<'EPHEMERAL_MESSAGE'>> = async (ctx) => {
             const result = cb(ctx);
-            if (ctx.payload.loadingTimeout > 0) {
-                await this.notifyBlockInteractionProcessingCompleted(ctx.payload);
+            if (ctx.payload.loadingTimeout <= 0) {
+                return result;
             }
+            if (result instanceof Promise) {
+                await result;
+            }
+            await this.notifyBlockInteractionProcessingCompleted(ctx.payload);
             return result;
         };
         return this.on(BLOCK_INTERACTION_EPHEMERAL_MESSAGE, wrapperCallback);
