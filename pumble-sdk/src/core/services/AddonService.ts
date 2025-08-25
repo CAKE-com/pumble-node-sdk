@@ -258,7 +258,12 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
         this.emit(SLASH, appEventArg);
     }
 
-    public postBlockInteractionMessage(payload: BlockInteractionPayload, response: ResponseCallback<SpawnModalResponse | ViewActionResponse>, ack: AckCallback, nack: NackCallback): void {
+    public postBlockInteractionMessage(
+        payload: BlockInteractionPayload,
+        response: ResponseCallback<SpawnModalResponse | ViewActionResponse>,
+        ack: AckCallback,
+        nack: NackCallback
+    ): void {
         const cache: ContextCache = {};
         const eventContext = this.createEventContext(
             payload,
@@ -406,22 +411,46 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
     }
 
     public blockInteractionView(cb: ContextCallback<BlockInteractionContext<'VIEW'>>): this {
-        const wrapperCallback: ContextCallback<BlockInteractionContext<'VIEW'>> = (ctx) => {
-            return cb(ctx);
+        const wrapperCallback: ContextCallback<BlockInteractionContext<'VIEW'>> = async (ctx) => {
+            const result = cb(ctx);
+            if (ctx.payload.loadingTimeout <= 0) {
+                return result;
+            }
+            if (result instanceof Promise) {
+                await result;
+            }
+            await this.notifyBlockInteractionProcessingCompleted(ctx.payload);
+            return result;
         };
         return this.on(BLOCK_INTERACTION_VIEW, wrapperCallback);
     }
 
     public blockInteractionMessage(cb: ContextCallback<BlockInteractionContext<'MESSAGE'>>): this {
-        const wrapperCallback: ContextCallback<BlockInteractionContext<'MESSAGE'>> = (ctx) => {
-            return cb(ctx);
+        const wrapperCallback: ContextCallback<BlockInteractionContext<'MESSAGE'>> = async (ctx) => {
+            const result = cb(ctx);
+            if (ctx.payload.loadingTimeout <= 0) {
+                return result;
+            }
+            if (result instanceof Promise) {
+                await result;
+            }
+            await this.notifyBlockInteractionProcessingCompleted(ctx.payload);
+            return result;
         };
         return this.on(BLOCK_INTERACTION_MESSAGE, wrapperCallback);
     }
 
     public blockInteractionEphemeralMessage(cb: ContextCallback<BlockInteractionContext<'EPHEMERAL_MESSAGE'>>): this {
-        const wrapperCallback: ContextCallback<BlockInteractionContext<'EPHEMERAL_MESSAGE'>> = (ctx) => {
-            return cb(ctx);
+        const wrapperCallback: ContextCallback<BlockInteractionContext<'EPHEMERAL_MESSAGE'>> = async (ctx) => {
+            const result = cb(ctx);
+            if (ctx.payload.loadingTimeout <= 0) {
+                return result;
+            }
+            if (result instanceof Promise) {
+                await result;
+            }
+            await this.notifyBlockInteractionProcessingCompleted(ctx.payload);
+            return result;
         };
         return this.on(BLOCK_INTERACTION_EPHEMERAL_MESSAGE, wrapperCallback);
     }
@@ -772,6 +801,11 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
 
     private isStorageIntegrationModalCredentials(view: V1.StorageIntegrationModalCredentials | V1.View<"MODAL">): boolean {
         return (view as V1.GoogleDriveModalCredentials).googleAccessToken !== undefined;
+    }
+
+    private async notifyBlockInteractionProcessingCompleted(payload: BlockInteractionPayload) {
+        const userClient = await this.clientUtils.getUserClientInternal(payload.workspaceId, payload.userId);
+        await userClient?.v1.interactions.completeProcessing(payload);
     }
 
     private setupOAuth(config: OAuth2Config) {

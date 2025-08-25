@@ -2,6 +2,7 @@ import { ApiClient } from '../../api';
 import { CredentialsStore, OAuth2Client } from '../../auth';
 import { PUMBLE_CONSENT_SCREEN_URL } from '../../constants';
 import { AddonManifest } from '../types/types';
+import { ApiClientInternal } from "../../api/ApiClientInternal";
 
 export class ClientUtils {
     private get clientId(): string {
@@ -38,12 +39,28 @@ export class ClientUtils {
 
     private getClient(workspaceId: string, workspaceUserId: string, token: string): ApiClient | undefined {
         if (this.clientId && this.appKey && this.clientSecret) {
-            const client = new ApiClient(
+            return new ApiClient(
                 new OAuth2Client(this.clientId, this.clientSecret, this.appKey, token),
                 workspaceId,
                 workspaceUserId
             );
-            return client;
+        }
+    }
+
+    public async getUserClientInternal(workspaceId: string, workspaceUserId: string): Promise<ApiClientInternal | undefined> {
+        const token = await this.tokenStore?.getUserToken(workspaceId, workspaceUserId);
+        if (token) {
+            return this.getClientInternal(workspaceId, workspaceUserId, token);
+        }
+    }
+
+    private getClientInternal(workspaceId: string, workspaceUserId: string, token: string): ApiClientInternal | undefined {
+        if (this.clientId && this.appKey && this.clientSecret) {
+            return new ApiClientInternal(
+                new OAuth2Client(this.clientId, this.clientSecret, this.appKey, token),
+                workspaceId,
+                workspaceUserId
+            );
         }
     }
 
