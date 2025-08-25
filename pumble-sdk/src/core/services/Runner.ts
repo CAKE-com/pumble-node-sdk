@@ -218,7 +218,7 @@ class Runner {
                       for (let i = 0; i < handlersList?.length; ++i) {
                           const currentHandler = handlersList[i];
                           if (currentHandler.sourceType === 'VIEW') {
-                              currentHandler.handlers[ctx.payload.onAction](ctx as BlockInteractionContext<'VIEW'>);
+                              await currentHandler.handlers[ctx.payload.onAction](ctx as BlockInteractionContext<'VIEW'>);
                               handlerFound = true;
                           }
                       }
@@ -238,7 +238,7 @@ class Runner {
                       for (let i = 0; i < handlersList?.length; ++i) {
                           const currentHandler = handlersList[i];
                           if (currentHandler.sourceType === 'MESSAGE') {
-                              currentHandler.handlers[ctx.payload.onAction](ctx as BlockInteractionContext<'MESSAGE'>);
+                              await currentHandler.handlers[ctx.payload.onAction](ctx as BlockInteractionContext<'MESSAGE'>);
                               handlerFound = true;
                           }
                       }
@@ -258,7 +258,7 @@ class Runner {
                       for (let i = 0; i < handlersList?.length; ++i) {
                           const currentHandler = handlersList[i];
                           if (currentHandler.sourceType === 'EPHEMERAL_MESSAGE') {
-                              currentHandler.handlers[ctx.payload.onAction](
+                              await currentHandler.handlers[ctx.payload.onAction](
                                   ctx as BlockInteractionContext<'EPHEMERAL_MESSAGE'>
                               );
                               handlerFound = true;
