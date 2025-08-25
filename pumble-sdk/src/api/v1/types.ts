@@ -109,7 +109,7 @@ export namespace V1 {
         type: 'plain_text_input';
         initial_value?: string;
         placeholder?: BlockTextElement;
-        multiline?: boolean;
+        line_mode?: 'singleline' | 'multiline';
         line_count?: number;
         min_length?: number;
         max_length?: number;
