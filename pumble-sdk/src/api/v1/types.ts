@@ -110,7 +110,6 @@ export namespace V1 {
         initial_value?: string;
         placeholder?: BlockTextElement;
         line_mode?: 'singleline' | 'multiline';
-        line_count?: number;
         min_length?: number;
         max_length?: number;
         interaction_triggers?: InteractionTriggers[];

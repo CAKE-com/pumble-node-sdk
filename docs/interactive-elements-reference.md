@@ -18,7 +18,6 @@
 | initial_value        | String                           | Text that will be displayed initially.                                                                                        |
 | placeholder          | TextElement                      | A text object that defines input placeholder text. Max length for the text field in this object is 75 characters.             |
 | line_mode            | String                           | Indicates if the text can be broken into multiple lines using newline characters. Options include: `singleline`, `multiline`. |
-| line_count           | Integer                          | Number of lines that the input field will be initiated with. Maximum value is 5.                                              |
 | min_length           | Integer                          | Min text length.                                                                                                              |
 | max_length           | Integer                          | Max text length.                                                                                                              |
 | interaction_triggers | ['on_enter_pressed', 'on_input'] | Determines which user action(s) will dispatch block interaction event.                                                        |
