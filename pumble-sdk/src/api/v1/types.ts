@@ -132,8 +132,36 @@ export namespace V1 {
         confirm?: ConfirmDialog;
     };
 
-    type ActionableBlock = BlockButton | BlockStaticSelectMenu | BlockDynamicSelectMenu | BlockPlainTextInput;
-    export type ActionableBlockNames = 'button' | 'static_select_menu' | 'dynamic_select_menu' | 'plain_text_input';
+    export type BlockCheckboxes = Input & {
+        type: 'checkboxes';
+        options: Option[];
+        initial_options?: Option[];
+        confirm?: ConfirmDialog;
+    };
+
+    export type BlockDatePicker = Input & {
+        type: 'date_picker';
+        initial_date?: string;
+        placeholder?: BlockTextElement;
+        confirm?: ConfirmDialog;
+    };
+
+    export type BlockDateRangePicker = Input & {
+        type: 'date_range_picker';
+        initial_date_range?: DateRange;
+        placeholder?: BlockTextElement;
+        confirm?: ConfirmDialog;
+    }
+
+    export type DateRange = {
+        start: string;
+        end: string;
+    }
+
+    type ActionableBlock = BlockButton | BlockStaticSelectMenu | BlockDynamicSelectMenu | BlockPlainTextInput |
+        BlockCheckboxes | BlockDatePicker | BlockDateRangePicker;
+    export type ActionableBlockNames = 'button' | 'static_select_menu' | 'dynamic_select_menu' | 'plain_text_input' |
+        'checkboxes' | 'date_picker' | 'date_range_picker';
     export type InteractionTriggers = 'on_enter_pressed' | 'on_input';
 
     export type BlockRichText = {
@@ -155,7 +183,18 @@ export namespace V1 {
         elements: ActionableBlock[];
     };
 
-    export type MainBlock = BlockRichText | BlockInput | BlockActions;
+    export type BlockDivider = {
+        type: 'divider';
+    };
+
+    export type BlockSection = {
+        type: 'section';
+        text: BlockTextElement;
+        accessory?: BlockInput;
+        text_position?: 'left' | 'right';
+    }
+
+    export type MainBlock = BlockRichText | BlockInput | BlockActions | BlockDivider | BlockSection;
 
     export type OAuthUserProfile = {
         workspaceId: string;
@@ -839,6 +878,7 @@ export namespace V1 {
                 [key: string]: {
                     type: ActionableBlockNames;
                     value: string;
+                    values?: string[];
                 }
             }
         }
