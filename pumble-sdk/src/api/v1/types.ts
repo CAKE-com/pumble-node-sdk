@@ -141,6 +141,9 @@ export namespace V1 {
 
     export type BlockDatePicker = Input & {
         type: 'date_picker';
+        /**
+         * YYYY-MM-DD
+         */
         initial_date?: string;
         placeholder?: BlockTextElement;
         confirm?: ConfirmDialog;
@@ -154,7 +157,13 @@ export namespace V1 {
     }
 
     export type DateRange = {
+        /**
+         * YYYY-MM-DD
+         */
         start: string;
+        /**
+         * YYYY-MM-DD
+         */
         end: string;
     }
 
