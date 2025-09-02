@@ -183,6 +183,7 @@ export namespace V1 {
         blockId: string;
         label: BlockTextElement;
         element: ActionableBlock;
+        validationError?: BlockTextElement;
         dispatchAction?: boolean;
         optional?: boolean;
     };
