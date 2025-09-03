@@ -169,8 +169,9 @@ export namespace V1 {
 
     type ActionableBlock = BlockButton | BlockStaticSelectMenu | BlockDynamicSelectMenu | BlockPlainTextInput |
         BlockCheckboxes | BlockDatePicker | BlockDateRangePicker;
-    export type ActionableBlockNames = 'button' | 'static_select_menu' | 'dynamic_select_menu' | 'plain_text_input' |
-        'checkboxes' | 'date_picker' | 'date_range_picker';
+    export type ActionableBlockNamesSingleValue = 'button' | 'static_select_menu' | 'dynamic_select_menu' | 'plain_text_input' |
+        'date_picker';
+    export type ActionableBlockNamesMultiValue = 'checkboxes' | 'date_range_picker';
     export type InteractionTriggers = 'on_enter_pressed' | 'on_input';
 
     export type BlockRichText = {
@@ -183,7 +184,10 @@ export namespace V1 {
         blockId: string;
         label: BlockTextElement;
         element: ActionableBlock;
-        validationError?: BlockTextElement;
+        /**
+         * @maxLength 75
+         */
+        validationError?: string;
         dispatchAction?: boolean;
         optional?: boolean;
     };
@@ -886,9 +890,11 @@ export namespace V1 {
         values: {
             [key: string]: {
                 [key: string]: {
-                    type: ActionableBlockNames;
+                    type: ActionableBlockNamesSingleValue;
                     value: string;
-                    values?: string[];
+                } | {
+                    type: ActionableBlockNamesMultiValue;
+                    values: string[];
                 }
             }
         }
