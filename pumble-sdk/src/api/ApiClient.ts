@@ -1,4 +1,4 @@
-import axios, {AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders} from 'axios';
+import axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
 import {OAuth2Client} from '../auth';
 import {PUMBLE_API_URL, PUMBLE_FILEUPLOAD_URL} from '../constants';
 import {ChannelsApiClientV1} from './v1/ChannelsApiClientV1';
@@ -6,7 +6,6 @@ import {MessagesApiClientV1} from './v1/MessagesApiClientV1';
 import {UsersApiClientV1} from './v1/UsersApiClientV1';
 import {WorkspaceApiClientV1} from './v1/WorkspaceApiClientV1';
 import {CallsApiClientV1} from './v1/CallsApiClientV1';
-import {schemasLoader} from "../schemas";
 import {AppClientV1} from "./v1/AppClientV1";
 import {FileHostClientV1} from "./v1/FileHostClientV1";
 
@@ -48,32 +47,6 @@ export class ApiClient {
                 token: client.accessToken,
                 'x-app-token': client.appKey
             }
-        });
-        this.axiosInstance.interceptors.request.use(async (request) => {
-            const controller = new AbortController();
-            if (request.method &&
-                ['post', 'put'].includes(request.method.toLowerCase()) &&
-                request.url?.includes('/messages')
-            ) {
-
-                let hasInvalidBlocks = request.data?.blocks && !(await schemasLoader.blocksValid(request.data.blocks));
-                let hasInvalidAttachmentBlocks = request.data?.attachments?.blocks && !(await schemasLoader.blocksValid(request.data.attachments.blocks));
-
-                if (hasInvalidBlocks || hasInvalidAttachmentBlocks) {
-                    controller.abort('Blocks model invalid. Aborting request...');
-                    return {
-                        ...request,
-                        headers: {} as AxiosRequestHeaders,
-                        reason: controller.signal.reason,
-                        signal: controller.signal,
-                    };
-                }
-
-            }
-
-            return {
-                ...request,
-            };
         });
         this.v1 = {
             channels: new ChannelsApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId),
