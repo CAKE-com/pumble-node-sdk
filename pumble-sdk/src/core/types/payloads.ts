@@ -105,6 +105,7 @@ export type BlockInteractionPayload<T extends BlockInteractionSourceType = Block
     payload: string;
     view?: V1.View<"HOME" | "MODAL">
     triggerId: string;
+    loadingTimeout: number;
 };
 
 export type ViewActionPayload = AppMessage & {
