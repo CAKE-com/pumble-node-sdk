@@ -640,9 +640,12 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
                 if (client) {
                     try {
                         result = await client.v1.channels.getChannelDetails(channelId);
-                    } catch (err) {
+                    } catch (err: any) {
+                        console.log(`Error while fetching ${channel} channel data. Err ${err?.response?.data?.code}`)
                         //Ignore
                     }
+                } else {
+                    console.log(`Error while fetching ${channel} channel data. Cannot fetch user client nor bot client.`)
                 }
                 return result;
             }
@@ -709,6 +712,8 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
                         await bot.v1.messages.postEphemeral(channelId, message, userId);
                     }
                 }
+            } else {
+                console.log(`Error while sending message to ${channelId} - cannot fetch bot client.`)
             }
         };
         return { say };
@@ -730,9 +735,12 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
                 if (client) {
                     try {
                         result = await client.v1.messages.fetchMessage(messageId, channelId);
-                    } catch (err) {
+                    } catch (err: any) {
+                        console.log(`Error while fetching ${messageId} message from ${channelId} channel. Err ${err?.response?.data?.code}`)
                         //Ignore
                     }
+                } else {
+                    console.log(`Error while fetching ${messageId} from ${channelId} channel. Cannot fetch user client nor bot client.`);
                 }
                 cache.message = result || null;
                 return result;
