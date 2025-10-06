@@ -22,16 +22,16 @@
     "license": "ISC",
     "dependencies": {
         "ansis": "^2.3.0",
-        "axios": "^1.11.0",
+        "axios": "^1.12.2",
         "chokidar": "^3.6.0",
         "find-free-ports": "^3.1.1",
-        "form-data": "^4.0.0",
+        "form-data": "^4.0.4",
         "jsonc": "^2.0.0",
-        "localtunnel": "npm:@security-patched/localtunnel@2.0.2-secpatched.3",
+        "localtunnel": "npm:@security-patched/localtunnel@2.0.2-secpatched.5",
         "lodash": "^4.17.21",
-        "prettier": "^3.2.5",
+        "prettier": "^3.6.2",
         "prompts": "^2.4.2",
-        "table": "^6.8.1",
+        "table": "^6.9.0",
         "yargs": "^17.7.2"
     },
     "devDependencies": {
