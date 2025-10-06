@@ -67,7 +67,8 @@ const app: App = {
                                         type: "plain_text",
                                         text: "Type something"
                                     },
-                                    interaction_triggers: ["on_input"]
+                                    interaction_triggers: ["on_input"],
+                                    autofocused: true
                                 },
                             }
                         ];
