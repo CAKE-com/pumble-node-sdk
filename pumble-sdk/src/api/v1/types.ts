@@ -98,6 +98,10 @@ export namespace V1 {
         onAction?: string;
     };
 
+    type AutoFocusable = {
+        autofocused?: boolean;
+    }
+
     export type BlockButton = Input & {
         type: 'button';
         text: BlockTextElement;
@@ -112,7 +116,7 @@ export namespace V1 {
         loadingTimeout?: number;
     };
 
-    export type BlockPlainTextInput = Input & {
+    export type BlockPlainTextInput = Input & AutoFocusable & {
         type: 'plain_text_input';
         initial_value?: string;
         placeholder?: BlockTextElement;
@@ -122,7 +126,7 @@ export namespace V1 {
         interaction_triggers?: InteractionTriggers[];
     };
 
-    export type BlockStaticSelectMenu = Input & {
+    export type BlockStaticSelectMenu = Input & AutoFocusable & {
         type: 'static_select_menu';
         placeholder: BlockTextElement;
         options: Option[];
@@ -136,7 +140,7 @@ export namespace V1 {
         loadingTimeout?: number;
     };
 
-    export type BlockDynamicSelectMenu = Input & {
+    export type BlockDynamicSelectMenu = Input & AutoFocusable & {
         type: 'dynamic_select_menu';
         placeholder: BlockTextElement;
         min_query_length?: number;
@@ -149,14 +153,14 @@ export namespace V1 {
         loadingTimeout?: number;
     };
 
-    export type BlockCheckboxes = Input & {
+    export type BlockCheckboxes = Input & AutoFocusable & {
         type: 'checkboxes';
         options: Option[];
         initial_options?: Option[];
         confirm?: ConfirmDialog;
     };
 
-    export type BlockDatePicker = Input & {
+    export type BlockDatePicker = Input & AutoFocusable & {
         type: 'date_picker';
         /**
          * YYYY-MM-DD
@@ -166,7 +170,7 @@ export namespace V1 {
         confirm?: ConfirmDialog;
     };
 
-    export type BlockDateRangePicker = Input & {
+    export type BlockDateRangePicker = Input & AutoFocusable & {
         type: 'date_range_picker';
         initial_date_range?: DateRange;
         placeholder?: BlockTextElement;
