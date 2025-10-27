@@ -158,6 +158,11 @@ export namespace V1 {
         options: Option[];
         initial_options?: Option[];
         confirm?: ConfirmDialog;
+        /**
+         * @format int32
+         * @max 15
+         */
+        loadingTimeout?: number;
     };
 
     export type BlockDatePicker = Input & AutoFocusable & {
@@ -168,6 +173,11 @@ export namespace V1 {
         initial_date?: string;
         placeholder?: BlockTextElement;
         confirm?: ConfirmDialog;
+        /**
+         * @format int32
+         * @max 15
+         */
+        loadingTimeout?: number;
     };
 
     export type BlockDateRangePicker = Input & AutoFocusable & {
@@ -175,6 +185,11 @@ export namespace V1 {
         initial_date_range?: DateRange;
         placeholder?: BlockTextElement;
         confirm?: ConfirmDialog;
+        /**
+         * @format int32
+         * @max 15
+         */
+        loadingTimeout?: number;
     }
 
     export type DateRange = {
