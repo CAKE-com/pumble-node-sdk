@@ -111,6 +111,7 @@ export type BlockInteractionPayload<T extends BlockInteractionSourceType = Block
 export type ViewActionPayload = AppMessage & {
     workspaceId: string;
     userId: string;
+    channelId?: string;
     viewActionType: ViewActionType,
     view: V1.View<"MODAL">,
     triggerId: string;
