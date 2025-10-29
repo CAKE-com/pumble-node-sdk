@@ -40,19 +40,7 @@ export class FilesApiClientV1 extends BaseApiClient {
     }
 
     private async processInput(input: Buffer|Blob|String, options?: V1.FileUploadOptions): Promise<V1.ProccessedFile|null> {
-        if (input instanceof Blob) {
-            if (!options) {
-                return null;
-            }
-
-            return {
-                blob: input,
-                name: options.name,
-                length: input.size
-            };
-        }
-
-        if (input instanceof String) {
+        if (typeof input === "string") {
             const buffer = await this.readFile(input);
             if (!buffer) {
                 return null;
@@ -69,7 +57,16 @@ export class FilesApiClientV1 extends BaseApiClient {
         }
 
         if (!options) {
+            console.error("File not processed, options are required for Blob and Buffer input types");
             return null;
+        }
+
+        if (input instanceof Blob) {
+            return {
+                blob: input,
+                name: options.name,
+                length: input.size
+            };
         }
 
         return {

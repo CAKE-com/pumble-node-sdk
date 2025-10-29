@@ -58,10 +58,10 @@ export namespace V1 {
         elements: BlockRichTextSection[];
     };
 
-    type TextStyle = {code?: boolean; bold?: boolean; strike?: boolean; italic?: boolean};
+    type TextStyle = { code?: boolean; bold?: boolean; strike?: boolean; italic?: boolean };
 
     export type BlockBasic =
-        | { type: 'link'; url: string; text?: string; raw?: boolean; style?: TextStyle}
+        | { type: 'link'; url: string; text?: string; raw?: boolean; style?: TextStyle }
         | { type: 'text'; text: string; unlinked?: boolean; style?: TextStyle }
         | { type: 'emoji'; name: string; skin_tone?: number }
         | { type: 'usergroup'; usergroup_id: string }
@@ -233,6 +233,7 @@ export namespace V1 {
         workspaceUserId: string;
         workspaceUserName: string;
     };
+
     export interface EphemeralMessageParams {
         threadRootId?: string;
         sendToUsers: string[];
@@ -624,7 +625,7 @@ export namespace V1 {
         isPumbleBot?: boolean;
         broadcastWarningShownTs?: string;
         isAddonBot?: boolean;
-        timeFormat : number;
+        timeFormat: number;
     }
 
     export interface UserGroup {
@@ -643,6 +644,7 @@ export namespace V1 {
         hasMoreBefore?: boolean;
         hasMoreAfter?: boolean;
     }
+
     export interface PermanentCall {
         id?: string;
         code?: string;
@@ -728,12 +730,14 @@ export namespace V1 {
     export interface MessageSearchResult extends Message {
         highlightedBlocks?: MainBlock[];
     }
+
     export interface PageMessageSearchResult {
         content?: MessageSearchResult[];
         /** @format int64 */
         totalElements?: number;
         hasMore?: boolean;
     }
+
     export interface ReactionRequest {
         /**
          * @minLength 3
@@ -763,7 +767,7 @@ export namespace V1 {
         recurrence?: ScheduledMessageRecurrenceRequest;
     }
 
-    export interface CreateScheduledMessageRequest extends ScheduledMessageRequest{
+    export interface CreateScheduledMessageRequest extends ScheduledMessageRequest {
         files?: FileToUpload[];
     }
 
@@ -786,8 +790,8 @@ export namespace V1 {
     export type ScheduledMessageRecurrenceType =
         'DAILY' |
         'BUSINESSDAYS' |
-        'WEEKLY'  |
-        'BIWEEKLY'  |
+        'WEEKLY' |
+        'BIWEEKLY' |
         'MONTHLY_NTH_WEEKDAY' |
         'MONTHLY_LAST_WEEKDAY' |
         'QUARTERLY_NTH_WEEKDAY' |
@@ -833,7 +837,7 @@ export namespace V1 {
 
     export interface FileUploadTokenRequest {
         filename: string,
-        length:  number
+        length: number
     }
 
     export interface FileUploadToken {
@@ -876,10 +880,10 @@ export namespace V1 {
         length: number
     }
 
-    export interface FileToUpload {
-        input: Buffer|Blob|String,
+    export type FileToUpload = {
+        input: String,
         options?: V1.FileUploadOptions
-    }
+    } | { input: Buffer | Blob, options: V1.FileUploadOptions };
 
     export interface PublishHomeViewRequest {
         blocks: MainBlock[];
@@ -896,12 +900,12 @@ export namespace V1 {
         title: BlockTextElement,
         state?: State
     } & (T extends "MODAL" ? {
-            callbackId: string,
-            submit?: BlockTextElement,
-            close?: BlockTextElement,
-            notifyOnClose: boolean,
-            parentViewId?: string
-        } : {})
+        callbackId: string,
+        submit?: BlockTextElement,
+        close?: BlockTextElement,
+        notifyOnClose: boolean,
+        parentViewId?: string
+    } : {})
 
     export type State = {
         values: {
