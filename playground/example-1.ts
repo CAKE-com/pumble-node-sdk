@@ -47,7 +47,8 @@ const app: App = {
                                     type: "rich_text_section",
                                     elements: [{
                                         type: "text",
-                                        text: "This is some additional text"
+                                        text: "This is some additional text",
+                                        size: 5
                                     }]
                                 }]
                             },

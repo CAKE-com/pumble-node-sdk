@@ -59,10 +59,11 @@ export namespace V1 {
     };
 
     type TextStyle = { code?: boolean; bold?: boolean; strike?: boolean; italic?: boolean };
+    type TextSize = 1 | 2 | 3 | 4 | 5 | 6;
 
     export type BlockBasic =
-        | { type: 'link'; url: string; text?: string; raw?: boolean; style?: TextStyle }
-        | { type: 'text'; text: string; unlinked?: boolean; style?: TextStyle }
+        | { type: 'link'; url: string; text?: string; raw?: boolean; style?: TextStyle, size?: TextSize }
+        | { type: 'text'; text: string; unlinked?: boolean; style?: TextStyle, size?: TextSize }
         | { type: 'emoji'; name: string; skin_tone?: number }
         | { type: 'usergroup'; usergroup_id: string }
         | { type: 'user'; user_id: string }
