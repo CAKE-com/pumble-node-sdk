@@ -12,5 +12,9 @@ export interface CredentialsStore {
 
     saveTokens(accessTokenResponse: OAuth2AccessTokenResponse): Promise<void>;
 
+    deleteForWorkspace(workspaceId: string): Promise<void>;
+
+    deleteForUser(workspaceUserId: string, workspaceId: string): Promise<void>;
+
     initialize(): Promise<void>;
 }

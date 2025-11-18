@@ -47,6 +47,30 @@ export class JsonFileTokenStore implements CredentialsStore {
         await this.save();
     }
 
+    public async deleteForWorkspace(workspaceId: string): Promise<void> {
+        const workspaceCredentials = this.credentials[workspaceId];
+        if (!workspaceCredentials) {
+            return;
+        }
+
+        delete this.credentials[workspaceId];
+        await this.save();
+    }
+
+    public async deleteForUser(workspaceUserId: string, workspaceId: string): Promise<void> {
+        const workspaceCredentials = this.credentials[workspaceId];
+        if (!workspaceCredentials) {
+            return;
+        }
+
+        if (!workspaceCredentials.userTokens[workspaceUserId]) {
+            return;
+        }
+    
+        delete this.credentials[workspaceId].userTokens[workspaceUserId];
+        await this.save();
+    }
+
     private async save() {
         await fs.promises.writeFile(this.path, JSON.stringify(this.credentials));
     }
