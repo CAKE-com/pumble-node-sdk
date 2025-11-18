@@ -82,10 +82,10 @@ export class MongoDbTokenStore implements CredentialsStore {
     }
 
     public async deleteForWorkspace(workspaceId: string): Promise<void> {
-        const result = await this.collection.deleteMany({workspaceId: workspaceId});
+        await this.collection.deleteMany({workspaceId: workspaceId});
     }
 
     public async deleteForUser(workspaceUserId: string, workspaceId: string): Promise<void> {
-        const result = await this.collection.deleteMany({userId: workspaceUserId, workspaceId: workspaceId});
+        await this.collection.deleteMany({userId: workspaceUserId, workspaceId: workspaceId});
     }
 }
