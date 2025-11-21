@@ -48,7 +48,7 @@ class Login {
             },
         ]);
 
-        await cliPumbleApiClient.activateLead(email, code);
+        await cliPumbleApiClient.activateLead(email, code, leadId);
         const loginResponse = await cliPumbleApiClient.leadLogin(leadId);
 
         const options = loginResponse.items.map((x) => ({ title: x.workspace.name, value: x.workspace.id }));

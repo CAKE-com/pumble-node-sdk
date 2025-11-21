@@ -57,8 +57,8 @@ class PumbleApiClient {
         return leadId;
     }
 
-    public async activateLead(email: string, code: string): Promise<void> {
-        await this.client.post('/lead/activate', { email, code });
+    public async activateLead(email: string, code: string, leadId: string): Promise<void> {
+        await this.client.post('/lead/activate', { email, code, leadId });
     }
 
     public async leadLogin(leadId: string): Promise<LeadLoginResponse> {
