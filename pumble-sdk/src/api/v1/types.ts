@@ -59,7 +59,7 @@ export namespace V1 {
     };
 
     type TextStyle = { code?: boolean; bold?: boolean; strike?: boolean; italic?: boolean };
-    type TextSize = 1 | 2 | 3 | 4 | 5 | 6;
+    type TextSize = 1 | 2 | 3;
 
     export type BlockBasic =
         | { type: 'link'; url: string; text?: string; raw?: boolean; style?: TextStyle, size?: TextSize }
