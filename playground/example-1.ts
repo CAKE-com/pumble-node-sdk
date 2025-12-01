@@ -48,7 +48,7 @@ const app: App = {
                                     elements: [{
                                         type: "text",
                                         text: "This is some additional text",
-                                        size: 5
+                                        size: 2
                                     }]
                                 }]
                             },
