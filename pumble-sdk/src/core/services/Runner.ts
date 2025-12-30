@@ -12,7 +12,7 @@ import {
 import { PumbleEventType } from '../types/pumble-events';
 import { Express } from 'express';
 import { promises as fs } from 'fs';
-import {AddonManifest, ViewActionType} from '../types/types';
+import {AddonManifest} from '../types/types';
 import { setup } from './AddonService';
 import { Addon } from './Addon';
 import {V1} from "../../api";
@@ -20,6 +20,7 @@ import Option = V1.Option;
 import OptionGroup = V1.OptionGroup;
 import {AxiosError} from "axios";
 import View = V1.View;
+import BlockRichText = V1.BlockRichText;
 
 type OptionsForEvent<T extends PumbleEventType> = T extends 'NEW_MESSAGE'
     ? { match: string | RegExp; includeBotMessages?: boolean }
@@ -103,6 +104,11 @@ export type App = {
         onAction: string;
         producer: (ctx: DynamicMenuContext) => (Option[] | OptionGroup[]) | Promise<Option[] | OptionGroup[]>
     }[];
+    defaultHomeView?: {
+        enabled: boolean;
+        text: string;
+        blocks?: BlockRichText[]
+    }
     events?: PossibleEvents[];
     eventsPath?: string;
     tokenStore?: CredentialsStore;
@@ -303,6 +309,9 @@ class Runner {
                 producer: x.producer
             };
         });
+        if (app.defaultHomeView) {
+            manifest.defaultHomeView = app.defaultHomeView;
+        }
         manifest.redirectUrls = app.redirect?.path ? [app.redirect.path] : [redirectUrl];
         if (app.botScopes) {
             manifest.scopes.botScopes = app.botScopes;

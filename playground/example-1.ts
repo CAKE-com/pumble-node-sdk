@@ -478,10 +478,23 @@ const app: App = {
             }
         }
     ],
+    defaultHomeView: {
+        enabled: true,
+        text: `Hello!`,
+        blocks: [{
+            type: 'rich_text',
+            elements: [{
+                type: 'rich_text_section',
+                elements: [{
+                    type: 'text',
+                    text: 'Hello!'
+                }]
+            }]
+        }]
+    },
     onServerConfiguring: (e, addon) => {
     },
     tokenStore: new JsonFileTokenStore('tokens.json'),
-    listingUrl: 'https://listing.com',
     helpUrl: 'https://help.com',
     welcomeMessage: 'Hello',
     offlineMessage: 'Demo app cannot respond at this moment. Please try again later',
