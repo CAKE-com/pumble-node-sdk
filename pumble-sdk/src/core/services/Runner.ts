@@ -106,8 +106,7 @@ export type App = {
     }[];
     defaultHomeView?: {
         enabled: boolean;
-        text: string;
-        blocks?: BlockRichText[]
+        blocks: BlockRichText[]
     }
     events?: PossibleEvents[];
     eventsPath?: string;

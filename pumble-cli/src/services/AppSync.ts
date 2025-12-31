@@ -390,15 +390,7 @@ class AppSync {
                     newValue: `${newApp.defaultHomeView.enabled}`
                 });
             }
-            if (oldApp.defaultHomeView.text !== newApp.defaultHomeView.text) {
-                changes.push({
-                    key: 'Default home view text',
-                    action: 'change',
-                    oldValue: oldApp.defaultHomeView.text,
-                    newValue: newApp.defaultHomeView.text
-                });
-            }
-            if (JSON.stringify(oldApp.defaultHomeView.blocks ?? []) !== JSON.stringify(newApp.defaultHomeView.blocks ?? [])) {
+            if (JSON.stringify(oldApp.defaultHomeView.blocks) !== JSON.stringify(newApp.defaultHomeView.blocks)) {
                 changes.push({
                     key: 'Default home view blocks',
                     action: 'change',

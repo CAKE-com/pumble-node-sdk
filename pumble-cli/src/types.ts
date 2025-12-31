@@ -43,8 +43,7 @@ type EventDeclare =
 
 type DefaultHomeView = {
     enabled: boolean;
-    text: string;
-    blocks?: any[]
+    blocks: any[]
 }
 
 export type AddonManifest = {

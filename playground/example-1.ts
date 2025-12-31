@@ -480,7 +480,6 @@ const app: App = {
     ],
     defaultHomeView: {
         enabled: true,
-        text: `Hello!`,
         blocks: [{
             type: 'rich_text',
             elements: [{
