@@ -11,6 +11,7 @@ import _ from 'lodash';
 import { logger } from './Logger';
 import { cyan, yellow } from 'ansis';
 import os from "os";
+import { validateManifest } from './ManifestValidator';
 
 export type WatcherArgs = {
     globalConfigFile: string;
@@ -24,6 +25,7 @@ export type WatcherArgs = {
     manifest: string;
     watch: boolean;
     emitManifestPath: string;
+    debug?: boolean;
 };
 
 export type UpdaterArgs = {
@@ -50,6 +52,72 @@ class Watcher {
     private child: childProcess.ChildProcess | undefined = undefined;
 
     /**
+     * Validates the source manifest.json file before processing (throws on error)
+     */
+    private async validateSourceManifest(manifestPath: string): Promise<void> {
+        logger.info('Validating manifest.json...');
+        try {
+            const content = await fs.readFile(manifestPath, 'utf-8');
+            const sourceManifest = JSON.parse(content);
+            
+            const validation = validateManifest(sourceManifest);
+            
+            for (const warning of validation.warnings) {
+                logger.warning(warning);
+            }
+            
+            if (!validation.valid) {
+                logger.error('Manifest validation failed:');
+                for (const error of validation.errors) {
+                    logger.error(`  ${error}`);
+                }
+                throw new Error('Fix manifest.json errors before continuing.');
+            }
+            logger.success('Manifest is valid');
+        } catch (err) {
+            if (err instanceof SyntaxError) {
+                logger.error(`Invalid JSON in ${manifestPath}: ${err.message}`);
+                throw new Error('Fix manifest.json syntax errors.');
+            }
+            throw err;
+        }
+    }
+
+    /**
+     * Validates manifest and returns boolean (doesn't throw, for runtime changes)
+     */
+    private async validateSourceManifestSilent(manifestPath: string): Promise<boolean> {
+        logger.info('Validating manifest.json...');
+        try {
+            const content = await fs.readFile(manifestPath, 'utf-8');
+            const sourceManifest = JSON.parse(content);
+            
+            const validation = validateManifest(sourceManifest);
+            
+            for (const warning of validation.warnings) {
+                logger.warning(warning);
+            }
+            
+            if (!validation.valid) {
+                logger.error('Manifest validation failed:');
+                for (const error of validation.errors) {
+                    logger.error(`  ${error}`);
+                }
+                return false;
+            }
+            logger.success('Manifest is valid');
+            return true;
+        } catch (err) {
+            if (err instanceof SyntaxError) {
+                logger.error(`Invalid JSON in ${manifestPath}: ${err.message}`);
+            } else {
+                logger.error(`Error reading manifest: ${err}`);
+            }
+            return false;
+        }
+    }
+
+    /**
      * Used by pumble-cli update
      * This method will compile the App code, wait for it to finish then it will run the App only once until it emits a manifest in `.pumble-app-manifest.json`
      * After the manifest is synced it will kill the App and exit
@@ -59,6 +127,10 @@ class Watcher {
         if (!cliLogin.isLoggedIn()) {
             await cliLogin.login();
         }
+        
+        // Validate source manifest.json before compiling
+        await this.validateSourceManifest(args.manifest);
+        
         const compileResult = childProcess.spawnSync('tsc', args.tsconfig ? ['-p', args.tsconfig] : [], {
             stdio: 'inherit',
             killSignal: 'SIGKILL',
@@ -97,6 +169,10 @@ class Watcher {
             this.child?.kill('SIGKILL');
         });
         await cliEnvironment.loadEnvironment();
+        
+        // Validate source manifest.json before starting
+        await this.validateSourceManifest(args.manifest);
+        
         const port = await this.getPort(args.port);
         const tunnelUrl = args.host ? args.host : await this.startTunnel(port);
         if (!cliLogin.isLoggedIn()) {
@@ -128,7 +204,15 @@ class Watcher {
             const compiledFileWatcher = chokidar.watch([outDir, args.manifest], { ignoreInitial: true });
             compiledFileWatcher.on(
                 'all',
-                _.debounce(async () => {
+                _.debounce(async (event, changedPath) => {
+                    if (changedPath && changedPath.endsWith('manifest.json')) {
+                        const isValid = await this.validateSourceManifestSilent(args.manifest);
+                        if (!isValid) {
+                            logger.warning('Manifest changes ignored due to validation errors. Fix them and save again.');
+                            return;
+                        }
+                    }
+                    
                     if (this.child) {
                         this.child.once('close', async () => {
                             console.log('Restarting app!');
@@ -192,10 +276,15 @@ class Watcher {
     }
 
     private async startChild(
-        args: { program: string; inspect?: string; manifest: string; emitManifestPath: string },
+        args: { program: string; inspect?: string; manifest: string; emitManifestPath: string; debug?: boolean },
         port: number
     ): Promise<void> {
         await fs.stat(args.program);
+        
+        if (args.debug) {
+            logger.info('Debug mode enabled - verbose logging active');
+        }
+        
         this.child = childProcess.spawn(
             'node',
             args.inspect ? [`--inspect=${args.inspect}`, args.program] : [args.program],
@@ -207,6 +296,7 @@ class Watcher {
                     PUMBLE_ADDON_PORT: port.toString(),
                     PUMBLE_ADDON_MANIFEST_PATH: args.manifest,
                     PUMBLE_ADDON_EMIT_MANIFEST_PATH: args.emitManifestPath,
+                    PUMBLE_DEBUG: args.debug ? 'true' : '',
                 },
                 killSignal: 'SIGKILL',
                 shell: os.platform() === 'win32'

@@ -15,6 +15,18 @@ import {
 import path from 'path';
 import {ManifestProcessor} from "../../util/ManifestProcessor";
 
+// Debug logging helper
+const isDebugMode = () => process.env.PUMBLE_DEBUG === 'true' || process.env.DEBUG === 'true';
+
+function debugLog(category: string, message: string, data?: unknown) {
+    if (!isDebugMode()) return;
+    const timestamp = new Date().toISOString();
+    console.log(`[DEBUG ${timestamp}] [${category}] ${message}`);
+    if (data !== undefined) {
+        console.log(JSON.stringify(data, null, 2));
+    }
+}
+
 export type AddonHttpServerOptions = {
     serverPort: number;
 };
@@ -70,42 +82,79 @@ export class AddonHttpListener<T extends AddonManifest> {
     }
 
     private handleMessage(req: Request, res: Response) {
-        const message: AppMessage = req.body;
-        if (isPumbleEvent(message)) {
-            const pumbleEventPayload = JSON.parse(message.body);
-            this.service.postEvent({ ...message, body: pumbleEventPayload });
-            res.send('ok');
-            return;
-        } else {
-            const ack = this.ackFunction(res);
-            const nack = this.nackFunction(res);
-            const response = this.responseFunction(res);
-            if (isMessageShortcut(message)) {
-                this.service.postMessageShortcut(message, response, ack, nack);
+        const startTime = Date.now();
+        
+        try {
+            const message: AppMessage = req.body;
+            
+            // Debug: log incoming request
+            debugLog('REQUEST', `Incoming ${req.method} ${req.path}`, {
+                messageType: message.messageType,
+                onAction: (message as any).onAction,
+                slashCommand: (message as any).slashCommand,
+                shortcut: (message as any).shortcut,
+            });
+            
+            if (isPumbleEvent(message)) {
+                const pumbleEventPayload = JSON.parse(message.body);
+                debugLog('EVENT', `Event: ${pumbleEventPayload.eventType}`, pumbleEventPayload);
+                this.service.postEvent({ ...message, body: pumbleEventPayload });
+                debugLog('RESPONSE', `Responded in ${Date.now() - startTime}ms`);
+                res.send('ok');
                 return;
+            } else {
+                const ack = this.ackFunction(res, startTime);
+                const nack = this.nackFunction(res, startTime);
+                const response = this.responseFunction(res, startTime);
+                if (isMessageShortcut(message)) {
+                    debugLog('SHORTCUT', `Message shortcut: ${message.shortcut}`, message);
+                    this.service.postMessageShortcut(message, response, ack, nack);
+                    return;
+                }
+                if (isGlobalShortcut(message)) {
+                    debugLog('SHORTCUT', `Global shortcut: ${message.shortcut}`, message);
+                    this.service.postGlobalShortcut(message, response, ack, nack);
+                    return;
+                }
+                if (isSlashCommand(message)) {
+                    debugLog('COMMAND', `Slash command: ${message.slashCommand}`, message);
+                    this.service.postSlashCommand(message, response, ack, nack);
+                    return;
+                }
+                if (isBlockInteractionView(message)) {
+                    debugLog('INTERACTION', `Block interaction (view): ${message.onAction}`, message);
+                    this.service.postBlockInteractionView(message, response, ack, nack);
+                }
+                if (isBlockInteractionMessage(message)) {
+                    debugLog('INTERACTION', `Block interaction (message): ${message.onAction}`, message);
+                    this.service.postBlockInteractionMessage(message, response, ack, nack);
+                }
+                if (isBlockInteractionEphemeralMessage(message)) {
+                    debugLog('INTERACTION', `Block interaction (ephemeral): ${message.onAction}`, message);
+                    this.service.postBlockInteractionEphemeralMessage(message, response, ack, nack);
+                }
+                if (isDynamicMenuInteraction(message)) {
+                    debugLog('MENU', `Dynamic menu: ${message.onAction}`, message);
+                    this.service.postDynamicSelectMenu(message, response, nack);
+                }
+                if (isViewAction(message)) {
+                    debugLog('VIEW', `View action: ${message.viewActionType}`, message);
+                    this.service.postViewAction(message, response, ack, nack);
+                }
             }
-            if (isGlobalShortcut(message)) {
-                this.service.postGlobalShortcut(message, response, ack, nack);
-                return;
+        } catch (err) {
+            console.error('========== PUMBLE SDK HTTP ERROR ==========');
+            console.error(`Time: ${new Date().toISOString()}`);
+            console.error(`Path: ${req.path}`);
+            if (err instanceof Error) {
+                console.error(`Error: ${err.message}`);
+                console.error(`Stack: ${err.stack}`);
+            } else {
+                console.error(`Error: ${err}`);
             }
-            if (isSlashCommand(message)) {
-                this.service.postSlashCommand(message, response, ack, nack);
-                return;
-            }
-            if (isBlockInteractionView(message)) {
-                this.service.postBlockInteractionView(message, response, ack, nack);
-            }
-            if (isBlockInteractionMessage(message)) {
-                this.service.postBlockInteractionMessage(message, response, ack, nack);
-            }
-            if (isBlockInteractionEphemeralMessage(message)) {
-                this.service.postBlockInteractionEphemeralMessage(message, response, ack, nack);
-            }
-            if (isDynamicMenuInteraction(message)) {
-                this.service.postDynamicSelectMenu(message, response, nack);
-            }
-            if (isViewAction(message)) {
-                this.service.postViewAction(message, response, ack, nack);
+            console.error('==========================================');
+            if (!res.headersSent) {
+                res.status(500).json({ error: 'Internal server error' });
             }
         }
     }
@@ -115,29 +164,40 @@ export class AddonHttpListener<T extends AddonManifest> {
             const host = process.env.ADDON_HOST ? process.env.ADDON_HOST : `https://${req.hostname}`;
             res.send(ManifestProcessor.prepareForServing(this.manifest, host));
         } catch (e) {
-            console.error(`Unable to serve manifest: ${e}`);
-            res.status(500).send();
+            console.error('========== PUMBLE SDK MANIFEST ERROR ==========');
+            console.error(`Time: ${new Date().toISOString()}`);
+            if (e instanceof Error) {
+                console.error(`Error: ${e.message}`);
+                console.error(`Stack: ${e.stack}`);
+            } else {
+                console.error(`Error: ${e}`);
+            }
+            console.error('===============================================');
+            res.status(500).json({ error: 'Unable to serve manifest' });
         }
     }
 
-    private ackFunction(res: express.Response) {
+    private ackFunction(res: express.Response, startTime?: number) {
         return async (arg?: string) => {
             if (!res.headersSent) {
+                debugLog('ACK', `Ack sent in ${startTime ? Date.now() - startTime : '?'}ms`, { message: arg });
                 res.contentType('application/json').status(200).send({ message: arg });
             }
         };
     }
 
-    private nackFunction(res: express.Response) {
+    private nackFunction(res: express.Response, startTime?: number) {
         return async (arg?: string, status: number = 400) => {
             if (!res.headersSent) {
+                debugLog('NACK', `Nack sent in ${startTime ? Date.now() - startTime : '?'}ms`, { message: arg, status });
                 res.contentType('application/json').status(status).send({ message: arg });
             }
         };
     }
-    private responseFunction(res: express.Response) {
+    private responseFunction(res: express.Response, startTime?: number) {
         return async (arg: any) => {
             if (!res.headersSent) {
+                debugLog('RESPONSE', `Response sent in ${startTime ? Date.now() - startTime : '?'}ms`, arg);
                 res.contentType('application/json').status(200).send(arg);
             }
         };

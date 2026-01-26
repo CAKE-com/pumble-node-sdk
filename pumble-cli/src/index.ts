@@ -172,6 +172,12 @@ async function main() {
                     .option('inspect', {
                         type: 'string',
                         description: 'NodeJS --inspect',
+                    })
+                    .option('debug', {
+                        alias: 'd',
+                        type: 'boolean',
+                        default: false,
+                        description: 'Enable debug logging (requests, responses, payloads)',
                     });
             },
             async (args) => {

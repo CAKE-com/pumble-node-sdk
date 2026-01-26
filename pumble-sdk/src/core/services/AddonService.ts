@@ -172,16 +172,30 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             try {
                 await cb(...args);
             } catch (err) {
+                const errorInfo = {
+                    eventData: args[0],
+                    event: name,
+                    error: err,
+                };
+
                 if (this.listeners(ERROR) && this.listeners(ERROR).length) {
                     if (name !== ERROR) {
-                        this.emit(ERROR, {
-                            eventData: args[0],
-                            event: name,
-                            error: err,
-                        });
+                        this.emit(ERROR, errorInfo);
                     }
                 } else {
-                    console.error('Unhandled error occurred', { eventData: args[0], event: name, error: err });
+                    console.error('========== PUMBLE SDK ERROR ==========');
+                    console.error(`Event: ${name}`);
+                    console.error(`Time: ${new Date().toISOString()}`);
+                    if (err instanceof Error) {
+                        console.error(`Error: ${err.message}`);
+                        console.error(`Stack: ${err.stack}`);
+                    } else {
+                        console.error(`Error: ${err}`);
+                    }
+                    if (process.env.DEBUG) {
+                        console.error(`Event data: ${JSON.stringify(args[0], null, 2)}`);
+                    }
+                    console.error('======================================');
                 }
             }
         };
