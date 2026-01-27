@@ -37,14 +37,6 @@ const SUPPORTED_ROOT_FIELDS = new Set([
     'signingSecret',
 ]);
 
-// Fields that are known to cause 500 errors
-const UNSUPPORTED_FIELDS = new Set([
-    'listingIcon',
-    'avatar',
-    'icon',
-    'logo',
-]);
-
 // Valid bot scopes
 const VALID_BOT_SCOPES = new Set([
     'messages:read',
@@ -97,17 +89,10 @@ export function validateManifest(manifest: Record<string, unknown>): ValidationR
     const errors: string[] = [];
     const warnings: string[] = [];
 
-    // Check for unsupported fields that cause 500 errors
-    for (const field of UNSUPPORTED_FIELDS) {
-        if (field in manifest) {
-            errors.push(`"${field}" is not supported by Pumble API and will cause an error. Remove this field.`);
-        }
-    }
-
-    // Warn about unknown fields
+    // Check for unsupported fields
     for (const key of Object.keys(manifest)) {
-        if (!SUPPORTED_ROOT_FIELDS.has(key) && !UNSUPPORTED_FIELDS.has(key)) {
-            warnings.push(`Unknown field "${key}" - this may be ignored or cause errors.`);
+        if (!SUPPORTED_ROOT_FIELDS.has(key)) {
+            errors.push(`Unknown field "${key}" is not supported by Pumble API. Remove this field.`);
         }
     }
 
