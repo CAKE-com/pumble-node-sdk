@@ -167,4 +167,6 @@ export type NotificationMessage = {
     au: Array<NotificationAffectedUserMeta>;
     // is edited
     e: boolean;
+    // is ephemeral
+    eph: boolean;
 };
