@@ -12,7 +12,6 @@ import {
     isPumbleEvent,
     isSlashCommand, isViewAction,
 } from '../../types/payloads';
-import path from 'path';
 import {ManifestProcessor} from "../../util/ManifestProcessor";
 
 export type AddonHttpServerOptions = {
@@ -144,7 +143,7 @@ export class AddonHttpListener<T extends AddonManifest> {
     }
     private getPathname(url: string) {
         if (!url.match(/^https?:\/\//)) {
-            const newUrl = new URL(path.join(`https://yourhost.com`, url));
+            const newUrl = new URL(url, `https://yourhost.com`);
             return newUrl.pathname;
         }
         return new URL(url).pathname;
