@@ -2,7 +2,6 @@ import { cliPumbleApiClient } from './PumbleApiClient';
 import { cliEnvironment } from './Environment';
 import { AddonManifest } from '../types';
 import axios, { AxiosError } from 'axios';
-import path from 'path';
 import prompts from 'prompts';
 import { logger } from './Logger';
 import { cyan, green, red, yellow } from 'ansis';
@@ -496,7 +495,7 @@ class AppSync {
     private getAbsoluteUrl(host: string, relativePath: string): string {
         return relativePath.startsWith('http://') || relativePath.startsWith('https://') ?
             relativePath :
-            new URL(path.join(host, relativePath)).toString();
+            new URL(relativePath, host).toString();
     }
 }
 

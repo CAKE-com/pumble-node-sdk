@@ -42,7 +42,6 @@ import {
     SlashCommandPayload, ViewActionPayload,
     SpawnModalResponse, ViewActionResponse
 } from '../types/payloads';
-import path from 'path';
 import { ClientUtils } from './ClientUtils';
 import { V1 } from '../../api/v1/types';
 import OptionGroup = V1.OptionGroup;
@@ -822,7 +821,7 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
                 ? [config.redirect.path]
                 : this.manifest.redirectUrls.map((url) => {
                       if (!url.match(/^https?:\/\//)) {
-                          url = path.join(`http://yourhost.com`, url);
+                          return new URL(url, `http://yourhost.com`).pathname;
                       }
                       return new URL(url).pathname;
                   });

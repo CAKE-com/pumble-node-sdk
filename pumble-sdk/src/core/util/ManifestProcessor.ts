@@ -1,4 +1,3 @@
-import path from "path";
 import {AddonManifest} from "../types/types";
 
 export class ManifestProcessor {
@@ -42,6 +41,6 @@ export class ManifestProcessor {
     private static getAbsoluteUrl(host: string, relativePath: string): string {
         return relativePath.startsWith('http://') || relativePath.startsWith('https://') ?
             relativePath :
-            new URL(path.join(host, relativePath)).toString();
+            new URL(relativePath, host).toString();
     }
 }
