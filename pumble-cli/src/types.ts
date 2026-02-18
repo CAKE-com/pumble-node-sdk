@@ -41,6 +41,11 @@ type EventDeclare =
           name: string;
       };
 
+type DefaultHomeView = {
+    enabled: boolean;
+    blocks: any[]
+}
+
 export type AddonManifest = {
     id: string;
     socketMode?: boolean;
@@ -51,6 +56,7 @@ export type AddonManifest = {
     dynamicMenus: readonly DynamicMenu[];
     redirectUrls: readonly string[];
     eventSubscriptions: ManifestEvents;
+    defaultHomeView: DefaultHomeView;
     clientSecret: string;
     appKey: string;
     signingSecret: string;

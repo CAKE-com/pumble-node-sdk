@@ -57,7 +57,7 @@ class AppSync {
                         }
                         return event.name;
                     }),
-                },
+                }
             };
         }
         const { created, app } = await this.getOrCreateApp(manifest);
@@ -378,6 +378,31 @@ class AppSync {
                 newValue: (newApp.eventSubscriptions.events || []).map<string>((e) =>
                     typeof e === 'object' ? e.name : e
                 ),
+            });
+        }
+        if (oldApp.defaultHomeView && newApp.defaultHomeView) {
+            if (oldApp.defaultHomeView.enabled !== newApp.defaultHomeView.enabled) {
+                changes.push({
+                    key: 'Default home view enabled',
+                    action: 'change',
+                    oldValue: `${oldApp.defaultHomeView.enabled}`,
+                    newValue: `${newApp.defaultHomeView.enabled}`
+                });
+            }
+            if (JSON.stringify(oldApp.defaultHomeView.blocks) !== JSON.stringify(newApp.defaultHomeView.blocks)) {
+                changes.push({
+                    key: 'Default home view blocks',
+                    action: 'change',
+                    oldValue: JSON.stringify(oldApp.defaultHomeView.blocks),
+                    newValue: JSON.stringify(newApp.defaultHomeView.blocks)
+                });
+            }
+        } else if ((oldApp.defaultHomeView ?? null) !== (newApp.defaultHomeView ?? null)) {
+            changes.push({
+                key: 'Default home view',
+                action: 'change',
+                oldValue: JSON.stringify(oldApp.defaultHomeView),
+                newValue: JSON.stringify(newApp.defaultHomeView)
             });
         }
         if (this.botScopesChanged(oldApp, newApp)) {
