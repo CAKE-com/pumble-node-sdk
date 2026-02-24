@@ -43,7 +43,6 @@ async function main() {
             'Login',
             (y) => {
                 return y
-                    .option('open', { alias: 'o', type: 'boolean' })
                     .option('force', { alias: 'f', type: 'boolean' })
                     .usage('$0 <cmd>');
             },

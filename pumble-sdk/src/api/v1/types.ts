@@ -908,7 +908,7 @@ export namespace V1 {
     export interface PublishHomeViewRequest {
         blocks: MainBlock[];
         title?: BlockTextElement,
-        state?: any
+        state?: State
     }
 
     export type ViewType = "MODAL" | "HOME";

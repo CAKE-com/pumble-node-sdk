@@ -140,33 +140,32 @@ class AppSync {
 
     private async getOrCreateApp(manifest: AddonManifest): Promise<{ app: AddonManifest; created: boolean }> {
         const appId = process.env.PUMBLE_APP_ID;
-        let appFound = false;
         if (appId) {
             try {
                 const pumbleApp = await cliPumbleApiClient.getApp(appId);
-                return { app: pumbleApp, created: false };
-            } catch (ignore) {}
+                return {app: pumbleApp, created: false};
+            } catch (ignore) {
+            }
         }
 
-        if (!appFound) {
-            let confirmation = false;
-            if (appId) {
-                const { response } = await prompts({
-                    name: 'response',
-                    type: 'confirm',
-                    message: `The app id ${appId} is not found in this workspace. Do you want to create a new App in this workspace?`,
-                });
-                confirmation = !!response;
-            } else {
-                confirmation = true;
-                logger.info('Creating app for the first time');
-            }
-            if (confirmation) {
-                const app = await cliPumbleApiClient.createApp(manifest);
-                logger.info(`Your app is created. AppID: ` + cyan`${app.id}`);
-                return { app, created: true };
-            }
+        let confirmation = false;
+        if (appId) {
+            const {response} = await prompts({
+                name: 'response',
+                type: 'confirm',
+                message: `The app id ${appId} is not found in this workspace. Do you want to create a new App in this workspace?`,
+            });
+            confirmation = !!response;
+        } else {
+            confirmation = true;
+            logger.info('Creating app for the first time');
         }
+        if (confirmation) {
+            const app = await cliPumbleApiClient.createApp(manifest);
+            logger.info(`Your app is created. AppID: ` + cyan`${app.id}`);
+            return {app, created: true};
+        }
+
         throw new Error('App is not created!');
     }
 
@@ -461,15 +460,15 @@ class AppSync {
     private async updateApp(app: AddonManifest, manifest: AddonManifest) {
         await cliPumbleApiClient
             .updateApp(app.id, manifest)
+            .then(() => {
+                logger.success('App is updated');
+            })
             .catch((e) => {
                 if (e instanceof AxiosError) {
                     logger.error(`Error updating app: ${e.response?.data.message}`);
                 } else {
                     console.log('ERROR', e);
                 }
-            })
-            .then(() => {
-                logger.success('App is updated');
             });
     }
 

@@ -47,7 +47,7 @@ class AppDirectory {
         const globalShortcutsArray = appInfo.shortcuts
             .filter((x) => x.shortcutType === 'GLOBAL')
             .map((sh) => {
-                return { path: new URL(sh.url).pathname, name: sh.name, description: sh.description };
+                return {path: new URL(sh.url).pathname, name: sh.name, description: sh.description};
             })
             .map((result) => {
                 const values = Object.entries(result)
@@ -62,7 +62,7 @@ class AppDirectory {
         const messageShortcutsArray = appInfo.shortcuts
             .filter((x) => x.shortcutType === 'ON_MESSAGE')
             .map((sh) => {
-                return { path: new URL(sh.url).pathname, name: sh.name, description: sh.description };
+                return {path: new URL(sh.url).pathname, name: sh.name, description: sh.description};
             })
             .map((result) => {
                 const values = Object.entries(result)
@@ -75,7 +75,7 @@ class AppDirectory {
             });
         const messageShortcuts = `[${messageShortcutsArray.join(',\n')}]`;
         const eventsArray = (appInfo.eventSubscriptions.events || [])
-            .map((evt) => ({ name: evt }))
+            .map((evt) => ({name: evt}))
             .map((result) => {
                 const values = Object.entries(result)
                     .map(([key, value]) => {
@@ -87,7 +87,10 @@ class AppDirectory {
             });
         const events = `[${eventsArray.join(',\n')}]`;
         const eventsPath = new URL(appInfo.eventSubscriptions.url).pathname;
-        const redirect = JSON.stringify({ enable: true, path: new URL(appInfo.redirectUrls[0]).pathname });
+        const redirect = JSON.stringify(appInfo.redirectUrls && appInfo.redirectUrls.length > 0 ? {
+            enable: true,
+            path: new URL(appInfo.redirectUrls[0]).pathname
+        } : {enable: false, path: undefined});
         const replacements: ReplacementsDict = {
             name: appInfo.name as string,
             displayName: appInfo.displayName as string,
@@ -108,7 +111,7 @@ class AppDirectory {
 
     public async connect() {
         try {
-            fs.stat('manifest.json');
+            await fs.stat('manifest.json');
         } catch (err) {
             throw new Error('You can use pumble-cli connect only inside a project directory');
         }

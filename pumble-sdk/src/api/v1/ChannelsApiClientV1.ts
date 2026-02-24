@@ -63,7 +63,7 @@ export class ChannelsApiClientV1 extends BaseApiClient {
     }
 
     public async removeUserFromChannel(channelId: string, userId: string) {
-        this.request({
+        return this.request({
             url: this.urls.removeUserFromChannel(channelId, userId),
             method: 'DELETE',
         });
