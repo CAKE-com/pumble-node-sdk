@@ -39,6 +39,8 @@ Modals are best suited for situations where you need to:
    - Send a message to a channel based on the submission
    - Whatever you need to do ;)
 
+For more details about Modal properties, see [this](/modals-views-reference#modal).
+
 <br>
 
 Let's write some code :rocket:
@@ -111,21 +113,21 @@ globalShortcuts: [
 ```typescript
 viewAction: {
     onSubmit: {
-      modal_callback_id_1: async (ctx) => {
-        await ctx.ack();
-        // block needs to be wrapped with block of type = "input" in order to be available in a view state
-        // in our case only static_select_menu_input_action (that's inside input_static_1) is available
-        console.log(`Modal state ${JSON.stringify(ctx.payload.view.state)}. Do whatever with it :)`);
-      }
+        modal_callback_id_1: async (ctx) => {
+            await ctx.ack();
+            // block needs to be wrapped with block of type = "input" in order to be available in a view state
+            // in our case only static_select_menu_input_action (that's inside input_static_1) is available
+            console.log(`Modal state ${JSON.stringify(ctx.payload.view.state)}. Do whatever with it :)`);
+        }
     },
     onClose: {
-      // will be triggered only if notifyOnClose=true
-      modal_callback_id_1: async (ctx) => {
-        await ctx.ack();
-        console.log("Modal closed");
-      }
+        // will be triggered only if notifyOnClose=true
+        modal_callback_id_1: async (ctx) => {
+            await ctx.ack();
+            console.log("Modal closed");
+        }
     }
-  }
+}
 ```
 > [!WARNING]
 > For input values to be included in a view `state`, they must be wrapped within an `input` block. Furthermore, the `modal_callback_id_1` handler name must correspond to the value specified in the modal's `callbackId` property.
@@ -160,7 +162,8 @@ blockInteraction: {
                );
             },
          },
-      }]
+      }
+   ]
 }
 ```
 > [!NOTE]
@@ -173,6 +176,8 @@ blockInteraction: {
 ## Home views
 
 The Home tab (in app channel), is a private, customizable one-to-one space between a user and an app. It acts as a persistent dashboard where your app can display dynamic, personalized content and provide entry points for core functionality using blocks.
+
+For more details about Home view properties, see [this](/modals-views-reference#home-view).
 
 ##### Publish home view
 The Home view can be updated at any time an app deems appropriate, for instance, three seconds after a user authorizes the app:
