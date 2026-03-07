@@ -3,6 +3,7 @@
     "displayName": "Pumble Sdk Test",
     "botTitle": "Pumble Sdk Test 4",
     "bot": true,
+    "socketMode": true,
     "scopes": {
         "botScopes": [
             "messages:write",
