@@ -75,7 +75,6 @@ Rich Text Blocks are available in messages, modals and home views.
 | text     | String                   | true     | Text content.                                                                                                                            |
 | size     | Integer                  | false    | Text size. Possible values are: `1`, `2`, `3` (where `1` is the smallest and `3` is the largest).                                        |
 | style    | [TextStyle](#text-style) | false    | Object that defines how the text will be styled. Allows text to be formatted as **bold**, *italic*, ~~strikethrough~~ and `inline code`. |
-| unlinked | Boolean                  | false    | Indicates that a link inside the text block should be displayed as plain text.                                                           |
 
 <details>
 <summary>Text Block example</summary>

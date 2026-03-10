@@ -22,7 +22,7 @@ This means that simply having `.pumbleapprc` in the root directory will not suff
 Make sure to have these values as environment variables or set `id`, `appKey`, `signingSecret` and `clientSecret` in your app.
 :::
 
-If you wish to opt out of using the `Pumble CLI`, you can update your app by calling the endpoint..., where you can specify your hostname for each trigger.
+If you wish to opt out of using the `Pumble CLI`, you can update your app by calling [this endpoint](/manifest#updating-an-app), where you can specify your hostname for each trigger.
 
 To deploy your app make sure you have these environment variables set up:
 ```sh
@@ -83,3 +83,11 @@ CMD ["node", "dist/main.js"]
 
 Before building the image, make sure to have `"compile": "tsc"` script in your `package.json` file.
 Also make sure to provide Pumble app secrets as environment variables, in case you haven't provided them in the app instance in your project.
+
+### Publishing
+
+After you've verified you app's functionality and successfully set it up in a production environment, you can publish it to [CAKE.com Marketplace](https://marketplace.cake.com). 
+
+By doing so, you will make it available to users on other Pumble workspaces as well :rocket:
+
+For more information, visit the [Publishing to CAKE.com Marketplace guide](/publish-to-marketplace).

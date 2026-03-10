@@ -23,7 +23,8 @@ export default defineConfig({
                     { text: "Modals & Views", link: "/modals-views" },
                     { text: "Advanced Concepts", link: "/advanced-concepts" },
                     { text: "Pumble CLI", link: "/pumble-cli" },
-                    { text: "Production deployment", link: "/production-deployment" }
+                    { text: "Production deployment", link: "/production-deployment" },
+                    { text: "Publishing to CAKE.com Marketplace", link: "/publish-to-marketplace" }
                 ],
             },
             {

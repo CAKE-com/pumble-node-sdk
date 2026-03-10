@@ -186,6 +186,26 @@ const addon: App = {
       }
     }
   ],
+  // Default Home View will be displayed in the app's Home tab, even to users who haven't authorized the app
+  // It will be displayed until `client.v1.app.publishHomeView` is called to replace it with a custom home view
+  defaultHomeView: {
+    enabled: true,
+    blocks: [
+      {
+        type: 'rich_text',
+        elements: [
+          {
+            type: 'rich_text_section',
+            elements: [
+              { type: 'text', text: 'Hi there '},
+              { type: 'emoji', name: 'wave' },
+              { type: 'text', text: '\nWelcome to interactivity addon!' }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   events: [],
   eventsPath: "/hook",
   redirect: { enable: true, path: "/redirect", onSuccess: async (result, req, res) => {

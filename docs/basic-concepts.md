@@ -9,7 +9,7 @@ A Pumble App has three main parts:
 
 2. **The bot**: Optionally you can have a bot that comes along with your app. The bot is a user that represents your app in every workspace that your app is installed.\
    You can use the bot to display useful information about your app logic or simply use it to communicate with users. For every workspace you will have a different bot ID.\
-   When your app is installed in a workspace the bot user will be created and your app will receive an authorization code that, when used, will generate access tokens for both the user who installed your app and the bot. See [Authorization](/authorization)
+   When your app is installed in a workspace the bot user will be created and your app will receive an authorization code that, when used, will generate access tokens for both the user who installed your app and the bot. See [Authorization](/authorization).
 
 3. **Your app server**: Pumble will notify your app on every event and trigger on the installed workspaces through the **public** HTTP endpoints defined in the [manifest](/manifest). So you will need to have a running HTTP server to be able to receive events and triggers from Pumble.
 
@@ -17,7 +17,7 @@ A Pumble App has three main parts:
 ## Listening to messages
 
 To listen to messages, in the main `app` object we define handlers for `NEW_MESSAGE` event.\
-Make sure you have `messages:read` in the `botScopes` in your [`manifest.json`](/getting-started#manifestjson) (and optionally in `userScopes`).\
+Make sure you have `messages:read` in the `botScopes` in your [`manifest.json`](/getting-started#manifest-json) (and optionally in `userScopes`).\
 If only your App's bot has that scope you will listen to messages that bot has access to, otherwise you will receive messages for all authorized users with the scope.
 
 
@@ -72,7 +72,7 @@ Events can have one or more handlers.
 
 The easiest way to send messages in your app is by using the `say()` function inside your listeners.\
 The code below will send an ephemeral message on behalf of your App's bot.\
-To be able to do this make sure you have `messages:write` scope for your bot (in your [`manifest.json`](/getting-started#manifestjson)).\
+To be able to do this make sure you have `messages:write` scope for your bot (in your [`manifest.json`](/getting-started#manifest-json)).
 
 ```typescript
 {
@@ -85,7 +85,7 @@ To be able to do this make sure you have `messages:write` scope for your bot (in
 ```
 
 :::tip
-To send a rich message, use the `blocks` field. Click [here](/blocks) to see more details on `blocks`
+To send a rich text message, use the `blocks` field. Click [here](/blocks) to see more details on `blocks`.
 :::
 
 :::tip
@@ -106,12 +106,13 @@ In this case the bot will post a normal message.
 }
 ```
 
-:::warning
-While it's not required for the bot to be a member of the channel where it posts, if the bot is trying to post a message in a DM channel, or Group DM channel where he is not a member this method will fail.\
-Bots will be able to post messages in any Public or Private channel.
+:::info
+When bot `messages:write` [scope](/getting-started#manifest-json) is authorized, the bot user will be able to post messages to a channel (Public, Private or Direct) even when it is not a channel member.
+
+However, the bot user won't be able to post messages to a channel with `Admins only` or `Admins plus others` posting permissions (unless the bot user is explicitly given the posting permission here).  
 :::
 
-To send message on behalf of users your app needs to have `messages:write` user [scope](/getting-started#manifestjson), and users should have authorized your app.
+To send message on behalf of users, your app needs to have `messages:write` user [scope](/getting-started#manifest-json), and users should have authorized your app.
 
 ```typescript
 {
@@ -127,7 +128,7 @@ To send message on behalf of users your app needs to have `messages:write` user 
 }
 ```
 
-In some contexts that are related to a single message such as `MessageShortcut`, `NEW_MESSAGE`, `UPDATED_MESSAGE`, `REACTION_ADDED` the `say()` function has the ability to reply to the message.
+In some contexts that are related to a single message, such as `MessageShortcut`, `NEW_MESSAGE`, `UPDATED_MESSAGE`, `REACTION_ADDED`, the `say()` function has the ability to reply to the message.
 
 To send a message as a thread reply using the `say()` function, provide the third, Boolean argument and set its value to `true`.
 
@@ -346,7 +347,14 @@ const app: App = {
 };
 ```
 
-In order to share the installation link with a user you can use the `ctx.getAuthUrl()` in the context of triggers/events.
+In order to share the authorization link with a user, you can use the `ctx.getAuthUrl()` in the context of triggers/events.
+It can be used to send a message to user, prompting them to authorize or reauthorize the app.
+This can be useful when a user who hasn't authorized the app is trying to perform an action that requires user scopes (e.g. listing user's channels).
+You can also specify the following options:
+- `isReinstall` - If true, the app will also be reinstalled upon authorization (applicable only for workspace owner or admins)
+- `defaultWorkspaceId` - ID of the workspace that will be pre-selected on the consent screen
+- `redirectUrl` - URL to which the consent screen will redirect the user, after authorization (by default, the first one specified in the manifest will be used)
+- `state` - Custom state parameter for OAuth flow
 
 ```typescript
 const app: App = {

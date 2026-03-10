@@ -1,4 +1,3 @@
-
 # Overview
 
 The manifest is your App's configuration that should be registered in Pumble.\
@@ -7,6 +6,13 @@ All the information that Pumble needs to know about your app exists in that conf
 This guide will show you how you can manually create and update your apps.\
 You can also use `pumble-cli` instead of maintaining your apps manually, which will automate this process for you and will expose only the relevant details.
 
+:::info
+Your app's manifest will be served on this URL:
+
+```http
+https://{APP_HOST_URL}/manifest
+```
+:::
 
 ## Creating an app
 
@@ -111,7 +117,7 @@ with this json body see [Manifest Payload](#manifest-payload):
 
 :::info
 All the requests to manage your apps, need to you use `Authtoken` header. \
-You can get this value in `~/.pumblerc` file `PUMBLE_ACCESS_TOKEN` after you login with `npx pumble-cli login` 
+You can find this value in `~/.pumblerc` file, under `PUMBLE_ACCESS_TOKEN` key, after you log in with `npx pumble-cli login`.
 :::
 
 You will get a response  with the full Manifest and your app's secrets:

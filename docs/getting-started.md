@@ -204,9 +204,9 @@ Now you have a couple of ways to instantiate and run the addon in your Node.js p
 
 #### Creating an `App` instance
 
-Create a JSON file where you will define your app's name, display name, bot title, scopes, and whether it should include a bot user or not, as it is shown [here](#manifestjson).
+Create a JSON file where you will define your app's name, display name, bot title, scopes, and whether it should include a bot user or not, as it is shown [here](#manifest-json).
 
-Then create an `App` instance, and provide the necessary handlers, token store, welcome message, help message, as it is shown in [this example](#srcmaints).
+Then create an `App` instance, and provide the necessary handlers, token store, welcome message, help message, as it is shown in [this example](#src-main-ts).
 Here you can also include your app's secrets, that you received when creating it. 
 If you don't include them here, you will need to specify them as environment variables when running the app.
 
