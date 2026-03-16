@@ -196,6 +196,14 @@ class AppSync {
                 newValue: newApp.botTitle as string,
             });
         }
+        if (oldApp.socketMode !== newApp.socketMode) {
+            changes.push({
+                key: 'Socket mode',
+                action: 'change',
+                oldValue: String(oldApp.socketMode || false),
+                newValue: String(newApp.socketMode || false),
+            });
+        }
         if (
             !oldApp.redirectUrls.every((x) => newApp.redirectUrls.includes(x)) ||
             !newApp.redirectUrls.every((x) => oldApp.redirectUrls.includes(x))

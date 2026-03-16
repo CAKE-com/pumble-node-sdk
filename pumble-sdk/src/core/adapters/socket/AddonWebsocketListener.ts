@@ -1,7 +1,7 @@
 import { AddonService } from '../../services/AddonService';
 import { AddonManifest } from '../../types/types';
 import axios, { AxiosInstance } from 'axios';
-import { WebSocket } from 'ws';
+import {WebSocket} from 'ws';
 import {AckCallback, ResponseCallback, NackCallback} from '../../types/contexts';
 import { promisify } from 'util';
 import { PUMBLE_API_URL } from '../../../constants';
@@ -16,6 +16,9 @@ import {
     isSlashCommand,
     isViewAction,
 } from '../../types/payloads';
+import express, {Express, Request, Response} from "express";
+import {ManifestProcessor} from "../../util/ManifestProcessor";
+import {AddonHttpServerOptions} from "../http/AddonHttpListener";
 
 type WebsocketMessage = {
     payload: AppMessage;
@@ -24,9 +27,10 @@ type WebsocketMessage = {
 
 export class AddonWebsocketListener<T extends AddonManifest> {
     private axiosInstance: AxiosInstance;
+    private server?: Express;
 
-    public constructor(private service: AddonService<T>) {
-        this.axiosInstance = axios.create({ baseURL: PUMBLE_API_URL });
+    public constructor(private service: AddonService<T>, private options: AddonHttpServerOptions) {
+        this.axiosInstance = axios.create({baseURL: PUMBLE_API_URL});
     }
 
     private get manifest(): AddonManifest {
@@ -36,19 +40,20 @@ export class AddonWebsocketListener<T extends AddonManifest> {
     private async getWebsocketUrl(): Promise<string> {
         const url = `/apps/${this.manifest.id}/websocket-connection`;
         const result = await this.axiosInstance.get<{ url: string }>(url, {
-            params: { appSecret: this.manifest.appKey },
+            params: {appKey: this.manifest.appKey},
         });
         return result.data.url;
     }
 
     private async connect() {
-        const url = await this.getWebsocketUrl();
-        const ws = new WebSocket(url);
+        const urlString = await this.getWebsocketUrl();
+        const ws = new WebSocket(urlString);
+        const url = new URL(urlString);
         ws.on('open', () => {
-            console.log(`Connected with ${PUMBLE_API_URL}`);
+            console.log(`Websocket connected to ${url.host}`);
         });
         ws.on('close', async () => {
-            console.log(`Closed connection with ${PUMBLE_API_URL}`);
+            console.log(`Closed connection with ${url.host}`);
             ws.removeAllListeners();
             ws.close();
             await promisify(setTimeout)(2000);
@@ -70,7 +75,7 @@ export class AddonWebsocketListener<T extends AddonManifest> {
     private async handleMessage(message: AppMessage, correlationId: string, ws: WebSocket) {
         if (isPumbleEvent(message)) {
             const pumbleEventPayload = JSON.parse(message.body);
-            this.service.postEvent({ ...message, body: pumbleEventPayload });
+            this.service.postEvent({...message, body: pumbleEventPayload});
             return;
         } else {
             const ack: AckCallback = async (arg?: string) => {
@@ -133,7 +138,35 @@ export class AddonWebsocketListener<T extends AddonManifest> {
         }
     }
 
-    public async start() {
+    private serveManifest(req: Request, res: Response) {
+        try {
+            const host = process.env.ADDON_HOST ? process.env.ADDON_HOST : `https://${req.hostname}`;
+            res.send(ManifestProcessor.prepareForServing(this.manifest, host));
+        } catch (e) {
+            console.error(`Unable to serve manifest: ${e}`);
+            res.status(500).send();
+        }
+    }
+
+    public async start(...onConfig: Array<(e: Express, addon: AddonService<T>) => void>) {
+        if (onConfig && onConfig.length > 0) {
+            this.server = express();
+            this.server.get('/manifest', async (req, res) => {
+                this.serveManifest(req, res);
+            });
+            for (const configCallback of onConfig) {
+                configCallback(this.server, this.service);
+            }
+            await new Promise<void>((resolve) => {
+                this.server?.listen(this.options.serverPort, resolve);
+            });
+            const yellow = "\x1b[33m";
+            const reset = "\x1b[0m";
+            console.warn(`${yellow}Addon http server listening at ${this.options.serverPort}, also socket mode is enabled. 
+                If other users will not be authorizing this app and it won't be listed on the Marketplace, feel free to disable the HTTP endpoints. 
+                Set 'redirect:{ enable: false }' explicitly and remove onServerConfiguring from the app:App object in your main file. 
+                Note: Disabling Socket Mode is highly recommended for production-grade add-ons.${reset}`);
+        }
         await this.connect();
     }
 }

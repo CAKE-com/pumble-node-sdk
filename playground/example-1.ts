@@ -491,12 +491,12 @@ const app: App = {
             }]
         }]
     },
-    onServerConfiguring: (e, addon) => {
-    },
+    onServerConfiguring: (e, addon) => {},
     tokenStore: new JsonFileTokenStore('tokens.json'),
     helpUrl: 'https://help.com',
     welcomeMessage: 'Hello',
     offlineMessage: 'Demo app cannot respond at this moment. Please try again later',
+    redirect: {enable: true}
 };
 
 async function main() {
