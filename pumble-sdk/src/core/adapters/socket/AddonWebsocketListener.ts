@@ -49,13 +49,20 @@ export class AddonWebsocketListener<T extends AddonManifest> {
         const urlString = await this.getWebsocketUrl();
         const ws = new WebSocket(urlString);
         const url = new URL(urlString);
+        let pingInterval: NodeJS.Timeout;
         ws.on('open', () => {
             console.log(`Websocket connected to ${url.host}`);
+            pingInterval = setInterval(() => {
+                ws.send("ping");
+            }, 25000);
         });
         ws.on('close', async () => {
             console.log(`Closed connection with ${url.host}`);
             ws.removeAllListeners();
             ws.close();
+            if (pingInterval) {
+                clearInterval(pingInterval);
+            }
             await promisify(setTimeout)(2000);
             await this.connect();
         });
@@ -63,10 +70,16 @@ export class AddonWebsocketListener<T extends AddonManifest> {
             console.log('Websocket error', e);
             ws.removeAllListeners();
             ws.close();
+            if (pingInterval) {
+                clearInterval(pingInterval);
+            }
             await promisify(setTimeout)(2000);
             await this.connect();
         });
         ws.on('message', async (data) => {
+            if (data.toString() === "pong") {
+                return;
+            }
             const request: WebsocketMessage = JSON.parse(data.toString());
             await this.handleMessage(request.payload, request.correlation_id, ws);
         });
