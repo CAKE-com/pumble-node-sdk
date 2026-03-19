@@ -1,13 +1,20 @@
-# Api Client
+# API Client
+
+`pumble-sdk` provides an API client (`ApiClient`) for easier interaction the Pumble API. 
+`ApiClient` contains methods that perform respective API calls, which can be done on behalf of either a user or a bot.
 
 Every Request to Pumble API must be sent with two headers:
 
-1. `x-app-token`:  Your app token that you receive when app is created. See [manifest](/manifest)
-2. `token`: The access token of the user or bot. See [Authorization](/authorization)
+1. `x-app-token`:  Your app token that you receive when app is created. See [manifest](/manifest).
+2. `token`: The access token of the user or bot. See [Authorization](/authorization).
 
-`pumble-sdk` provides an easy way to get the user or bot client from a trigger context. See [Triggers](/triggers-reference)
+`ApiClient` automatically includes these headers in the requests, so they don't need to be specified manually when invoking its methods.
 
-Each ApiClient method has its own set of required scopes.
+`pumble-sdk` provides an easy way to get the user or bot client from a trigger context. See [Triggers](/triggers-reference).
+
+Each `ApiClient` method has its own set of required scopes.
+
+For more details about the usage of Pumble API, take a look at the Pumble API [documentation](https://docs.pumble.com).
 
 ## Messages
 

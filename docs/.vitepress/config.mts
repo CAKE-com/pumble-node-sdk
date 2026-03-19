@@ -32,7 +32,7 @@ export default defineConfig({
                 items: [
                     { text: "Manifest", link: "/manifest" },
                     { text: "Triggers", link: "/triggers-reference" },
-                    { text: "Api Client", link: "/api-client" },
+                    { text: "API Client", link: "/api-client" },
                     { text: "Blocks", link: "/blocks"},
                     { text: "Modals & Views", link: "/modals-views-reference" },
                 ],
