@@ -13,11 +13,13 @@ A Pumble App has three main parts:
 
 3. **Your app server**: Pumble will notify your app on every event and trigger on the installed workspaces through the **public** HTTP endpoints defined in the [manifest](/manifest). So you will need to have a running HTTP server to be able to receive events and triggers from Pumble.
 
-It is also possible to have Pumble notify your app via websockets only, by setting `socketMode` to `true` in your [`manifest.json`](/getting-started#manifest-json), 
-as well as by setting `redirect: { enable: false }` explicitly and removing `onServerConfiguring` from the `app: App` object in your main file.
+It is possible to have Pumble communicate with your app via websockets, by setting `socketMode` to `true` in your [`manifest.json`](/getting-started#manifest-json). 
+
+If you also set `redirect: { enable: false }` and remove `onServerConfiguring` from the `app: App` object in your main file, the HTTP server won't be running, and as a result, other users won't be able to authorize the app.
+To allow the other users to authorize your app and to have it communicate with Pumble via websockets, set both `socketMode: true` and `redirect: { enable: true }`.
 
 >[!WARNING]
-> Socket mode is strongly discouraged for apps running in production mode, as other users won't be able to authorize it if HTTP endpoints are not enabled.
+> Enabling socket mode and disabling redirect is strongly discouraged for apps running in production mode.
 
 ## Listening to messages
 
