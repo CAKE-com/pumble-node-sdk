@@ -467,18 +467,34 @@ class AppSync {
     }
 
     private async updateApp(app: AddonManifest, manifest: AddonManifest) {
-        await cliPumbleApiClient
-            .updateApp(app.id, manifest)
-            .catch((e) => {
-                if (e instanceof AxiosError) {
-                    logger.error(`Error updating app: ${e.response?.data.message}`);
-                } else {
-                    console.log('ERROR', e);
+        try {
+            await cliPumbleApiClient.updateApp(app.id, manifest);
+            logger.success('App is updated');
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                const status = e.response?.status;
+                const data = e.response?.data;
+                logger.error(`Error updating app (HTTP ${status}):`);
+                if (data?.message) {
+                    logger.error(`  Message: ${data.message}`);
                 }
-            })
-            .then(() => {
-                logger.success('App is updated');
-            });
+                if (data?.errors) {
+                    logger.error(`  Errors: ${JSON.stringify(data.errors)}`);
+                }
+                if (status === 500) {
+                    logger.error(`  This is a Pumble server error. The request may be valid but Pumble failed to process it.`);
+                    logger.error(`  Try again later or contact Pumble support.`);
+                }
+                if (process.env.DEBUG) {
+                    logger.error(`  Request URL: ${e.config?.url}`);
+                    logger.error(`  Request data: ${JSON.stringify(manifest, null, 2)}`);
+                }
+            } else if (e instanceof Error) {
+                logger.error(`Error updating app: ${e.message}`);
+            } else {
+                logger.error(`Unknown error updating app: ${e}`);
+            }
+        }
     }
 
     private userScopesChanged(oldApp: AddonManifest, newApp: AddonManifest): boolean {

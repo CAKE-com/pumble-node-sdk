@@ -124,6 +124,7 @@ class CommandsService {
         host?: string;
         port?: number;
         inspect?: string;
+        debug?: boolean;
     }) {
         try {
             await this.loadEnvironment(args.globalConfigFile);
