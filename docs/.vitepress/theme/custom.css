@@ -1,0 +1,26 @@
+details {
+    padding: 0 1em;
+    margin: 1em 0;
+    border: 1px solid var(--vp-code-link-color);
+    border-radius: 8px;
+    background-color: var(--vp-c-bg-soft);
+    transition: border-color 0.25s;
+}
+
+summary {
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--vp-c-text-1);
+    outline: none;
+    user-select: none;
+}
+
+summary:hover {
+    color: var(--vp-c-brand);
+}
+
+details .vp-code-group,
+details div[class*="language-"] {
+    margin-top: 1em;
+    margin-bottom: 0;
+}

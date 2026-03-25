@@ -5,63 +5,69 @@
 A Pumble App has three main parts:
 1. **The manifest**: The manifest is your app definition registered in Pumble.
    In the manifest you define your app name, bot name, all your triggers, event subscriptions, scopes etc.
-   While `pumble-cli` will make the process of creating and registering the manifest easy, you can read more about the manifest [here](/manifest)
+   While `pumble-cli` will make the process of creating and registering the manifest easy, you can read more about the manifest [here](/manifest).
 
 2. **The bot**: Optionally you can have a bot that comes along with your app. The bot is a user that represents your app in every workspace that your app is installed.\
-   You can use the bot to display useful information about your app logic or simply use it to communicate with users. For every workspace you will have a different bot id.\
-   When your app is installed in a workspace the bot user will be created and your app will receive an authorization code that, when used, will generate access tokens for both the user who installed your app and the bot. See [Authorization](/advanced-concepts#authorization)
+   You can use the bot to display useful information about your app logic or simply use it to communicate with users. For every workspace you will have a different bot ID.\
+   When your app is installed in a workspace the bot user will be created and your app will receive an authorization code that, when used, will generate access tokens for both the user who installed your app and the bot. See [Authorization](/authorization).
 
 3. **Your app server**: Pumble will notify your app on every event and trigger on the installed workspaces through the **public** HTTP endpoints defined in the [manifest](/manifest). So you will need to have a running HTTP server to be able to receive events and triggers from Pumble.
 
+It is possible to have Pumble communicate with your app via websockets, by setting `socketMode` to `true` in your [`manifest.json`](/getting-started#manifest-json). 
+
+If you also set `redirect: { enable: false }` and remove `onServerConfiguring` from the `app: App` object in your main file, the HTTP server won't be running, and as a result, other users won't be able to authorize the app.
+To allow the other users to authorize your app and to have it communicate with Pumble via websockets, set both `socketMode: true` and `redirect: { enable: true }`.
+
+>[!WARNING]
+> Enabling socket mode and disabling redirect is strongly discouraged for apps running in production mode.
 
 ## Listening to messages
 
 To listen to messages, in the main `app` object we define handlers for `NEW_MESSAGE` event.\
-Make sure you have `messages:read` in the `botScopes` in your [`manifest.json`](/getting-started#manifest-json) (and optionally in `userScopes`)\
+Make sure you have `messages:read` in the `botScopes` in your [`manifest.json`](/getting-started#manifest-json) (and optionally in `userScopes`).\
 If only your App's bot has that scope you will listen to messages that bot has access to, otherwise you will receive messages for all authorized users with the scope.
 
 
 The `NEW_MESSAGE` event handlers can have an optional `options` property.
-| name               | type           | required           | description                                                                          |
-| :----------------- | :------------- | :----------------- | :----------------------------------------------------------------------------------- |
-| match              | string\|RegExp | no                 | Match if the message `text` includes a particular string or matches a RegExp pattern |
-| includeBotMessages | boolean        | no (default false) | If it's set to true your app bot messages will be received by the handler            |
+
+| name               | type           | required | description                                                                                      |
+|:-------------------|:---------------|:---------|:-------------------------------------------------------------------------------------------------|
+| match              | String\|RegExp | false    | Match if the message `text` includes a particular string or matches a RegExp pattern             |
+| includeBotMessages | Boolean        | false    | If it's set to true, your app bot messages will be received by the handler. Defaults to `false`. |
 
 ```typescript
 const app: App = {
 	//...
-	events: [
-		{
-            name: 'NEW_MESSAGE',
+    events: [
+        {
+            name: 'NEW_MESSAGE', 
             handler: async (ctx) => {
-				console.log("Received a message.")
+                console.log("Received a message.")
             },
-		},
-		{
+        }, 
+        {
             name: 'NEW_MESSAGE',
             options: { match: "hello" },
             handler: async (ctx) => {
-				console.log("Received a message with hello", 
-							ctx.payload.body.tx);
+                console.log("Received a message with hello", ctx.payload.body.tx);
             },
-		},
-		{
+        }, 
+        {
             name: 'NEW_MESSAGE',
             options: { match: /^hello/ },
             handler: async (ctx) => {
-				console.log("Received a message that STARTS with hello", 
-							ctx.payload.body.tx);
+                console.log("Received a message that STARTS with hello", ctx.payload.body.tx);
             },
-		},
-		{
+        }, 
+        {
             name: 'NEW_MESSAGE',
             options: { includeBotMessages: true },
             handler: async (ctx) => {
-				console.log("Received user or bot message");
+                console.log("Received user or bot message");
             },
-		}
-	]
-	//...
+        }
+    ]
+    //...
 }
 ```
 
@@ -73,8 +79,7 @@ Events can have one or more handlers.
 
 The easiest way to send messages in your app is by using the `say()` function inside your listeners.\
 The code below will send an ephemeral message on behalf of your App's bot.\
-To be able to do this make sure you have `messages:write` scope for your bot (in your [`manifest.json`](/getting-started#manifest-json)).\
-**To send a rich message, use the `blocks` field. Click [here](/blocks) to see more details on `blocks`.**
+To be able to do this make sure you have `messages:write` scope for your bot (in your [`manifest.json`](/getting-started#manifest-json)).
 
 ```typescript
 {
@@ -87,7 +92,11 @@ To be able to do this make sure you have `messages:write` scope for your bot (in
 ```
 
 :::tip
-Ephemeral messages can be sent on any channel (including user's self channel, DM's, Group Conversations and Private or Public channel)\
+To send a rich text message, use the `blocks` field. Click [here](/blocks) to see more details on `blocks`.
+:::
+
+:::tip
+Ephemeral messages can be sent on any channel (including user's self channel, DMs, Group Conversations and Private or Public channel)\
 They are sent only to the user who triggered the event, and they will not be persisted.
 :::
 
@@ -104,44 +113,44 @@ In this case the bot will post a normal message.
 }
 ```
 
-:::warning
-While it's not required for the bot to be a member of the channel where it posts, if the bot is trying to post a message in a DM channel, or Group DM channel where he is not a member this method will fail.\
-Bots will be able to post messages in any Public or Private channel.
+:::info
+When bot `messages:write` [scope](/getting-started#manifest-json) is authorized, the bot user will be able to post messages to a channel (Public, Private or Direct) even when it is not a channel member.
+
+However, the bot user won't be able to post messages to a channel with `Admins only` or `Admins plus others` posting permissions (unless the bot user is explicitly given the posting permission here).  
 :::
 
-To send message on behalf of users your app needs to have `messages:write` user [scope](/getting-started#manifest-json), and users should have authorized your app.
+To send message on behalf of users, your app needs to have `messages:write` user [scope](/getting-started#manifest-json), and users should have authorized your app.
 
 ```typescript
 {
-	name: 'NEW_MESSAGE',
-	handler: async (ctx) => {
-		// This will return author's client. 
-		// To get any other user in the same workspace user ctx.getUserClient(user_id)
-		const userClient = await ctx.getUserClient();
-		if (userClient) {
-			await userClient.v1.messages.postMessageToChannel(
-				ctx.payload.body.cId,
-				'Message form the same user'
-			);
-		}
-	}
+    name: 'NEW_MESSAGE', 
+    handler: async (ctx) => {
+        // This will return author's client.
+        // To get any other user in the same workspace user ctx.getUserClient(user_id)
+        const userClient = await ctx.getUserClient();
+        if (userClient) {
+            await userClient.v1.messages.postMessageToChannel(ctx.payload.body.cId, 'Message form the same user');
+        }
+    }
 }
 ```
 
-In some contexts that are related to a single message such as `MessageShortcut`, `NEW_MESSAGE`, `UPDATED_MESSAGE`, `REACTION_ADDED` the `say()` function has the ability to reply to the message.
+In some contexts that are related to a single message, such as `MessageShortcut`, `NEW_MESSAGE`, `UPDATED_MESSAGE`, `REACTION_ADDED`, the `say()` function has the ability to reply to the message.
+
+To send a message as a thread reply using the `say()` function, provide the third, Boolean argument and set its value to `true`.
 
 ```typescript
 {
-	name: 'NEW_MESSAGE',
-	handler: async (ctx) => {
-		await ctx.say('Received your message', 'in_channel', true);
-	}
+    name: 'NEW_MESSAGE', 
+    handler: async (ctx) => {
+        await ctx.say('Received your message', 'in_channel', true);
+    }
 }
 ```
 
 ## Listening to events
 Just like `NEW_MESSAGE` Pumble apps can subscribe to a list of Pumble events.
-Each event has its own payload and a list of user id's that have authorized your app and are eligible to receive that event
+Each event has its own payload and a list of user IDs that have authorized your app and are eligible to receive that event.
 
 ```typescript
 const app: App = {
@@ -166,7 +175,7 @@ For more info about the available events, click [here](/triggers-reference#event
 ## Using the Pumble API
 
 Your app can use the Pumble API on behalf of every user that has authorized it, or the bot in the workspace where your app is installed.
-In order to use the build in ApiClient you need to set up the `tokenStore` in your App and enable `redirect` to be able to capture user [authorizations](/advanced-concepts#authorization).
+In order to use the built-in ApiClient you need to set up the `tokenStore` in your App and enable `redirect` to be able to capture user [authorizations](/authorization).
 
 ```typescript
 const app: App = {
@@ -176,7 +185,7 @@ const app: App = {
 };
 ```
 
-There are two type of clients `botClient` and `userClient`
+There are two types of clients: `botClient` and `userClient`.
 `botClient` can be accessible in every trigger or event, while `userClient` is available only in triggers, and some events such as `NEW_MESSAGE`, `UPDATED_MESSAGE`, `REACTION_ADDED`.
 
 ```typescript
@@ -221,6 +230,8 @@ There are 3 types of triggers that you App can define
 ### Trigger Acknowledgement
 Every trigger received must be acknowledged within 3 seconds, otherwise Pumble will consider it an error and return an ephemeral message to the user that your app is not available to handle the trigger.
 
+To acknowledge a trigger, call the `ack` method of the trigger context.
+
 ```typescript
 const app: App = {
 	//...
@@ -236,7 +247,7 @@ const app: App = {
 ```
 
 :::tip
-You can customize the message that Pumble sends to the user in case of a missed acknowledgement by setting `offlineMessage` in the `App`
+You can customize the message that Pumble sends to the user in case of a missed acknowledgement by setting `offlineMessage` in the `App`:
 
 ```typescript
 const app: App = {
@@ -249,10 +260,10 @@ const app: App = {
 
 ### Slash Commands 
 
-Slash commands can be typed by the users on any channel or thread, in workspaces where your App is installed.\
-A user does not have to be authorized in order to use your App's triggers, so `getUserClient()` in a trigger context might not always return a value.
+Slash commands can be typed by the users on any channel or thread, in the workspaces where your App is installed.\
+A user does not have to authorize your app in order to use the app's triggers, so `getUserClient()` in a trigger context might not always return a value.
 
-Slash Command context in its payload has information about the workspace where it was triggered, the user who triggered it, the channel and if applied the thread id where it was triggered.
+Slash Command context has in its payload the information about the workspace where it was triggered, the user who triggered it, the channel and, if applied, the thread ID where it was triggered.
 Also in the same payload you will receive a `text` property, which is the text that user typed after the slash command
 
 ```typescript
@@ -264,7 +275,7 @@ const app: App = {
             handler: async (ctx) => {
                 await ctx.ack();
                 const text = ctx.payload.text;
-				if(!["add","remove", "list"].include(text)){
+				if(!["add", "remove", "list"].includes(text)){
 					await ctx.say("Invalid command");
 					return;
 				}
@@ -277,8 +288,8 @@ const app: App = {
 
 ### Global Shortcuts 
 
-Global shortcuts are similar to Slash Commands with a slight difference:
-- Global shortcut does not have a `text` property
+Global shortcuts are similar to Slash Commands, with a difference that Global Shortcut does not have a `text` property.
+In other words, it is not possible for users to provide any additional text as an argument, when invoking a Global Shortcut.
 
 ```typescript
 globalShortcuts: [
@@ -294,8 +305,8 @@ globalShortcuts: [
 
 ### Message Shortcuts
 
-Message shortcuts are shortcuts that are always associated with a single message.  This means that message shortcuts will have `messageId` in the payload.\
-Also message shortcuts have `fetchMessage()` method in their context, so it can be used to easily fetch the message where it was triggered.
+Message Shortcuts are shortcuts that are always associated with a single message. This means that Message Shortcuts will have `messageId` in the payload.\
+Also, Message Shortcuts have `fetchMessage()` method in their context, so it can be used to easily fetch the message where it was triggered.
 
 ```typescript
 messageShortcuts: [
@@ -329,9 +340,9 @@ For more information about interactive components, click [here](/interactivity).
 ## Authorization
 
 When your App is published it will be visible to all workspaces, so they can install and authorize your app.\
-Installation means that a bot user for your app will be created and you will receive both bot authorization code and user authorization code (for the user that installed your app initially)\
+Installation means that a bot user for your app will be created, and you will receive both bot authorization code and user authorization code (for the user that installed your app initially).\
 Other users in the workspace have to authorize in order for you app to receive their authorization codes.\
-Users have to go to the `Configure Apps` page in Pumble (by clicking Add apps in the sidebar) and the will be able to install/authorize your app from there.
+Users have to go to the `Configure Apps` page in Pumble (by clicking on `Add apps` in the sidebar) and then they will be able to install/authorize your app from there.
 
 To capture the authorization codes of installing/authorizing users Pumble SDK provides a simple way to set up the page that Pumble will send users to, after they authorize.
 
@@ -343,7 +354,14 @@ const app: App = {
 };
 ```
 
-In order to share the installation link with a user you can use the `context.getAuthUrl()` in the context of triggers/events.
+In order to share the authorization link with a user, you can use the `ctx.getAuthUrl()` in the context of triggers/events.
+It can be used to send a message to user, prompting them to authorize or reauthorize the app.
+This can be useful when a user who hasn't authorized the app is trying to perform an action that requires user scopes (e.g. listing user's channels).
+You can also specify the following options:
+- `isReinstall` - If true, the app will also be reinstalled upon authorization (applicable only for workspace owner or admins)
+- `defaultWorkspaceId` - ID of the workspace that will be pre-selected on the consent screen
+- `redirectUrl` - URL to which the consent screen will redirect the user, after authorization (by default, the first one specified in the manifest will be used)
+- `state` - Custom state parameter for OAuth flow
 
 ```typescript
 const app: App = {
@@ -365,4 +383,4 @@ const app: App = {
 };
 ```
 
-For more information about authorization and Pumble's OAuth2, click [here](/advanced-concepts#authorization).
+For more information about authorization and Pumble's OAuth2, click [here](/authorization).

@@ -30,7 +30,7 @@ export async function sendMessageWithButtons(ctx: SlashCommandContext) {
     });
 }
 
-export async function sendMessageWithSelectMenu(ctx: SlashCommandContext) {
+export async function sendMessageWithSelectMenuOptions(ctx: SlashCommandContext) {
     const client = await ctx.getBotClient();
     let blocks: MainBlock[] = [
         {
@@ -83,6 +83,84 @@ export async function sendMessageWithSelectMenu(ctx: SlashCommandContext) {
     });
 }
 
+export async function sendMessageWithSelectMenuOptionGroups(ctx: SlashCommandContext) {
+    const client = await ctx.getBotClient();
+    let blocks: MainBlock[] = [
+        {
+            type: "actions",
+            elements: [
+                {
+                    type: "static_select_menu",
+                    onAction: "static_select_menu_action",
+                    placeholder: {
+                        type: "plain_text",
+                        text: "Test placeholder"
+                    },
+                    initial_option: {
+                        text: {
+                            type: "plain_text",
+                            text: "Option 2"
+                        },
+                        value: "Option 2"
+                    },
+                    option_groups: [
+                        {
+                            label: {
+                                type: "plain_text",
+                                text: "Group 1"
+                            },
+                            options: [
+                                {
+                                    text: {
+                                        type: "plain_text",
+                                        text: "Option 1"
+                                    },
+                                    value: "Option 1"
+                                },
+                                {
+                                    text: {
+                                        type: "plain_text",
+                                        text: "Option 2"
+                                    },
+                                    value: "Option 2"
+                                }
+                            ]
+                        },
+                        {
+                            label: {
+                                type: "plain_text",
+                                text: "Group 2"
+                            },
+                            options: [
+                                {
+                                    text: {
+                                        type: "plain_text",
+                                        text: "Option 3"
+                                    },
+                                    value: "Option 3"
+                                },
+                                {
+                                    text: {
+                                        type: "plain_text",
+                                        text: "Option 4"
+                                    },
+                                    value: "Option 4"
+                                }
+                            ]
+                        }
+                    ],
+                    options: []
+                }
+            ]
+        }
+    ];
+
+    await client?.v1.messages.postMessageToChannel(ctx.payload.channelId, {
+        text: "",
+        blocks: blocks
+    });
+}
+
 export async function sendMessageWithDynamicSelectMenu(ctx: SlashCommandContext) {
     const client = await ctx.getBotClient();
     await client?.v1.messages.postMessageToChannel(ctx.payload.channelId, {
@@ -118,6 +196,120 @@ export async function sendMessageWithDynamicSelectMenu(ctx: SlashCommandContext)
     });
 }
 
+export async function sendMessageWithCheckboxes(ctx: SlashCommandContext) {
+    const client = await ctx.getBotClient();
+    let blocks: MainBlock[] = [
+        {
+            type: "actions",
+            elements: [
+                {
+                    type: "checkboxes",
+                    onAction: "checkboxes_action",
+                    options: [
+                        {
+                            text: {
+                                type: "plain_text",
+                                text: "Option 1"
+                            },
+                            value: "Option 1"
+                        },
+                        {
+                            text: {
+                                type: "plain_text",
+                                text: "Option 2"
+                            },
+                            value: "Option 2"
+                        },
+                        {
+                            text: {
+                                type: "plain_text",
+                                text: "Option 3"
+                            },
+                            value: "Option 3"
+                        },
+                        {
+                            text: {
+                                type: "plain_text",
+                                text: "Option 4"
+                            },
+                            value: "Option 4"
+                        }
+                    ],
+                    initial_options: [
+                        {
+                            text: {
+                                type: "plain_text",
+                                text: "Option 1"
+                            },
+                            value: "Option 1"
+                        },
+                        {
+                            text: {
+                                type: "plain_text",
+                                text: "Option 2"
+                            },
+                            value: "Option 2"
+                        }
+                    ]
+                }
+            ]
+        }
+    ];
+
+    await client?.v1.messages.postMessageToChannel(ctx.payload.channelId, {
+        text: "",
+        blocks: blocks
+    });
+}
+
+export async function sendMessageWithDatePicker(ctx: SlashCommandContext) {
+    const client = await ctx.getBotClient();
+    let blocks: MainBlock[] = [
+        {
+            type: "actions",
+            elements: [
+                {
+                    type: "date_picker",
+                    onAction: "date_picker_action",
+                    initial_date: "2026-01-01",
+                    placeholder: {
+                        type: "plain_text",
+                        text: "Select a date"
+                    }
+                }
+            ]
+        }
+    ];
+
+    await client?.v1.messages.postMessageToChannel(ctx.payload.channelId, {
+        text: "",
+        blocks: blocks
+    });
+}
+
+export async function sendMessageWithDateRangePicker(ctx: SlashCommandContext) {
+    const client = await ctx.getBotClient();
+    let blocks: MainBlock[] = [
+        {
+            type: "actions",
+            elements: [
+                {
+                    type: "date_range_picker",
+                    onAction: "date_range_picker_action",
+                    placeholder: {
+                        type: "plain_text",
+                        text: "Select a date range"
+                    }
+                }
+            ]
+        }
+    ];
+
+    await client?.v1.messages.postMessageToChannel(ctx.payload.channelId, {
+        text: "",
+        blocks: blocks
+    });
+}
 
 export async function sendAttachmentMessage(ctx: SlashCommandContext) {
     const client = await ctx.getBotClient();
@@ -199,8 +391,26 @@ export async function openModalOnGlobalShortcut(ctx: GlobalShortcutContext): Pro
             values: {
                 input_static_1: { // input block id
                     static_select_menu_input_action: { // onAction
-                        type: 'static_select_menu', // type
-                        value: '2' // value that belongs to option that needs to be preselected
+                        type: "static_select_menu", // type
+                        value: "2" // value that belongs to option that needs to be preselected
+                    }
+                },
+                input_date_picker: {
+                    date_picker_action: {
+                        type: "date_picker",
+                        value: "2026-01-01"
+                    }
+                },
+                input_date_range_picker: {
+                    date_range_picker_action: {
+                        type: "date_range_picker",
+                        values: ["2026-01-01", "2026-01-20"]
+                    }
+                },
+                input_checkboxes: {
+                    checkboxes_action: {
+                        type: "checkboxes",
+                        values: ["1", "4"]
                     }
                 }
             }
@@ -237,6 +447,92 @@ export async function openModalOnGlobalShortcut(ctx: GlobalShortcutContext): Pro
                     ]
                 },
                 dispatchAction: true
+            },
+            {
+                type: "divider"
+            },
+            {
+                type: "section",
+                text: {
+                    type: "plain_text",
+                    text: "This is the text part of the section. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                },
+                accessory: {
+                    type: "input",
+                    blockId: "accessory_input_plan_text",
+                    label: {
+                        type: "plain_text",
+                        text: "Label"
+                    },
+                    element: {
+                        type: "plain_text_input",
+                        onAction: "plain_text_input_action",
+                        autofocused: true,
+                        placeholder: {
+                            type: "plain_text",
+                            text: "Placeholder"
+                        },
+                        line_mode: "multiline",
+                        interaction_triggers: ["on_enter_pressed"]
+                    },
+                    dispatchAction: true
+                },
+                text_position: "left"
+            },
+            {
+                type: "divider"
+            },
+            {
+                type: "input",
+                blockId: "input_date_picker",
+                label: {
+                    type: "plain_text",
+                    text: "Date picker label"
+                },
+                element: {
+                    type: "date_picker",
+                    onAction: "date_picker_action",
+                    placeholder: {
+                        type: "plain_text",
+                        text: "Select a date"
+                    }
+                },
+                dispatchAction: true
+            },
+            {
+                type: "divider"
+            },
+            {
+                type: "input",
+                blockId: "input_date_range_picker",
+                label: {
+                    type: "plain_text",
+                    text: "Date range picker label"
+                },
+                element: {
+                    type: "date_range_picker",
+                    onAction: "date_range_picker_action"
+                }
+            },
+            {
+                type: "input",
+                blockId: "input_checkboxes",
+                label: {
+                    type: "plain_text",
+                    text: "Checkboxes label"
+                },
+                element: {
+                    type: "checkboxes",
+                    onAction: "checkboxes_action",
+                    options: [
+                        { text: { type: "plain_text", text: "Option 1" }, value: "1" }, // value that's preselected in modal state
+                        { text: { type: "plain_text", text: "Option 2" }, value: "2" },
+                        { text: { type: "plain_text", text: "Option 3" }, value: "3" },
+                        { text: { type: "plain_text", text: "Option 4" }, value: "4" } // value that's preselected in modal state
+                    ]
+                },
+                dispatchAction: true,
+                optional: true
             },
             {
                 type: "actions",
@@ -358,7 +654,6 @@ export async function openInfoModal(ctx: BlockInteractionContext<"VIEW">): Promi
 
 export function createBasicHomeView(): V1.PublishHomeViewRequest {
     return {
-        callbackId: "",
         title: {
             type: "plain_text",
             text: "Super cool title"

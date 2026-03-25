@@ -2,13 +2,14 @@ import {App, JsonFileTokenStore, start, V1} from "pumble-sdk";
 import Option = V1.Option;
 import {
   sendMessageWithButtons,
-  sendMessageWithSelectMenu,
+  sendMessageWithSelectMenuOptions,
   sendMessageWithDynamicSelectMenu,
   openModalOnGlobalShortcut,
   sendAttachmentMessage,
   openInfoModal,
   updateModal,
-  createBasicHomeView
+  createBasicHomeView, sendMessageWithCheckboxes, sendMessageWithDatePicker, sendMessageWithDateRangePicker,
+  sendMessageWithSelectMenuOptionGroups
 } from "./helper";
 
 const addon: App = {
@@ -50,6 +51,21 @@ const addon: App = {
             const selectMenuData = JSON.parse(ctx.payload.payload);
             await ctx.say(`Dynamic option selected ${selectMenuData.value} by user ${ctx.payload.userId}`, "ephemeral");
           },
+          checkboxes_action: async (ctx) => {
+            await ctx.ack();
+            const checkboxesData = JSON.parse(ctx.payload.payload);
+            await ctx.say(`Selected: ${checkboxesData.values}`, "ephemeral");
+          },
+          date_picker_action: async (ctx) => {
+            await ctx.ack();
+            const datePickerData = JSON.parse(ctx.payload.payload);
+            await ctx.say(`Selected: ${datePickerData.value}`, "ephemeral");
+          },
+          date_range_picker_action: async (ctx) => {
+            await ctx.ack();
+            const dateRangePickerData = JSON.parse(ctx.payload.payload);
+            await ctx.say(`Selected: ${dateRangePickerData.values}`, "ephemeral");
+          }
         }
       },
       {
@@ -70,6 +86,21 @@ const addon: App = {
           input_text_1: async (ctx) => {
             await ctx.ack();
             console.log(`Input entered ${ctx.payload.payload}`);
+          },
+          plain_text_input_action: async (ctx) => {
+            await ctx.ack();
+            const plainTextInputData = JSON.parse(ctx.payload.payload);
+            console.log(`Entered: ${plainTextInputData.value}`);
+          },
+          date_picker_action: async (ctx) => {
+            await ctx.ack();
+            const datePickerData = JSON.parse(ctx.payload.payload);
+            console.log(`Selected: ${datePickerData.value}`);
+          },
+          checkboxes_action: async (ctx) => {
+            await ctx.ack();
+            const checkboxesData = JSON.parse(ctx.payload.payload);
+            console.log(`Selected: ${checkboxesData.values}`);
           }
         },
       }]
@@ -99,24 +130,52 @@ const addon: App = {
   ],
   slashCommands: [
     {
-      command: "/interactive-button-msg",
+      command: "/button-msg",
       handler:  async (ctx) => {
         await ctx.ack();
         await sendMessageWithButtons(ctx);
       }
     },
     {
-      command: "/interactive-select-menu-msg",
+      command: "/select-menu-msg",
       handler:  async (ctx) => {
         await ctx.ack();
-        await sendMessageWithSelectMenu(ctx);
+        await sendMessageWithSelectMenuOptions(ctx);
       }
     },
     {
-      command: "/interactive-dynamic-menu-msg",
+      command: "/select-menu-option-groups-msg",
+      handler:  async (ctx) => {
+        await ctx.ack();
+        await sendMessageWithSelectMenuOptionGroups(ctx);
+      }
+    },
+    {
+      command: "/dynamic-menu-msg",
       handler:  async (ctx) => {
         await ctx.ack();
         await sendMessageWithDynamicSelectMenu(ctx);
+      }
+    },
+    {
+      command: "/checkboxes-msg",
+      handler:  async (ctx) => {
+        await ctx.ack();
+        await sendMessageWithCheckboxes(ctx);
+      }
+    },
+    {
+      command: "/date-picker-msg",
+      handler:  async (ctx) => {
+        await ctx.ack();
+        await sendMessageWithDatePicker(ctx);
+      }
+    },
+    {
+      command: "/date-range-picker-msg",
+      handler:  async (ctx) => {
+        await ctx.ack();
+        await sendMessageWithDateRangePicker(ctx);
       }
     },
     {
@@ -127,6 +186,26 @@ const addon: App = {
       }
     }
   ],
+  // Default Home View will be displayed in the app's Home tab, even to users who haven't authorized the app
+  // It will be displayed until `client.v1.app.publishHomeView` is called to replace it with a custom home view
+  defaultHomeView: {
+    enabled: true,
+    blocks: [
+      {
+        type: 'rich_text',
+        elements: [
+          {
+            type: 'rich_text_section',
+            elements: [
+              { type: 'text', text: 'Hi there '},
+              { type: 'emoji', name: 'wave' },
+              { type: 'text', text: '\nWelcome to interactivity addon!' }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   events: [],
   eventsPath: "/hook",
   redirect: { enable: true, path: "/redirect", onSuccess: async (result, req, res) => {

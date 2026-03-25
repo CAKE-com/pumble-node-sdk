@@ -11,10 +11,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "pumble-cli": "^0.0.29",
+    "pumble-cli": "^1.0.2",
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "pumble-sdk": "0.0.29"
+    "pumble-sdk": "1.0.2"
   }
 }

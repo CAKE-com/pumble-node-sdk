@@ -17,21 +17,24 @@ export default defineConfig({
                 text: "Guide",
                 items: [
                     { text: "Getting started", link: "/getting-started" },
+                    { text: "Authorization", link: "/authorization" },
                     { text: "Basic Concepts", link: "/basic-concepts" },
                     { text: "Interactivity", link: "/interactivity" },
-                    { text: "Modals & Views (coming soon)", link: "/modals-views" },
+                    { text: "Modals & Views", link: "/modals-views" },
                     { text: "Advanced Concepts", link: "/advanced-concepts" },
                     { text: "Pumble CLI", link: "/pumble-cli" },
+                    { text: "Production deployment", link: "/production-deployment" },
+                    { text: "Publishing to CAKE.com Marketplace", link: "/publish-to-marketplace" }
                 ],
             },
             {
                 text: "Reference",
                 items: [
-                    { text: "Triggers", link: "/triggers-reference" },
-                    { text: "Interactive elements", link: "/interactive-elements-reference"},
-                    { text: "Api Client", link: "/api-client" },
                     { text: "Manifest", link: "/manifest" },
+                    { text: "Triggers", link: "/triggers-reference" },
+                    { text: "API Client", link: "/api-client" },
                     { text: "Blocks", link: "/blocks"},
+                    { text: "Modals & Views", link: "/modals-views-reference" },
                 ],
             },
         ],
