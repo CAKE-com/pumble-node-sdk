@@ -5,8 +5,13 @@ export default defineConfig({
     title: "Pumble SDK",
     description: "Build Pumble Apps",
     base: "/pumble-node-sdk/",
+    head: [
+        // This will point to /public/favicon.ico
+        ['link', { rel: 'icon', href: '/pumble-node-sdk/favicon.ico' }]
+    ],
     themeConfig: {
         // https://vitepress.dev/reference/default-theme-config
+        logo: '/favicon.ico',
         nav: [
             { text: "Home", link: "/" },
             { text: "Getting Started", link: "/getting-started" },
@@ -45,5 +50,25 @@ export default defineConfig({
                 link: "https://github.com/CAKE-com/pumble-node-sdk",
             },
         ],
+        search: {
+            provider: 'local',
+            options: {
+                detailedView: true,
+                translations: {
+                    button: {
+                        buttonText: 'Search docs',
+                        buttonAriaLabel: 'Search docs'
+                    }
+                },
+                // Advanced: Fine-tune the search engine (MiniSearch)
+                miniSearch: {
+                    searchOptions: {
+                        fuzzy: 0.2, // Allows for 1-2 character typos
+                        prefix: true, // Matches "pum" to "pumble"
+                        boost: { title: 2 } // Title matches are twice as relevant
+                    }
+                }
+            }
+        }
     },
 });
