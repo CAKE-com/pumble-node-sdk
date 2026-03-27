@@ -568,7 +568,7 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
 
     public async start() {
         if (this.manifest.socketMode) {
-            this.socketListener = new AddonWebsocketListener(this);
+            this.socketListener = new AddonWebsocketListener(this, this.options);
         } else {
             this.httpListener = new AddonHttpListener(this, this.options);
         }
@@ -576,7 +576,7 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             this.setupOAuth(this.options.oauth2Config);
         }
         await this.credentialsStore?.initialize();
-        await this.socketListener?.start();
+        await this.socketListener?.start(...this.serverConfigurationCallbacks);
         await this.httpListener?.start(...this.serverConfigurationCallbacks);
     }
 

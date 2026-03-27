@@ -140,7 +140,7 @@ class Runner {
              * In order to reauthorize we need the addon running
              * */
             const { id, signingSecret, clientSecret, appKey, ...cleanedManifest } = manifest;
-            await fs.writeFile(emitManifestPath, JSON.stringify(cleanedManifest));
+            await fs.writeFile(emitManifestPath, JSON.stringify(cleanedManifest, null, 2));
         }
         return addon;
     }

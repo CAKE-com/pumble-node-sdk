@@ -11,43 +11,43 @@ Adding interactive components is similar to adding any other [block](/blocks). T
 
 ```typescript
 await ctx.say({
-    text:"John requests read permission for the header design document.",
+    text: "John requests read permission for the header design document.",
     blocks:[
         {
-            type:"rich_text",
-            elements:[
+            type: "rich_text",
+            elements: [
                 {
-                    type:"rich_text_section",
-                    elements:[
+                    type: "rich_text_section",
+                    elements: [
                         {
-                            type:"text",
-                            text:"John requests read permission for the header design document."
+                            type: "text",
+                            text: "John requests read permission for the header design document."
                         }
                     ]
                 }
             ]
         },
         {
-            type:"actions",
-            elements:[
+            type: "actions",
+            elements: [
                 {
-                    type:"button",
-                    onAction:"approve_btn",
+                    type: "button",
+                    onAction: "approve_btn",
                     value: "some-metadata",
-                    text:{
-                        text:"Approve",
-                        type:"plain_text"
+                    text: {
+                        text: "Approve",
+                        type: "plain_text"
                     },
-                    style:"primary"
+                    style: "primary"
                 },
                 {
-                    type:"button",
-                    onAction:"reject_btn",
-                    text:{
-                        text:"Reject",
-                        type:"plain_text"
+                    type: "button",
+                    onAction: "reject_btn",
+                    text: {
+                        text: "Reject",
+                        type: "plain_text"
                     },
-                    style:"danger"
+                    style: "danger"
                 }
             ]
         }
@@ -109,13 +109,13 @@ blockInteraction: {
 >[!NOTE]
 > `approve_btn` handler must correspond to the button's `onAction` field to correctly handle button interaction events.
 
-For more types of interactive elements, click [here](/interactive-elements-reference).
+For more types of interactive elements, click [here](/blocks#actions-block).
 
 ## Dynamic select menus
 
 Dynamic select menu is interactive element that loads its options from an external data source, allowing for a dynamic list of options.
 Each time a select menu of this type is opened or the user starts typing in the typeahead field, we'll send a request to your app.
-For more details about dynamic select menu properties, see [this](/interactive-elements-reference).
+For more details about dynamic select menu properties, see [this](/blocks#dynamic-select-menu).
 
 Your app should provide handlers that will be called each time user interacts with dynamic select menu.
 The handler should return an array of options or option groups. See the following example.
@@ -141,10 +141,10 @@ dynamicMenus: [
 The provided handler will be executed when the following message is sent:
 ```typescript
 await ctx.say({
-    text:"Dynamic select menu",
+    text: "Dynamic select menu",
     blocks:[
         {
-            type:"actions",
+            type: "actions",
             elements:[
                 {
                     type: "dynamic_select_menu",
