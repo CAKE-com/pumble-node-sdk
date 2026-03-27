@@ -195,12 +195,12 @@ class AppSync {
                 newValue: newApp.botTitle as string,
             });
         }
-        if (oldApp.socketMode !== newApp.socketMode) {
+        if ((oldApp.socketMode ?? false) !== (newApp.socketMode ?? false)) {
             changes.push({
                 key: 'Socket mode',
                 action: 'change',
-                oldValue: String(oldApp.socketMode || false),
-                newValue: String(newApp.socketMode || false),
+                oldValue: String(oldApp.socketMode ?? false),
+                newValue: String(newApp.socketMode ?? false),
             });
         }
         if (
