@@ -93,6 +93,8 @@ export class MessagesApiClientV1 extends BaseApiClient {
             const uploadedFile = await this.fileApiClientV1.uploadFile(file.input, file?.options);
             if (uploadedFile) {
                 fileIds.push(uploadedFile?.id);
+            } else {
+                console.error("File not uploaded, file options: ", file.options)
             }
         }));
         return fileIds;
@@ -220,10 +222,14 @@ export class MessagesApiClientV1 extends BaseApiClient {
 
     public async dmUser(userId: string, message: V1.SendMessagePayload) {
         const channelsApiClient = new ChannelsApiClientV1(this.axiosInstance, this.workspaceId, this.workspaceUserId);
-        const directChannel = await channelsApiClient.getDirectChannel([userId]);
-        if (directChannel) {
-            await this.postMessageToChannel(directChannel.channel.id, message);
+        let directChannel = undefined;
+        try {
+            directChannel = await channelsApiClient.getDirectChannel([userId]);
+        } catch (ignored) {}
+        if (!directChannel) {
+            directChannel = await channelsApiClient.createDirectChannel({participantIds: [userId]});
         }
+        await this.postMessageToChannel(directChannel.channel.id, message);
     }
 
     public async searchMessages(request: V1.MessageSearchRequest) {
