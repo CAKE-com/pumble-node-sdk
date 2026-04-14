@@ -1,0 +1,85 @@
+{
+  "name": "Zendesk",
+  "displayName": "Zendesk",
+  "botTitle": "Interact with Zendesk Support tickets in Pumble",
+  "bot": true,
+  "scopes": {
+    "botScopes": [
+      "messages:read",
+      "messages:write",
+      "messages:edit",
+      "user:read",
+      "channels:read",
+      "channels:write",
+      "channels:list",
+      "users:list"
+    ],
+    "userScopes": [
+      "messages:read",
+      "messages:write",
+      "messages:edit",
+      "user:read",
+      "users:list",
+      "channels:read",
+      "channels:list"
+    ]
+  },
+  "eventSubscriptions": {
+    "url": "/hook",
+    "events": [
+      {
+        "name": "APP_UNINSTALLED"
+      },
+      {
+        "name": "APP_UNAUTHORIZED"
+      },
+      {
+        "name": "NEW_MESSAGE"
+      }
+    ]
+  },
+  "slashCommands": [
+    {
+      "command": "/zendesk",
+      "description": "/zendesk [connect/disconnect {subdomain}] [subscribe/unsubscribe]",
+      "usageHint": "",
+      "url": "/hook"
+    }
+  ],
+  "shortcuts": [
+    {
+      "url": "/hook",
+      "shortcutType": "GLOBAL",
+      "displayName": "Create Zendesk ticket",
+      "name": "create_zendesk_ticket",
+      "description": ""
+    }
+  ],
+  "blockInteraction": {
+    "url": "/hook"
+  },
+  "viewAction": {
+    "url": "/hook"
+  },
+  "dynamicMenus": [
+    {
+      "url": "/hook",
+      "onAction": "assignee"
+    },
+    {
+      "url": "/hook",
+      "onAction": "requester"
+    },
+    {
+      "url": "/hook",
+      "onAction": "dynamic_select_channel"
+    },
+    {
+      "url": "/hook",
+      "onAction": "filterField"
+    }
+  ],
+  "redirectUrls": [
+    "/redirect"
+  ]
+}
