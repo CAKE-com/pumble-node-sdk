@@ -1,0 +1,10 @@
+{
+    "name": "Zendesk",
+    "displayName": "Zendesk",
+    "botTitle": "Interact with Zendesk Support tickets in Pumble",
+    "bot": true,
+    "scopes": {
+        "botScopes": ["messages:read", "messages:write", "messages:edit", "user:read", "channels:read", "channels:write", "channels:list", "users:list"],
+        "userScopes": ["messages:read", "messages:write", "messages:edit", "user:read", "users:list", "channels:read", "channels:list"]
+    }
+}
