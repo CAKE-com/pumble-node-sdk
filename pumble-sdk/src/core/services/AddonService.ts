@@ -459,7 +459,7 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             if (evt.payload.onAction === onAction) {
                 const options = await cb(evt);
                 if (options) {
-                    await evt.response({onAction: onAction, options: options, triggerId: evt.payload.triggerId});
+                    await evt.response({onAction: onAction, options: options, triggerId: evt.payload.triggerId, value: evt.payload.value});
                 } else {
                     await evt.nack("No dynamic select menu options provided by callback");
                 }

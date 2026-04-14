@@ -28,12 +28,14 @@ export type DynamicMenuPayload = AppMessage & {
     workspaceId: string;
     userId: string;
     triggerId: string;
+    value?: string;
 }
 
 export type DynamicMenuOptionsResponse = {
     onAction: string;
     options: Option[] | OptionGroup[];
-    triggerId: string
+    triggerId: string;
+    value?: string;
 }
 
 export type SpawnModalResponse = {

@@ -152,6 +152,7 @@ export namespace V1 {
          * @max 15
          */
         loadingTimeout?: number;
+        value?: string;
     };
 
     export type BlockCheckboxes = Input & AutoFocusable & {
