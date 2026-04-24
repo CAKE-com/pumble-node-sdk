@@ -17,13 +17,13 @@ However, modals can also contain input fields, that gather data from users, so t
 Each block contains a `type` field that determines the block's type and, consequently, how the block will be parsed.
 Here is the overview of top-level Pumble blocks:
 
-| name                          | description                                     | available in                 |
-|:------------------------------|:------------------------------------------------|:-----------------------------|
-| [Rich Text](#rich-text-block) | cjsdckjsncjds cskjdncjskdnc                     | Messages, Modals, Home views |
-| [Actions](#actions-block)     | block that contains actionable elements         | Messages, Modals, Home views |
-| [Input](#input-block)         | block that allows user input                    | Modals, Home views           |
-| [Section](#section-block)     | block that contains text and actionable element | Modals, Home views           |
-| [Divider](#divider-block)     | Visual separator for other top-level blocks     | Messages, Modals, Home views |
+| name                          | description                                                                                                            | available in                 |
+|:------------------------------|:-----------------------------------------------------------------------------------------------------------------------|:-----------------------------|
+| [Rich Text](#rich-text-block) | Contains formatted and structured text                                                                                 | Messages, Modals, Home views |
+| [Actions](#actions-block)     | Contains interactive elements (buttons, select menus, checkboxes, date pickers, date range pickers, text input fields) | Messages, Modals, Home views |
+| [Input](#input-block)         | Wraps a single interactive element with a label, with the purpose of including the entered value in the modal's state  | Modals, Home views           |
+| [Section](#section-block)     | Enables display of one Input block next to plain text                                                                  | Modals, Home views           |
+| [Divider](#divider-block)     | Visual separator for other top-level blocks                                                                            | Messages, Modals, Home views |
 
 
 ## Rich Text Block
