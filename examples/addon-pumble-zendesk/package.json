@@ -29,6 +29,6 @@
         "winston": "^3.19.0"
     },
     "overrides": {
-        "axios": "1.13.5"
+        "axios": "1.16.0"
     }
 }
