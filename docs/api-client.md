@@ -12,6 +12,8 @@ Every Request to Pumble API must be sent with two headers:
 
 `pumble-sdk` provides an easy way to get the user or bot client from a trigger context. See [Triggers](/triggers-reference).
 
+Requests are subject to both global and action-specific rate limits. For more information, see the [Rate Limits section](/rate-limits).
+
 Each `ApiClient` method has its own set of required scopes.
 
 For more details about the usage of Pumble API, take a look at the Pumble API [documentation](https://docs.pumble.com).

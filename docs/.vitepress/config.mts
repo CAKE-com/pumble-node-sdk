@@ -40,6 +40,7 @@ export default defineConfig({
                     { text: "API Client", link: "/api-client" },
                     { text: "Blocks", link: "/blocks"},
                     { text: "Modals & Views", link: "/modals-views-reference" },
+                    { text: "Rate Limits", link: "/rate-limits" }
                 ],
             },
         ],
