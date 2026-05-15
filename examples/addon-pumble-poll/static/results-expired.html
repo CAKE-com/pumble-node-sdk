@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i');
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --text-high: rgba(0, 0, 0, 0.87);;
+                --text-medium: rgba(0, 0, 0, 0.54);
+                --elevation-surface-base: rgba(242, 246, 248, 1);
+                --elevation-surface-raised: rgba(255, 255, 255, 1);
+                --separator: rgba(198, 210, 217, 0.5);
+                --on-surface-secondary: rgb(179, 229, 252);
+                --person-mention-text: rgb(2, 88, 127);
+                --channel-mention-bakcground: rgba(255, 249, 196, 1);
+                --channel-mention-text: rgba(133, 79, 0, 1);
+                --logo-pumble: url("/icon?type=logoLight");
+                --icon-arrow: url("/icon?type=arrowLight");
+                --icon-arrow-down: url("/icon?type=arrowDownLight");
+                --item-selected: rgba(69, 90, 100, 0.24);
+                --hover-on-secondary: rgba(198, 210, 217, 0.3);
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --text-high: rgba(255, 255, 255, 0.87);
+                --text-medium: rgba(255, 255, 255, 0.54);
+                --elevation-surface-base: rgba(18, 25, 29, 1);
+                --elevation-surface-raised: rgba(37, 50, 56, 1);
+                --separator: #37474F;
+                --on-surface-secondary: rgb(2, 119, 189);
+                --person-mention-text: rgb(255, 255, 255);
+                --channel-mention-bakcground: rgba(255, 193, 7, 1);
+                --channel-mention-text: rgba(133, 79, 0, 1);
+                --logo-pumble: url("/icon?type=logoDark");
+                --icon-arrow: url("/icon?type=arrowDark");
+                --icon-arrow-down: url("/icon?type=arrowDownDark");
+                --item-selected: rgba(255, 255, 255, 0.24);
+                --hover-on-secondary: rgba(255, 255, 255, 0.08);
+            }
+        }
+
+        body {
+            min-height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--elevation-surface-base);
+            color: var(--text-high);
+        }
+
+        .container {
+            margin-top: 50px;
+            width: 800px;
+            border-radius: 8px;
+            background-color: var(--elevation-surface-raised);
+            border: 1px solid var(--separator);
+            box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.07);
+
+        }
+
+        .paddedContainer {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pollHeader {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            padding: 20px;
+            border-bottom: 1px var(--separator) solid;
+        }
+
+        .headerText {
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 32px;
+        }
+
+        .pollFooter {
+            padding: 20px 40px;
+            border-top: 1px var(--separator) solid;
+        }
+
+        .pumbleLogo {
+            background-image: var(--logo-pumble);
+            width: 121px;
+            height: 32px;
+            background-size: contain;
+        }
+
+        .linkExpired{
+            line-height: 1.6;
+            padding-left: 10px;
+        }
+
+
+        @media only screen and (max-width: 600px) {
+            body {
+                display: inline-block;
+                width: 100%;
+            }
+
+            .container {
+                width: auto;
+                border: none;
+                border-radius: 0;
+                margin-top: 0;
+            }
+        }
+    </style>
+    <title>Poll Results</title>
+</head>
+<body>
+<div class="container">
+    <div class="pollHeader">
+        <span class="pumbleLogo"></span>
+        <span class="headerText">Poll results</span>
+    </div>
+    <div class="paddedContainer">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.99 2C6.47 2 2 6.48 2 12C2 17.52 6.47 22 11.99 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 11.99 2ZM13 13V7H11V13H13ZM13 17V15H11V17H13ZM4 12C4 16.42 7.58 20 12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4C7.58 4 4 7.58 4 12Z" fill="#F44336"/>
+        </svg>
+        <span class="linkExpired">Link expired</span>
+    </div>
+    <div class="pollFooter">
+    </div>
+</div>
+</body>
+</html>

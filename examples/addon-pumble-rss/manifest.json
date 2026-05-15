@@ -1,0 +1,22 @@
+{
+    "name": "RSS Feed",
+    "displayName": "RSS",
+    "botTitle": "Subscribe to feed URL and receive updates.",
+    "bot": true,
+    "scopes": {
+        "botScopes": [
+            "messages:read",
+            "messages:write",
+            "channels:list",
+            "channels:read",
+            "users:list"
+        ],
+        "userScopes": [
+            "messages:read",
+            "channels:read",
+            "channels:write",
+            "channels:list",
+            "user:read"
+        ]
+    }
+}
