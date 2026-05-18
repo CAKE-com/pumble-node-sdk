@@ -410,13 +410,18 @@ So, for example, if you have `messages:read` scope for the bot but not for users
 
 The list of Pumble Events and their scopes:
 
-| event                   | scopes          |
-|:------------------------|:----------------|
-| `NEW_MESSAGE`           | `messages:read` |
-| `UPDATED_MESSAGE`       | `messages:read` |
-| `REACTION_ADDED`        | `reaction:read` |
-| `CHANNEL_CREATED`       | `channels:read` |
-| `WORKSPACE_USER_JOINED` | `user:read`     |
+| event                          | scopes          |
+|:-------------------------------|:----------------|
+| `NEW_MESSAGE`                  | `messages:read` |
+| `UPDATED_MESSAGE`              | `messages:read` |
+| `REACTION_ADDED`               | `reaction:read` |
+| `CHANNEL_CREATED`              | `channels:read` |
+| `WORKSPACE_USER_JOINED`        | `user:read`     |
+| `WORKSPACE_USER_UPDATED`       | `user:read`     |
+| `CHANNEL_ARCHIVED`             | `channels:read` |
+| `CHANNEL_DELETED`              | `channels:read` |
+| `WORKSPACE_USER_GROUP_CREATED` | `group:read`    |
+| `WORKSPACE_USER_GROUP_UPDATED` | `group:read`    |
 
 ### Unauthorize and Uninstall events 
 
@@ -581,6 +586,97 @@ This function will first try to find the `ApiClient` of the reaction author. If 
 | ro   | String | Workspace user's role. Possible values are: `ADMINISTRATOR`, `USER`, `GUEST_MULTI_CHANNEL`, `GUEST_SINGLE_CHANNEL`. | 
 | au   | String | Timestamp denoting until when the workspace user stays active. Applicable to guest users only.                      |
 | ib   | String | ID of the workspace user's inviter.                                                                                 |
+
+</details>
+
+<details>
+<summary>WORKSPACE_USER_UPDATED event body</summary>
+
+| name | type    | description                                                                                                         |
+|:-----|:--------|:--------------------------------------------------------------------------------------------------------------------|
+| uN   | String  | Workspace user's name.                                                                                              |
+| uE   | String  | Workspace user's email.                                                                                             |
+| uId  | String  | Workspace user's ID.                                                                                                |
+| afp  | String  | Full path of the workspace user's avatar.                                                                           |
+| asp  | String  | Scaled path of the workspace user's avatar.                                                                         |
+| wId  | String  | ID of the workspace to which the user belongs.                                                                      |
+| ty   | String  | Type of the event. In this case, it is always `WORKSPACE_USER_UPDATED`.                                             |
+| tz   | String  | Workspace user's time zone identifier.                                                                              |
+| sts  | String  | Timestamp denoting the time when workspace user's notifications will be resumed, after they manually paused them.   |
+| pt   | String  | Workspace user's profile title.                                                                                     |
+| pp   | String  | Workspace user's profile phone number.                                                                              |
+| cs   | Object  | Workspace user's custom status.                                                                                     |
+| rid  | String  | Identifier of the request that triggered workspace user update.                                                     |
+| st   | String  | Workspace user's status. Possible values are: `ACTIVATED`, `INVITED`, `DEACTIVATED`.                                |
+| ro   | String  | Workspace user's role. Possible values are: `ADMINISTRATOR`, `USER`, `GUEST_MULTI_CHANNEL`, `GUEST_SINGLE_CHANNEL`. | 
+| au   | String  | Timestamp denoting until when the workspace user stays active. Applicable to guest users only.                      |
+| ib   | String  | ID of the workspace user's inviter.                                                                                 |
+| puE  | String  | Email of the original user.                                                                                         |
+| cb   | String  | ID of the workspace user who made the update.                                                                       |
+| atz  | Boolean | Indicates if the automatic time zone selection is enabled.                                                          |
+
+</details>
+
+<details>
+<summary>CHANNEL_ARCHIVED event body</summary>
+
+| name | type     | description                                                            |
+|:-----|:---------|:-----------------------------------------------------------------------|
+| m    | String[] | Array of IDs of channel's members.                                     |
+| wId  | String   | ID of the workspace to which the channel belongs.                      |
+| cId  | String   | ID of the archived channel.                                            |
+| v    | Boolean  | Indicates if the channel is archived. In this case, it is always true. |
+| ty   | String   | Type of the event. In this case, it is always `CHANNEL_ARCHIVED`.      |
+| rid  | String   | Identifier of the request that triggered the channel archival.         |
+| uId  | String   | ID of the user who archived the channel.                               |
+
+</details>
+
+<details>
+<summary>CHANNEL_DELETED event body</summary>
+
+| name | type   | description                                                      |
+|:-----|:-------|:-----------------------------------------------------------------|
+| wId  | String | ID of the workspace to which the channel belongs.                |
+| cId  | String | ID of the deleted channel.                                       |
+| ty   | String | Type of the event. In this case, it is always `CHANNEL_DELETED`. |
+| rid  | String | Identifier of the request that triggered the channel deletion.   |
+
+<details>
+<summary>WORKSPACE_USER_GROUP_CREATED event body</summary>
+
+| name | type     | description                                                                   |
+|:-----|:---------|:------------------------------------------------------------------------------|
+| wId  | String   | ID of the workspace to which the user group belongs.                          |
+| cbId | String   | ID of the user who created the user group.                                    |
+| id   | String   | ID of the user group.                                                         |
+| n    | String   | Group name.                                                                   |
+| h    | String   | Group handle used for mentions.                                               | 
+| d    | String   | Group description.                                                            | 
+| di   | Boolean  | Indicates if the group is disabled. In this case, it is always false.         | 
+| uIds | String[] | Array of IDs of group's members.                                              |
+| cIds | String[] | Array of IDs of default channels.                                             |
+| ty   | String   | Type of the event. In this case, it is always `WORKSPACE_USER_GROUP_CREATED`. |
+| rid  | String   | Identifier of the request that triggered the group creation.                  |
+
+</details>
+
+<details>
+<summary>WORKSPACE_USER_GROUP_UPDATED event body</summary>
+
+| name | type     | description                                                                   |
+|:-----|:---------|:------------------------------------------------------------------------------|
+| wId  | String   | ID of the workspace to which the user group belongs.                          |
+| cbId | String   | ID of the user who updated the user group.                                    |
+| id   | String   | ID of the user group.                                                         |
+| n    | String   | Group name.                                                                   |
+| h    | String   | Group handle used for mentions.                                               | 
+| d    | String   | Group description.                                                            | 
+| di   | Boolean  | Indicates if the group is disabled.                                           | 
+| uIds | String[] | Array of IDs of group's members.                                              |
+| cIds | String[] | Array of IDs of default channels.                                             |
+| ty   | String   | Type of the event. In this case, it is always `WORKSPACE_USER_GROUP_UPDATED`. |
+| rid  | String   | Identifier of the request that triggered the group update.                    |
 
 </details>
 

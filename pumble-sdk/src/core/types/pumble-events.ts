@@ -6,6 +6,77 @@ type EventMap = {
     APP_UNINSTALLED: NotificationAppUninstalled;
     APP_UNAUTHORIZED: NotificationAppUnauthorized;
     WORKSPACE_USER_JOINED: NotificationWorkspaceUserJoined;
+    WORKSPACE_USER_UPDATED: NotificationWorkspaceUserUpdated;
+    CHANNEL_ARCHIVED: NotificationChannelArchived;
+    CHANNEL_DELETED: NotificationChannelDeleted;
+    WORKSPACE_USER_GROUP_CREATED: NotificationWorkspaceUserGroupCreated;
+    WORKSPACE_USER_GROUP_UPDATED: NotificationWorkspaceUserGroupUpdated;
+};
+
+type NotificationChannelDeleted = {
+    // Workspace id
+    wId: string;
+    // Channel id
+    cId: string;
+    // Event type
+    ty: string;
+    // Request id
+    rid: string;
+};
+
+type NotificationWorkspaceUserGroupCreated = {
+    // Workspace id
+    wId: string;
+    // Created by id
+    cbId: string;
+    // Group id
+    id: string;
+    // Group name
+    n: string;
+    // Handle
+    h: string;
+    // Description
+    d: string;
+    // Is disabled
+    di: boolean;
+    // Group user ids
+    uIds: string[];
+    // Channel ids
+    cIds: string[];
+    // Event type
+    ty: string;
+    // Request id
+    rid: string;
+};
+
+type NotificationWorkspaceUserGroupUpdated = NotificationWorkspaceUserGroupCreated;
+
+type NotificationWorkspaceUserUpdated = NotificationWorkspaceUserJoined & {
+    // Event type
+    ty: string;
+    // Email
+    puE: string;
+    // Changed by
+    cb: string;
+    // Timezone
+    atz: boolean;
+};
+
+type NotificationChannelArchived = {
+    // Member ids
+    m: string[];
+    // Workspace id
+    wId: string;
+    // Channel id
+    cId: string;
+    // Is archived (value)
+    v: boolean;
+    // Event type
+    ty: string;
+    // Request id
+    rid: string;
+    // Archived by
+    uId: string;
 };
 
 export type PumbleEventType = keyof EventMap & string;

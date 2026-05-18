@@ -143,3 +143,4 @@ The list of all available scopes:
 | `workspace:read`    | Read workspace information  |
 | `calls:write`       | Create permanent calls      |
 | `files:write`       | Write messages with files   |
+| `group:read`        | Read group information      |

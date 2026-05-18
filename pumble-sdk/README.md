@@ -187,7 +187,7 @@ Each trigger callback has a context argument where you can find information info
       handler: async (ctx) => {
         await ctx.ack();
 		const userId = ctx.payload.userId;
-		const workspaceId = ctx.payload.userId.
+		const workspaceId = ctx.payload.userId;
         await ctx.say("Received slash command!");
 		await ctx.getUserClient();
       },
