@@ -14,6 +14,8 @@ type EventMap = {
 };
 
 type NotificationChannelDeleted = {
+    // Member ids
+    m: string[];
     // Workspace id
     wId: string;
     // Channel id
@@ -49,7 +51,10 @@ type NotificationWorkspaceUserGroupCreated = {
     rid: string;
 };
 
-type NotificationWorkspaceUserGroupUpdated = NotificationWorkspaceUserGroupCreated;
+type NotificationWorkspaceUserGroupUpdated = NotificationWorkspaceUserGroupCreated & {
+    // Requested by id
+    uId: string;
+};
 
 type NotificationWorkspaceUserUpdated = NotificationWorkspaceUserJoined & {
     // Event type

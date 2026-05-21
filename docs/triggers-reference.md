@@ -637,6 +637,7 @@ This function will first try to find the `ApiClient` of the reaction author. If 
 
 | name | type   | description                                                      |
 |:-----|:-------|:-----------------------------------------------------------------|
+| m    | String | Array of IDs of channel's members.                               |
 | wId  | String | ID of the workspace to which the channel belongs.                |
 | cId  | String | ID of the deleted channel.                                       |
 | ty   | String | Type of the event. In this case, it is always `CHANNEL_DELETED`. |
@@ -666,8 +667,9 @@ This function will first try to find the `ApiClient` of the reaction author. If 
 
 | name | type     | description                                                                   |
 |:-----|:---------|:------------------------------------------------------------------------------|
+| uId  | String   | ID of the user who updated the user group.                                    |
 | wId  | String   | ID of the workspace to which the user group belongs.                          |
-| cbId | String   | ID of the user who updated the user group.                                    |
+| cbId | String   | ID of the user who created the user group.                                    |
 | id   | String   | ID of the user group.                                                         |
 | n    | String   | Group name.                                                                   |
 | h    | String   | Group handle used for mentions.                                               | 
