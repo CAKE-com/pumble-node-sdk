@@ -142,7 +142,7 @@ Results in: `#general`
 
 ```json
 {
-    "type": "user",
+    "type": "usergroup",
     "usergroup_id": "6965ed9a6790becb7e38675e"
 }
 ```
