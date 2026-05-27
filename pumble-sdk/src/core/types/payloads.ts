@@ -29,6 +29,9 @@ export type DynamicMenuPayload = AppMessage & {
     userId: string;
     triggerId: string;
     value?: string;
+    sourceType?: BlockInteractionSourceType;
+    sourceId?: string;
+    view?: V1.View<"HOME" | "MODAL">
 }
 
 export type DynamicMenuOptionsResponse = {
