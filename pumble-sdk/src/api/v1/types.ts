@@ -862,7 +862,7 @@ export namespace V1 {
          * @maxItems 8
          * @minItems 1
          */
-        participantIds?: string[];
+        participantIds: string[];
         /**
          * @maxItems 8
          * @minItems 0
