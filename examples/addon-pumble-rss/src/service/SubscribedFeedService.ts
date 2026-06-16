@@ -224,21 +224,19 @@ class SubscribedFeedService {
     }
 
     canPostToChannel(channel: ChannelInfo, userId: string, role: string) {
-        const postingPermissions = channel.channel.postingPermissions;
-        if (postingPermissions.postingPermissionsGroup === 'EVERYONE' || postingPermissions.postingPermissionsGroup === 'EVERYONE_BUT_GUESTS') {
+        if (role === 'ADMINISTRATOR' || role === 'OWNER') {
             return true;
         }
-        return role === 'ADMINISTRATOR' || role === 'OWNER' || postingPermissions.workspaceUserIds!.includes(userId);
+
+        const postingPermissions = channel.channel.postingPermissionsV2;
+        if (postingPermissions.postingPermissionsGroup === 'EVERYONE') {
+            return !postingPermissions.blockedUserIds!.includes(userId);
+        }
+
+        return postingPermissions.allowedUserIds!.includes(userId);
     }
 
     async canSubscribeFeedToChannel(channel: ChannelInfo, userId: string, botUserId: string, client: ApiClient): Promise<boolean> {
-        const postingPermissions = channel.channel.postingPermissions;
-        if (postingPermissions.postingPermissionsGroup === 'EVERYONE' || postingPermissions.postingPermissionsGroup === 'EVERYONE_BUT_GUESTS') {
-            return true;
-        }
-        if (!postingPermissions.workspaceUserIds!.includes(botUserId)) {
-            return false;
-        }
         let userData: WorkspaceUser | null = null;
         try {
             userData = await client!.v1.users.userInfo(userId);
@@ -246,7 +244,7 @@ class SubscribedFeedService {
             console.error(`Unable to fetch user info for workspace user: ${userId}`, e);
             return true; // Preventing failure if new scope is not authorized, for backward compatibility
         }
-        return userData.role === 'ADMINISTRATOR' || userData.role === 'OWNER' || postingPermissions.workspaceUserIds!.includes(userId);
+        return this.canPostToChannel(channel, userId, userData.role);
     }
 
    async processFeeds(subscribedFeeds:Array<SubscribedFeed>) {
