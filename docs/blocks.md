@@ -123,7 +123,7 @@ Results in: `@John Doe`
 ```json
 {
     "type": "channel",
-    "user_id": "6965ed9a6790becb7e38675c"
+    "channel_id": "6965ed9a6790becb7e38675c"
 }
 ```
 
@@ -447,7 +447,7 @@ It is available in messages, modals and home views.
 | name     | type                        | required | description                                                      |
 |:---------|:----------------------------|:---------|:-----------------------------------------------------------------|
 | type     | String                      | true     | Block type. In this case, it is always `rich_text_preformatted`. |
-| elements | [Text Block](#text-block)[] | true     | An array of                                                      |
+| elements | [Text Block](#text-block)[] | true     | An array of [Text Block](#text-block)                            |
 
 The code block section (`type: "rich_text_preformatted"`) also has the `elements` array which consists of only one `text` object without any formatting.
 
