@@ -446,6 +446,14 @@ class AppSync {
                 newValue: newApp.helpUrl,
             });
         }
+        if (newApp.avatarUrl && oldApp.avatarUrl?.toString() !== newApp.avatarUrl?.toString()) {
+            changes.push({
+                key: 'Avatar URL',
+                action: 'change',
+                oldValue: oldApp.avatarUrl,
+                newValue: newApp.avatarUrl,
+            });
+        }
         if (oldApp.welcomeMessage?.toString() !== newApp.welcomeMessage?.toString()) {
             changes.push({
                 key: 'Welcome Message',
