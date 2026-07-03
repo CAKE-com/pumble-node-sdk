@@ -93,6 +93,12 @@ This will generate the template and configuration to match the Pumble app.\
 `.pumbleapprc` will match the app's secrets. And all triggers and event subscriptions will be generated with empty handlers.\
 You will just need to implement the handlers.
 
+### `pumble-cli rotate-secrets`
+
+Use `pumble-cli rotate-secrets` to rotate the addon secrets (app key, client secret, and signing secret) of the currently connected app.
+
+If you are not logged in, you will be prompted to log in first. The command will rotate the secrets on the server and update your local `.pumbleapprc` file with the new secrets.
+
 ### `pumble-cli`
 
 Running just `pumble-cli` in your project root will start your app. 
