@@ -643,6 +643,8 @@ This function will first try to find the `ApiClient` of the reaction author. If 
 | ty   | String | Type of the event. In this case, it is always `CHANNEL_DELETED`. |
 | rid  | String | Identifier of the request that triggered the channel deletion.   |
 
+</details>
+
 <details>
 <summary>WORKSPACE_USER_GROUP_CREATED event body</summary>
 
