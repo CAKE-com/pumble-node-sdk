@@ -231,7 +231,7 @@ ViewBuilder contains the following methods:
 | updateState         | (state: [State](#state)) => ViewBuilder                        | Replaces the existing view state with the new one.                                                     |
 | updateTitle         | (title: [TextElement](/blocks#text-element)) => ViewBuilder    | Replaces the existing view title with the new one.                                                     |
 | updateCallbackId    | (callbackId: String) => ViewBuilder                            | Changes the value of view's callback ID.                                                               |
-| updateNotifyOnClose | (notifyOnClose: Boolean) => ViewBuilder                        | Changes the value that indicates if an action should be displatched when the view is closed.           |
+| updateNotifyOnClose | (notifyOnClose: Boolean) => ViewBuilder                        | Changes the value that indicates if an action should be dispatched when the view is closed.            |
 | updateSubmit        | (submit: [TextElement](/blocks#text-element)) => ViewBuilder   | Changes the content of view's submit button.                                                           |
 | removeSubmit        | () => ViewBuilder                                              | Removes submit button from the view.                                                                   |
 | updateClose         | (close: [TextElement](/blocks#text-element)) => ViewBuilder    | Changes the content of view's close button.                                                            |
