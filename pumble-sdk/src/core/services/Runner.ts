@@ -122,6 +122,7 @@ export type App = {
     port?: number;
     listingUrl?: string;
     helpUrl?: string;
+    avatarUrl?: string;
     welcomeMessage?: string;
     offlineMessage?: string;
 };
@@ -320,6 +321,7 @@ class Runner {
         }
         manifest.listingUrl = app.listingUrl;
         manifest.helpUrl = app.helpUrl;
+        manifest.avatarUrl = app.avatarUrl;
         manifest.welcomeMessage = app.welcomeMessage;
         manifest.offlineMessage = app.offlineMessage;
         return manifest;

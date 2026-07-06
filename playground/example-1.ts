@@ -494,6 +494,7 @@ const app: App = {
     onServerConfiguring: (e, addon) => {},
     tokenStore: new JsonFileTokenStore('tokens.json'),
     helpUrl: 'https://help.com',
+    avatarUrl: "https://avatars.githubusercontent.com/u/164895734",
     welcomeMessage: 'Hello',
     offlineMessage: 'Demo app cannot respond at this moment. Please try again later',
     redirect: {enable: true}
