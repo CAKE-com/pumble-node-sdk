@@ -84,6 +84,14 @@ async function main() {
             }
         )
         .command(
+            'rotate-secrets',
+            'Rotate secrets of the currently connected app',
+            (y) => y,
+            async (args) => {
+                await commandsService.rotateSecrets(args.globalConfigFile);
+            }
+        )
+        .command(
             'pre-publish',
             'Prepare your app for publishing',
             (y) => {
