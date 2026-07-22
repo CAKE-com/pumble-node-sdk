@@ -1,6 +1,6 @@
 import axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
 import {OAuth2Client} from '../auth';
-import {PUMBLE_API_URL, PUMBLE_FILEUPLOAD_URL} from '../constants';
+import {PUMBLE_API_URL, PUMBLE_FILEUPLOAD_URL, PUMBLE_HEADERS} from '../constants';
 import {ChannelsApiClientV1} from './v1/ChannelsApiClientV1';
 import {MessagesApiClientV1} from './v1/MessagesApiClientV1';
 import {UsersApiClientV1} from './v1/UsersApiClientV1';
@@ -37,15 +37,20 @@ export class ApiClient {
                 'content-type': 'application/json',
                 token: client.accessToken,
                 'x-app-token': client.appKey,
+                ...PUMBLE_HEADERS,
             },
         });
         this.fileuploadAxiosInstance = axios.create({
-            baseURL: PUMBLE_FILEUPLOAD_URL
+            baseURL: PUMBLE_FILEUPLOAD_URL,
+            headers: {
+                ...PUMBLE_HEADERS,
+            }
         });
         this.fileHostAxiosInstance = axios.create({
             headers: {
                 token: client.accessToken,
-                'x-app-token': client.appKey
+                'x-app-token': client.appKey,
+                ...PUMBLE_HEADERS,
             }
         });
         this.v1 = {

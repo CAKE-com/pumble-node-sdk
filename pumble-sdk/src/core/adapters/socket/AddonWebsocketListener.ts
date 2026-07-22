@@ -4,7 +4,7 @@ import axios, { AxiosInstance } from 'axios';
 import {WebSocket} from 'ws';
 import {AckCallback, ResponseCallback, NackCallback} from '../../types/contexts';
 import { promisify } from 'util';
-import { PUMBLE_API_URL } from '../../../constants';
+import { PUMBLE_API_URL, PUMBLE_HEADERS } from '../../../constants';
 import {
     AppMessage,
     isBlockInteractionEphemeralMessage,
@@ -30,7 +30,12 @@ export class AddonWebsocketListener<T extends AddonManifest> {
     private server?: Express;
 
     public constructor(private service: AddonService<T>, private options: AddonHttpServerOptions) {
-        this.axiosInstance = axios.create({baseURL: PUMBLE_API_URL});
+        this.axiosInstance = axios.create({
+            baseURL: PUMBLE_API_URL,
+            headers: {
+                ...PUMBLE_HEADERS,
+            }
+        });
     }
 
     private get manifest(): AddonManifest {
