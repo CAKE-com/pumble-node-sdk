@@ -50,13 +50,13 @@ export type SpawnModalResponse = {
 
 export type ViewActionResponse = {
     triggerId: string;
-    view: V1.View<"MODAL" | "HOME">,
+    view?: V1.View<"MODAL" | "HOME">,
     viewType: ViewType,
     action: ViewAction,
 }
 
 export type ViewType = 'NATIVE' | 'INTEGRATION';
-export type ViewAction = "OPEN" | "UPDATE" | "PUSH"
+export type ViewAction = "OPEN" | "UPDATE" | "PUSH" | "CLOSE"
 
 export type PumbleEventPayload<T extends PumbleEventType = PumbleEventType> = AppMessage & {
     body: PumbleEventNotificationPayload<T>;
