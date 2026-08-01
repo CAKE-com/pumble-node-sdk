@@ -95,6 +95,9 @@ const app: App = {
                             .build();
                         await ctx.updateView({...updatedView, notifyOnClose: false});
                     },
+                    close_modal_select: async (ctx) => {
+                        await ctx.closeView();
+                    },
                 },
             },
             {
@@ -336,6 +339,42 @@ const app: App = {
                     ]
                 }
                 await client.v1.app.publishHomeView(ctx.payload.userId, payload)
+            }
+        },
+        {
+            command: '/slash_10',
+            description: 'Opens a modal with a static select menu that closes the modal upon selection',
+            handler: async (ctx) => {
+                await ctx.spawnModalView({
+                    callbackId: "viewCloseExampleCallback",
+                    type: "MODAL",
+                    title: {type: "plain_text", text: "Close Modal Example"},
+                    close: {type: "plain_text", text: "Cancel"},
+                    notifyOnClose: false,
+                    blocks: [
+                        {
+                            type: "rich_text",
+                            elements: [{
+                                type: "rich_text_section",
+                                elements: [{type: "text", text: "Select an option from the menu below to close this modal."}]
+                            }]
+                        },
+                        {
+                            type: "actions",
+                            elements: [
+                                {
+                                    type: "static_select_menu",
+                                    placeholder: {text: "Choose an option to close", type: "plain_text"},
+                                    onAction: "close_modal_select",
+                                    options: [
+                                        {text: {type: "plain_text", text: "Close option 1"}, value: "close_1"},
+                                        {text: {type: "plain_text", text: "Close option 2"}, value: "close_2"}
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                });
             }
         },
     ],
