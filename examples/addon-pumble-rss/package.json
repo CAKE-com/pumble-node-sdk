@@ -1,0 +1,31 @@
+{
+  "name": "rss",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile": "tsc",
+    "start": "node dist/main.js",
+    "local": "pumble-cli --host http://localhost:9799",
+    "stage": "pumble-cli --host=https:/your-domain-here.com --port=9799",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.17.30",
+    "typescript": "^5.8.2",
+    "pumble-cli": "1.1.4"
+  },
+  "dependencies": {
+    "axios": "^1.16.0",
+    "mongodb": "^6.21.0",
+    "node-cron": "^3.0.3",
+    "p-limit": "^3.1.0",
+    "pumble-sdk": "1.1.4",
+    "rss-parser": "^3.13.0",
+    "winston": "^3.19.0",
+    "async-mutex": "^0.5.0",
+    "express": "^5.2.1"
+  }
+}

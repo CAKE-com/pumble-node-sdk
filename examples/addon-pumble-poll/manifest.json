@@ -1,0 +1,25 @@
+{
+  "name": "Polls",
+  "displayName": "Polls",
+  "botTitle": "Polls",
+  "bot": true,
+  "scopes": {
+    "botScopes": [
+      "messages:read",
+      "messages:write",
+      "messages:edit",
+      "messages:delete",
+      "channels:read",
+      "user:read",
+      "users:list"
+    ],
+    "userScopes": [
+      "messages:read",
+      "user:read",
+      "messages:write",
+      "messages:edit",
+      "channels:list",
+      "channels:read"
+    ]
+  }
+}

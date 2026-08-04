@@ -1,6 +1,6 @@
 import type { OAuth2AccessTokenResponse } from './types';
 import axios from 'axios';
-import { PUMBLE_API_URL } from '../constants';
+import { PUMBLE_API_URL, PUMBLE_HEADERS } from '../constants';
 import FormData from 'form-data';
 
 export class OAuth2Client {
@@ -21,7 +21,10 @@ export class OAuth2Client {
             `${PUMBLE_API_URL}/oauth2/access`,
             data,
             {
-                headers: { ...data.getHeaders() },
+                headers: { 
+                    ...data.getHeaders(),
+                    ...PUMBLE_HEADERS,
+                },
             }
         );
         return result.data;

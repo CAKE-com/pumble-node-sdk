@@ -34,7 +34,7 @@ class Login {
             return true;
         }
         const { email } = await prompts([{ name: 'email', message: 'To login enter your Pumble email', type: 'text' }]);
-        if (!email || !email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+        if (!email || !email.match(/^\S+@[^\s.]+(\.[^\s.]+){1,5}$/)) {
             throw new Error('Invalid email address');
         }
 

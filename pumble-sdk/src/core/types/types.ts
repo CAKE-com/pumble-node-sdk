@@ -110,6 +110,7 @@ export type AddonManifest = {
     };
     listingUrl?: string;
     helpUrl?: string;
+    avatarUrl?: string;
     welcomeMessage?: string;
     offlineMessage?: string;
     [key: string]: unknown;

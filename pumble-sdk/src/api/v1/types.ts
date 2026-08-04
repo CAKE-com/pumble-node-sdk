@@ -369,6 +369,18 @@ export namespace V1 {
         threadRootId?: string;
     }
 
+    export interface MessageQuote {
+        id: string,
+        messageId: string,
+        workspaceId: string,
+        channelId: string,
+        threadRootId?: string,
+        authorId: string,
+        blocks?: MainBlock[],
+        text?: string,
+        createdAtMillis: number
+    }
+
     export interface Message {
         id: string;
         workspaceId: string;
@@ -394,6 +406,7 @@ export namespace V1 {
         savedTimestampMilli?: number;
         blocks?: MainBlock[];
         meta?: MessageMeta;
+        quote?: MessageQuote
     }
 
     export interface MessageFile {
@@ -405,6 +418,7 @@ export namespace V1 {
         thumbnails?: MessageFileThumbnail[];
         /** @format int64 */
         duration?: number;
+        size: number,
         audioRecording?: boolean;
         videoRecording?: boolean;
         waveform?: number[];
@@ -848,7 +862,7 @@ export namespace V1 {
          * @maxItems 8
          * @minItems 1
          */
-        participantIds?: string[];
+        participantIds: string[];
         /**
          * @maxItems 8
          * @minItems 0

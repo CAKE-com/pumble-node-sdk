@@ -145,6 +145,16 @@ class PumbleApiClient {
         return result;
     }
 
+    public async rotateSecrets(appId: string): Promise<{ appKey: string; clientSecret: string; signingSecret: string }> {
+        await this.checkLogin();
+        const { data } = await this.client.put<{ appKey: string; clientSecret: string; signingSecret: string }>(
+            `/workspaces/${cliEnvironment.workspaceId}/workspaceUsers/${cliEnvironment.workspaceUserId}/apps/${appId}/secrets/rotate`,
+            null,
+            { headers: { Authtoken: cliEnvironment.accessToken } }
+        );
+        return data;
+    }
+
     public async getWorkspaceInfo() {
         const { data: result } = await this.client.get<{ id: string; name: string }>(
             `/workspaces/${cliEnvironment.workspaceId}/info`

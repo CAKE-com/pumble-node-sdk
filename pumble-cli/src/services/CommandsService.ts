@@ -165,6 +165,65 @@ class CommandsService {
         }
     }
 
+    public async rotateSecrets(globalConfigFile: string) {
+        try {
+            await this.loadEnvironment(globalConfigFile);
+            if (!cliLogin.isLoggedIn()) {
+                const { confirmLogin } = await prompts([
+                    {
+                        name: 'confirmLogin',
+                        type: 'confirm',
+                        message: 'You are not logged in. Would you like to log in now?',
+                        initial: true,
+                    },
+                ]);
+                if (!confirmLogin) {
+                    throw new Error('You must be logged in to rotate secrets');
+                }
+                await cliLogin.login();
+            }
+            const targetAppId = process.env.PUMBLE_APP_ID;
+            if (!targetAppId) {
+                throw new Error('No app is currently connected. Please connect your app first using "pumble-cli connect"');
+            }
+
+            const { confirmRotation } = await prompts([
+                {
+                    name: 'confirmRotation',
+                    type: 'confirm',
+                    message: `Are you sure you want to rotate secrets for app "${targetAppId}" in workspace "${cliEnvironment.workspaceId}"? This will invalidate all existing secrets immediately.`,
+                    initial: false,
+                },
+            ]);
+            if (!confirmRotation) {
+                logger.warning('Secrets rotation cancelled');
+                return;
+            }
+
+            logger.info(`Rotating secrets for app ${targetAppId}...`);
+            const rotated = await cliPumbleApiClient.rotateSecrets(targetAppId);
+            
+            logger.success('Secrets rotated successfully!');
+            console.log(
+                table([
+                    ['App Key', rotated.appKey],
+                    ['Client Secret', rotated.clientSecret],
+                    ['Signing Secret', rotated.signingSecret],
+                ])
+            );
+
+            await cliEnvironment.setLocalEnvironment({
+                PUMBLE_APP_ID: targetAppId,
+                PUMBLE_APP_KEY: rotated.appKey,
+                PUMBLE_APP_CLIENT_SECRET: rotated.clientSecret,
+                PUMBLE_APP_SIGNING_SECRET: rotated.signingSecret,
+            });
+            logger.info('Updated local environment (.pumbleapprc) with new secrets');
+        } catch (err) {
+            this.handleCommandError(err);
+        }
+    }
+
     private async loadEnvironment(globalConfigFile: string) {
         cliGlobals.globalConfigFile = globalConfigFile;
         await cliEnvironment.loadEnvironment();

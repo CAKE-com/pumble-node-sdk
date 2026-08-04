@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i');
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --text-high: rgba(0, 0, 0, 0.87);;
+                --text-medium: rgba(0, 0, 0, 0.54);
+                --secondary-surface: rgba(242, 246, 248, 1);
+                --surface: rgba(255, 255, 255, 1);
+                --separator: rgba(198, 210, 217, 0.5);
+                --on-surface-secondary: rgb(179, 229, 252);
+                --person-mention-text: rgb(2, 88, 127);
+                --channel-mention-bakcground: rgba(255, 249, 196, 1);
+                --channel-mention-text: rgba(133, 79, 0, 1);
+                --logo-pumble: url("/icon?type=logoLight");
+                --icon-arrow: url("/icon?type=arrowLight");
+                --icon-arrow-down: url("/icon?type=arrowDownLight");
+                --item-selected: rgba(69, 90, 100, 0.24);
+                --hover-on-secondary: rgba(198, 210, 217, 0.3);
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --text-high: rgba(255, 255, 255, 0.87);
+                --text-medium: rgba(255, 255, 255, 0.54);
+                --secondary-surface: rgba(18, 25, 29, 1);
+                --surface: rgba(38, 50, 56, 1);
+                --separator: rgba(84, 110, 122, 0.4);
+                --on-surface-secondary: rgb(2, 119, 189);
+                --person-mention-text: rgb(255, 255, 255);
+                --channel-mention-bakcground: rgba(255, 193, 7, 1);
+                --channel-mention-text: rgba(133, 79, 0, 1);
+                --logo-pumble: url("/icon?type=logoDark");
+                --icon-arrow: url("/icon?type=arrowDark");
+                --icon-arrow-down: url("/icon?type=arrowDownDark");
+                --item-selected: rgba(255, 255, 255, 0.24);
+                --hover-on-secondary: rgba(255, 255, 255, 0.08);
+            }
+        }
+
+        body {
+            min-height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--secondary-surface);
+            color: var(--text-high);
+        }
+
+        button {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .container {
+            margin-top: 50px;
+            width: 800px;
+            border-radius: 8px;
+            background-color: var(--surface);
+            border: 1px solid var(--separator);
+            box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.07);
+
+        }
+
+        .paddedContainer {
+            padding: 20px;
+            min-height: 300px;
+        }
+
+        .pollHeader {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            padding: 20px;
+            border-bottom: 1px var(--separator) solid;
+        }
+
+        .headerText {
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 32px;
+        }
+
+        .pollFooter {
+            padding: 20px 40px;
+            border-top: 1px var(--separator) solid;
+        }
+
+        .button {
+            background-color: var(--surface);
+            color: var(--text-high);
+            border: 1px var(--separator) solid;
+            padding: 6px 8px;
+            text-align: center;
+            display: inline-block;
+            font-size: 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            min-width: 120px;
+            white-space: nowrap;
+            margin-left: 10px;
+            line-height: 1;
+        }
+
+        .button:hover {
+            background-color: var(--hover-on-secondary);
+        }
+
+        .pollQuestion {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0 20px;
+            line-height: 20px;
+        }
+
+        .answer {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px var(--separator) solid;
+            padding: 10px 0;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .answerElem {
+            display: flex;
+            align-items: center;
+        }
+
+        .answerElem svg {
+            min-width: 24px;
+        }
+
+        .answerInfo {
+            display: flex;
+            justify-content: space-between;
+            border-radius: 4px;
+            min-height: 32px;
+            padding: 0 10px;
+        }
+
+        .answerInfo:hover {
+            background-color: var(--hover-on-secondary);
+        }
+
+        .voteCount {
+            padding-right: 15px;
+            color: var(--text-medium);
+            white-space: nowrap;
+            padding-left: 5px;
+        }
+
+        .pumbleLogo {
+            background-image: var(--logo-pumble);
+            width: 121px;
+            height: 32px;
+            background-size: contain;
+        }
+
+        .arrow {
+            background-image: var(--icon-arrow);
+            width: 20px;
+            height: 20px;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            padding-bottom: 3px;
+        }
+
+        .expanded .arrow {
+            background-image: var(--icon-arrow-down);
+        }
+
+        .expanded .answerInfo {
+            background-color: var(--item-selected);
+        }
+
+        .mentionContainer {
+            flex-wrap: wrap;
+            display: none;
+            cursor: auto;
+        }
+
+        .expanded .mentionContainer {
+            display: flex;
+        }
+
+        .mention {
+            background-color: var(--on-surface-secondary);
+            color: var(--person-mention-text);
+            font-size: 14px;
+            border-radius: 4px;
+            margin: 10px 5px 0;
+            display: flex;
+            padding: 6px;
+            line-height: 20px;
+        }
+
+        .mention img {
+            border-radius: 4px;
+        }
+
+        .question {
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .question .user {
+            background-color: var(--on-surface-secondary);
+            color: var(--person-mention-text);
+            border-radius: 4px;
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+
+        .question .channel {
+            background-color: var(--channel-mention-bakcground);
+            color: var(--channel-mention-text);
+            border-radius: 4px;
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+
+        .question span {
+            font-weight: normal;
+        }
+
+        .answerText {
+            margin-left: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 24px;
+            text-align: left;
+        }
+
+
+        @media only screen and (max-width: 600px) {
+            body {
+                display: inline-block;
+                width: 100%;
+            }
+
+            .container {
+                width: auto;
+                border: none;
+                border-radius: 0;
+                margin-top: 0;
+            }
+
+            .question {
+                font-size: 1em;
+            }
+
+            .answerText {
+                font-size: .95em;
+            }
+
+            .answer {
+                padding-top: 17px;
+                padding-bottom: 17px;
+            }
+
+            .mentionContainer {
+                padding-top: 0;
+            }
+
+        }
+    </style>
+    <title>Poll Results</title>
+</head>
+<body>
+<div class="container">
+    <div class="pollHeader">
+        <span class="pumbleLogo"></span>
+        <span class="headerText">Poll results</span>
+    </div>
+    <div class="paddedContainer">
+        <div class="pollQuestion">
+            <span class="question">
+                {{{question}}}
+            </span>
+            <button id="expandButton" class="button">Expand all</button>
+        </div>
+        <div class="answerContainer">
+            {{#answers}}
+            <div class="answer">
+                {{#topAnswer}}
+                <div class="answerInfo topAnswer">
+                    <div class="answerElem">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 17.77L18.18 21.5L16.54 14.47L22 9.74L14.81 9.13L12 2.5L9.19 9.13L2 9.74L7.46 14.47L5.82 21.5L12 17.77Z"
+                                  fill="#EC6E06"/>
+                        </svg>
+
+                        <span class="answerText">{{text}}</span>
+                    </div>
+                    <div class="answerElem">
+                        <span class="voteCount">{{voteCount}}</span>
+                        <span class="arrow"></span>
+                    </div>
+                </div>
+                {{/topAnswer}}
+                {{^topAnswer}}
+                <div class="answerInfo">
+                    <div class="answerElem">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M6 12C6 8.69 8.69 6 12 6C15.31 6 18 8.69 18 12C18 15.31 15.31 18 12 18C8.69 18 6 15.31 6 12ZM8 12C8 14.21 9.79 16 12 16C14.21 16 16 14.21 16 12C16 9.79 14.21 8 12 8C9.79 8 8 9.79 8 12Z"
+                                  fill="#C6D2D9" fill-opacity="0.5"/>
+                        </svg>
+
+                        <span class="answerText">{{text}}</span>
+                    </div>
+                    <div class="answerElem">
+                        <span class="voteCount">{{voteCount}}</span>
+                        <span class="arrow"></span>
+                    </div>
+                </div>
+                {{/topAnswer}}
+                <div class="mentionContainer">
+                    {{#voters}}
+                    <span class="mention">
+                        {{{avatar}}}
+                        <span style="padding-left: 7px">@{{name}}</span>
+                    </span>
+                    {{/voters}}
+                </div>
+            </div>
+            {{/answers}}
+        </div>
+    </div>
+    <div class="pollFooter">
+        <span>{{pollState}} on {{dateTimeEnds}}, by </span>
+        <span style="font-weight: 600">{{creator}}</span>
+    </div>
+</div>
+</body>
+<script>
+    document.querySelectorAll('.mentionContainer').forEach(el => el.addEventListener('click', event => {
+        event.stopImmediatePropagation();
+    }));
+
+    document.querySelectorAll('.answer').forEach(el => el.addEventListener('click', event => {
+        // document.querySelectorAll('.answer').forEach(el => el.classList.remove('expanded'));
+        const answerElement = event.target.closest('.answer');
+        if (answerElement.classList.contains('expanded')) {
+            answerElement.classList.remove('expanded')
+        } else {
+            answerElement.classList.add('expanded');
+        }
+
+        let allExpanded = true;
+        let allCollapsed = true;
+        document.querySelectorAll('.answer').forEach(el => {
+            if (!el.classList.contains('expanded')) {
+                allExpanded = false;
+            }
+            if (el.classList.contains('expanded')) {
+                allCollapsed = false;
+            }
+        });
+
+        if (allExpanded) {
+            document.getElementById('expandButton').innerHTML = 'Collapse all';
+        } else if (allCollapsed) {
+            document.getElementById('expandButton').innerHTML = 'Expand all';
+        }
+    }));
+
+    document.getElementById('expandButton').onclick = (event) => {
+        if (event.target.innerHTML === 'Collapse all') {
+            document.querySelectorAll('.answer').forEach(el => el.classList.remove('expanded'));
+            event.target.innerHTML = 'Expand all';
+        } else {
+            document.querySelectorAll('.answer').forEach(el => el.classList.add('expanded'));
+            event.target.innerHTML = 'Collapse all';
+
+        }
+    }
+
+</script>
+</html>
