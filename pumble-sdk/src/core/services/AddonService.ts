@@ -802,8 +802,26 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
                 action
             });
         }
+        const closeView = async () => {
+            const payload = eventContext.payload;
+            const view = ('view' in payload) ? payload.view : undefined;
+            if (!view || view.type !== 'MODAL') {
+                throw new Error("closeView is only applicable for modals (not home views)");
+            }
+            const viewType = 'NATIVE';
+            const action = "CLOSE";
+            await response({
+                triggerId: eventContext.payload.triggerId,
+                view: {
+                    ...view,
+                    blocks: []
+                },
+                viewType,
+                action
+            });
+        }
 
-        return { updateView, pushModalView };
+        return { updateView, pushModalView, closeView };
     }
 
     private isStorageIntegrationModalCredentials(view: V1.StorageIntegrationModalCredentials | V1.View<"MODAL">): boolean {
