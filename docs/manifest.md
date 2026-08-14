@@ -116,7 +116,7 @@ with this json body see [Manifest Payload](#manifest-payload):
 ```
 
 :::info
-All the requests to manage your apps, need to you use `Authtoken` header. \
+All the requests to manage your apps, need to you use the `Authtoken` header. \
 You can find this value in `~/.pumblerc` file, under `PUMBLE_ACCESS_TOKEN` key, after you log in with `npx pumble-cli login`.
 :::
 
@@ -197,7 +197,7 @@ DELETE https://api-ga.pumble.com/workspaces/{workspace_id}/workspaceUsers/{works
 | helpUrl            | String                                | false    | null    | A valid URL that Pumble will link for you app in `Configure Apps` page                                                                                                                                                                                        |
 | listingUrl         | String                                | false    | null    | A valid URL that will open when user clicks on `Install` or `Authorize` in `Configure Apps` page. If this is not specified, Pumble will open the consent screen for you app, with all the scopes selected and the first `redirectUrl` in your `redirectUrls`. |
 | welcomeMessage     | String                                | false    | null    | This message, if specified, will be sent to all the users in the workspace when your app is first installed                                                                                                                                                   |
-| offlineMessage     | String                                | false    | null    | Whenver you app fails to respond to Pumble trigger requests, this message will be shown as an ephemeral message                                                                                                                                               |
+| offlineMessage     | String                                | false    | null    | Whenever your app fails to respond to Pumble trigger requests, this message will be shown as an ephemeral message                                                                                                                                             |
 
 
 ### Scopes

@@ -67,6 +67,14 @@ export class ViewBuilder<T extends ViewType> {
         return this;
     }
 
+    public updateShowIcon(showIcon: boolean): ViewBuilder<T> {
+        if (this.view.type === 'HOME') {
+            return this;
+        }
+        this.view = { ...this.view, showIcon };
+        return this;
+    }
+
     public updateSubmit(submit: BlockTextElement): ViewBuilder<T> {
         if (this.view.type === 'HOME') {
             return this;

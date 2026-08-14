@@ -7,7 +7,7 @@ Pumble's modals and views allow apps to create rich, interactive user interfaces
 | name          | type                                | optional | description                                                                                                                                                                     |
 |:--------------|:------------------------------------|----------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | id            | String                              | true     | Modal ID, output only.                                                                                                                                                          |
-| type          | String                              | false    | The type on modal. In this case it is always `MODAL`.                                                                                                                           |
+| type          | String                              | false    | The type of modal. In this case it is always `MODAL`.                                                                                                                           |
 | blocks        | [MainBlock](/blocks)[]              | false    | Definition of modal's content and layout. Can include `rich_text`, `input`, `actions`, `section` and `divider` blocks.                                                          |
 | title         | [TextElement](/blocks#text-element) | false    | A text object that defines the modal's title. Max length for the text field in this object is 75 characters.                                                                    |
 | state         | [State](#state)                     | true     | Object containing values of modal input fields (only `input` blocks contribute to state).                                                                                       |
@@ -15,6 +15,7 @@ Pumble's modals and views allow apps to create rich, interactive user interfaces
 | submit        | [TextElement](/blocks#text-element) | true     | A text object that defines the text of modal's submit button. Max length for the text field in this object is 75 characters. If omitted, a default submit button will be shown. |
 | close         | [TextElement](/blocks#text-element) | true     | A text object that defines the text of modal's close button. Max length for the text field in this object is 75 characters. If omitted, a default close button will be shown.   |
 | notifyOnClose | Boolean                             | false    | Specifies if the `onClose` handler should be triggered, when the modal is dismissed without submission.                                                                         |
+| showIcon      | Boolean                             | true     | Specifies if the app icon should be displayed in modal's header.                                                                                                                |
 | parentViewId  | String                              | true     | ID of the parent modal in a modal stack, from which the current modal is spawned.                                                                                               |
 
 <details>
@@ -112,7 +113,8 @@ Pumble's modals and views allow apps to create rich, interactive user interfaces
                 }
             }
         }
-    }
+    },
+    "showIcon": true
 }
 ```
 
@@ -232,6 +234,7 @@ ViewBuilder contains the following methods:
 | updateTitle         | (title: [TextElement](/blocks#text-element)) => ViewBuilder    | Replaces the existing view title with the new one.                                                     |
 | updateCallbackId    | (callbackId: String) => ViewBuilder                            | Changes the value of view's callback ID.                                                               |
 | updateNotifyOnClose | (notifyOnClose: Boolean) => ViewBuilder                        | Changes the value that indicates if an action should be displatched when the view is closed.           |
+| updateShowIcon      | (showIcon: Boolean) => ViewBuilder                             | Changes the value that indicates if the app icon should be displayed in the view's header.             |
 | updateSubmit        | (submit: [TextElement](/blocks#text-element)) => ViewBuilder   | Changes the content of view's submit button.                                                           |
 | removeSubmit        | () => ViewBuilder                                              | Removes submit button from the view.                                                                   |
 | updateClose         | (close: [TextElement](/blocks#text-element)) => ViewBuilder    | Changes the content of view's close button.                                                            |

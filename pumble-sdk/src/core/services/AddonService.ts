@@ -777,6 +777,7 @@ export class AddonService<T extends AddonManifest = AddonManifest> extends Event
             viewClose: modal?.close,
             viewNotifyOnClose: modal?.notifyOnClose,
             parentViewId: modal?.parentViewId,
+            showIcon: modal?.showIcon,
             viewBuilder: <T extends V1.ViewType>(view: V1.View<T>) => new ViewBuilder<T>(view)
         };
     }

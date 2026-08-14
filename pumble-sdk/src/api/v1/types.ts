@@ -37,6 +37,7 @@ export namespace V1 {
     export type BlockRichTextSection = {
         type: 'rich_text_section';
         elements: BlockBasic[];
+        heading?: 1 | 2 | 3;
     };
 
     export type BlockRichTextPreformatted = {
@@ -53,22 +54,22 @@ export namespace V1 {
         type: 'rich_text_list';
         border?: 0 | 1;
         offset?: number;
-        indent: 0 | 1 | 2 | 3 | 4;
-        style: "ordered" | "bullet"
+        indent: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+        style: "ordered" | "bullet" | "checked" | "unchecked";
         elements: BlockRichTextSection[];
     };
 
-    type TextStyle = { code?: boolean; bold?: boolean; strike?: boolean; italic?: boolean };
+    type TextStyle = { code?: boolean; bold?: boolean; strike?: boolean; italic?: boolean, underline?: boolean };
     type TextSize = 1 | 2 | 3;
 
     export type BlockBasic =
         | { type: 'link'; url: string; text?: string; raw?: boolean; style?: TextStyle, size?: TextSize }
         | { type: 'text'; text: string; unlinked?: boolean; style?: TextStyle, size?: TextSize }
         | { type: 'emoji'; name: string; skin_tone?: number }
-        | { type: 'usergroup'; usergroup_id: string }
-        | { type: 'user'; user_id: string }
-        | { type: 'channel'; channel_id: string }
-        | { type: 'broadcast'; range: 'channel' | 'here' };
+        | { type: 'usergroup'; usergroup_id: string, style?: TextStyle }
+        | { type: 'user'; user_id: string, style?: TextStyle }
+        | { type: 'channel'; channel_id: string, style?: TextStyle }
+        | { type: 'broadcast'; range: 'channel' | 'here', style?: TextStyle };
 
     export type BlockTextElement = {
         type: 'plain_text';
@@ -939,7 +940,8 @@ export namespace V1 {
         submit?: BlockTextElement,
         close?: BlockTextElement,
         notifyOnClose: boolean,
-        parentViewId?: string
+        parentViewId?: string,
+        showIcon?: boolean
     } : {})
 
     export type State = {

@@ -66,6 +66,7 @@ Rich Text Blocks are available in messages, modals and home views.
 |:---------|:---------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | type     | String   | true     | Block type. In this case, it is always `rich_text_section`.                                                                                                                                                                                                                                                                                            |
 | elements | Object[] | true     | An array of rich text elements, which can be the following: [Text Block](#text-block), [User Mention Block](#user-mention-block), [Channel Mention Block](#channel-mention-block), [User Group Mention Block](#user-group-mention-block), [Broadcast Mention Block](#broadcast-mention-block), [Link Block](#link-block), [Emoji Block](#emoji-block). |
+| heading  | Integer  | false    | Heading level for the section block. Possible values are `1`, `2`, `3`.                                                                                                                                                                                                                                                 |
 
 #### Text Block
 
@@ -92,10 +93,11 @@ Rich Text Blocks are available in messages, modals and home views.
 
 #### User Mention Block
 
-| name    | type   | required | description                                    |
-|:--------|:-------|:---------|:-----------------------------------------------|
-| type    | String | true     | Block type. In this case, it is always `user`. |
-| user_id | String | true     | ID of the mentioned user.                      |
+| name    | type                     | required | description                                    |
+|:--------|:-------------------------|:---------|:-----------------------------------------------|
+| type    | String                   | true     | Block type. In this case, it is always `user`. |
+| user_id | String                   | true     | ID of the mentioned user.                      |
+| style   | [TextStyle](#text-style) | false    | Style of the user mention text.                |
 
 <details>
 <summary>User Mention Block example</summary>
@@ -112,10 +114,11 @@ Results in: `@John Doe`
 
 #### Channel Mention Block
 
-| name       | type   | required | description                                       |
-|:-----------|:-------|:---------|:--------------------------------------------------|
-| type       | String | true     | Block type. In this case, it is always `channel`. |
-| channel_id | String | true     | ID of the mentioned channel.                      |
+| name       | type                     | required | description                                       |
+|:-----------|:-------------------------|:---------|:--------------------------------------------------|
+| type       | String                   | true     | Block type. In this case, it is always `channel`. |
+| channel_id | String                   | true     | ID of the mentioned channel.                      |
+| style      | [TextStyle](#text-style) | false    | Style of the channel mention text.                |
 
 <details>
 <summary>Channel Mention Block example</summary>
@@ -132,10 +135,11 @@ Results in: `#general`
 
 #### User Group Mention Block
 
-| name         | type   | required | description                                         |
-|:-------------|:-------|:---------|:----------------------------------------------------|
-| type         | String | true     | Block type. In this case, it is always `usergroup`. |
-| usergroup_id | String | true     | ID of the mentioned user group.                     |
+| name         | type                     | required | description                                         |
+|:-------------|:-------------------------|:---------|:----------------------------------------------------|
+| type         | String                   | true     | Block type. In this case, it is always `usergroup`. |
+| usergroup_id | String                   | true     | ID of the mentioned user group.                     |
+| style        | [TextStyle](#text-style) | false    | Style of the user group mention text.               |
 
 <details>
 <summary>User Group Mention Block example</summary>
@@ -152,10 +156,11 @@ Results in: `@backend-engineers`
 
 #### Broadcast Mention Block
 
-| name  | type   | required | description                                                                                   |
-|:------|:-------|:---------|:----------------------------------------------------------------------------------------------|
-| type  | String | true     | Block type. In this case, it is always `broadcast`.                                           |
-| range | String | true     | Corresponds to `@here` and `@channel` Pumble mentions. Possible values are `here`, `channel`. |
+| name  | type                     | required | description                                                                                   |
+|:------|:-------------------------|:---------|:----------------------------------------------------------------------------------------------|
+| type  | String                   | true     | Block type. In this case, it is always `broadcast`.                                           |
+| range | String                   | true     | Corresponds to `@here` and `@channel` Pumble mentions. Possible values are `here`, `channel`. |
+| style | [TextStyle](#text-style) | false    | Style of the broadcast mention text.                                                          |
 
 <details>
 <summary>Broadcast Mention Block example</summary>
@@ -304,12 +309,13 @@ Results in: 🍻
 
 ##### Text Style
 
-| name   | type    | description                                                       |
-|:-------|:--------|:------------------------------------------------------------------|
-| bold   | Boolean | Specifies if the displayed text should be **bolded**.             |
-| italic | Boolean | Specifies if the displayed text should be *italic*.               |
-| strike | Boolean | Specifies if the text should be displayed with ~strikethrough~.   |
-| code   | Boolean | Specifies if the text should be displayed as `inline code block`. |
+| name      | type    | description                                                       |
+|:----------|:--------|:------------------------------------------------------------------|
+| bold      | Boolean | Specifies if the displayed text should be **bolded**.             |
+| italic    | Boolean | Specifies if the displayed text should be *italic*.               |
+| strike    | Boolean | Specifies if the text should be displayed with ~strikethrough~.   |
+| code      | Boolean | Specifies if the text should be displayed as `inline code block`. |
+| underline | Boolean | Specifies if the text should be displayed with an **underline**.  |
 
 
 <details>
@@ -505,31 +511,39 @@ List items can consist of all available rich text elements, and all styling opti
 
 | name     | type                                    | required | description                                                                                                                                                                                                                                          |
 |:---------|:----------------------------------------|:---------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| type     | String                                  | true     | Block type. In this case, it is always `rich_text_section`                                                                                                                                                                                           |
+| type     | String                                  | true     | Block type. In this case, it is always `rich_text_list`                                                                                                                                                                                              |
 | elements | [RichTextSection](#rich-text-section)[] | true     | Each of those text sections represents one item in the list visually and can hold all the items a regular text section can.                                                                                                                          |
-| style    | String                                  | true     | Determines the type of the list, with `ordered` and `bullet` as possible values.                                                                                                                                                                     |
-| indent   | Integer                                 | true     | Determines the indentation level of the list. It accepts a value in the range from 0 to 4, inclusive.                                                                                                                                                |
+| style    | String                                  | true     | Determines the type of the list, with `ordered`, `bullet`, `checked`, and `unchecked` as possible values.                                                                                                                                            |
+| indent   | Integer                                 | true     | Determines the indentation level of the list. It accepts a value in the range from 0 to 8, inclusive.                                                                                                                                                |
 | border   | Integer                                 | false    | Determines if the list has a border on the leftmost side, similar to the quote section. Possible values are 0 for no border and 1 for a border to be displayed.                                                                                      |
 | offset   | Integer                                 | false    | Indicates that the list is a continuation of a previous list section of the same indent. Denotes how many items were in a previous list section(s), so that the UI can know where to continue counting the indices. Appears only in `ordered` lists. |
 
 The largest continuous run of list items with the same indent level will be formatted under the same list section. For an item with a different indent level, a new list section will be created.
 
-Ordered lists are enumerated based on their indent level. Lists indented with 0 and 3 use Arabic numerals as indexes, lists indented with 1 and 4 use alphabetical indexes, and lists indented with 2 use Roman numeral indexes.
+Ordered lists are enumerated based on their indent level. Lists indented with 0, 3, and 6 use Arabic numerals as indexes, lists indented with 1, 4, and 7 use alphabetical indexes, and lists indented with 2, 5, and 8 use Roman numeral indexes.
 <pre>
 1. indent 0  
     a. indent 1  
         i. indent 2  
             1. indent 3  
-                a. indent 4
+                a. indent 4  
+                    i. indent 5  
+                        1. indent 6  
+                            a. indent 7  
+                                i. indent 8
 </pre>
 
-Unordered lists have three different bullet types: a filled circle '●' for indents 0 and 3, an empty circle '○' for indents 1 and 4, and a filled square '■' for indent 2.
+Unordered lists have three different bullet types: a filled circle '●' for indents 0, 3, and 6, an empty circle '○' for indents 1, 4, and 7, and a filled square '■' for indents 2, 5, and 8.
 <pre>
 ● indent 0  
     ○ indent 1  
         ■ indent 2  
             ● indent 3  
-                ○ indent 4
+                ○ indent 4  
+                    ■ indent 5  
+                        ● indent 6  
+                            ○ indent 7  
+                                ■ indent 8
 </pre>
 
 <details>

@@ -132,6 +132,7 @@ export type ViewPayloadContext = {
     viewSubmit?: V1.BlockTextElement;
     viewClose?: V1.BlockTextElement;
     parentViewId?: string;
+    showIcon?: boolean;
     viewBuilder: <T extends V1.ViewType>(view: V1.View<T>) => ViewBuilder<T>;
 }
 

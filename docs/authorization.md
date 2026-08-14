@@ -25,7 +25,6 @@ After user authorizes, they will be redirected to the specified `redirectUrl`, t
 Using this code and your `clientSecret` provided when [creating your app](/manifest) you will be able to generate the access token for that user and for your bot.
 
 ```sh
-curl 
 curl --location 'https://api-ga.pumble.com/oauth2/access' \
 --form 'client-id="<YOUR CLIENT ID>"' \
 --form 'client-secret="<YOUR CLIENT SECRET>"' \
