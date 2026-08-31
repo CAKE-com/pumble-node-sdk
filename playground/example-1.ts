@@ -338,6 +338,23 @@ const app: App = {
                 await client.v1.app.publishHomeView(ctx.payload.userId, payload)
             }
         },
+        {
+            command: '/slash_10',
+            handler: async (ctx) => {
+                await ctx.ack();
+                const client = await ctx.getBotClient();
+                if (!client) {
+                    return;
+                }
+
+                const result = await client.v1.channels.checkPostingPermissions(ctx.payload.channelId, {
+                    botId: client.workspaceUserId,
+                    userId: ctx.payload.text
+                });
+
+                console.log(result)
+            }
+        }
     ],
     globalShortcuts: [
         {
