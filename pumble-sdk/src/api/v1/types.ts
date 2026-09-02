@@ -537,6 +537,7 @@ export namespace V1 {
         mobileNotificationPreferences: string;
         notifyAboutRepliesInThreads?: boolean;
         addedById?: string;
+        managerIds: string[];
     }
 
     export interface ChannelInfo {
@@ -566,6 +567,16 @@ export namespace V1 {
         blockedUserIds: string[];
         blockedGroupIds: string[];
         blockGuests: boolean;
+    }
+
+    export interface PostingPermissionsEvaluationRequestBody {
+        botId: string;
+        userId: string
+    }
+
+    export interface PostingPermissionsEvaluation {
+        isBotAllowed: boolean;
+        isUserAllowed: boolean;
     }
 
     export interface AddUsersToChannelRequestBody {
