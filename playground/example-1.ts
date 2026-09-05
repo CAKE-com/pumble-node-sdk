@@ -82,6 +82,7 @@ const app: App = {
                             .updateCallbackId('otherViewCallback')
                             .updateSubmit({ type: 'plain_text', text: 'New submit button' })
                             .removeClose()
+                            .updateShowIcon(false)
                             .updateState({
                                 values: {
                                     input_static_1: {
@@ -388,6 +389,7 @@ const app: App = {
                     title: {type: "plain_text", text: "Title"},
                     close: {type: "plain_text", text: "Close"},
                     notifyOnClose: true,
+                    showIcon: true,
                     state: {
                         values: {
                             input_static_1: {
