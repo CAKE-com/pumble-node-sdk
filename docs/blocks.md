@@ -725,10 +725,10 @@ Action Block holds interactive elements (buttons, select menus, checkboxes, date
 
 It is available for messages, modals and home views.
 
-| name     | type     | description                                                                                                                                                                                                                                                                         |
-|:---------|:---------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| type     | String   | Block type. In this case, it is always `actions`.                                                                                                                                                                                                                                   |
-| elements | Object[] | An array of interactive element blocks, which can be the following: [Button](#button), [Plain Text Input](#plain-text-input), [Dynamic Select Menu](#dynamic-select-menu), [Checkbox Group](#checkbox-group), [Date Picker](#date-picker), [Date Range Picker](#date-range-picker). |
+| name     | type     | description                                                                                                                                                                                                                                                                                                                    |
+|:---------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| type     | String   | Block type. In this case, it is always `actions`.                                                                                                                                                                                                                                                                              |
+| elements | Object[] | An array of interactive element blocks, which can be the following: [Button](#button), [Plain Text Input](#plain-text-input), [Static Select Menu](#static-select-menu), [Dynamic Select Menu](#dynamic-select-menu), [Checkbox Group](#checkbox-group), [Date Picker](#date-picker), [Date Range Picker](#date-range-picker). |
 
 ### Button
 
