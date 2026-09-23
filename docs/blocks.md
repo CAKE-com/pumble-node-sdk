@@ -477,7 +477,6 @@ The code block section (`type: "rich_text_preformatted"`) also has the `elements
         "elements": [
             {
                 "type": "rich_text_preformatted",
-                "border": 0,
                 "elements": [
                     {
                         "type": "text",
