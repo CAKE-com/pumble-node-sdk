@@ -5,7 +5,7 @@
     "description": "",
     "scripts": {
         "compile": "tsc",
-        "publish-package": "npm publish"
+        "publish-package": "npm publish --provenance --access public"
     },
     "files": [
         "lib",
@@ -14,7 +14,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "git@github.com:CAKE-com/pumble-node-sdk.git"
+        "url": "git+https://github.com/CAKE-com/pumble-node-sdk.git"
     },
     "keywords": [
         "pumble",

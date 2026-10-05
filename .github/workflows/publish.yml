@@ -12,6 +12,9 @@ jobs:
     if: github.repository == 'CAKE-com/pumble-node-sdk'
     environment: Production
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -20,11 +23,14 @@ jobs:
         id: vars
         run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
-      - name: Set node version to 16
+      - name: Set node version to 22
         uses: actions/setup-node@v4
         with:
-          node-version: "16.x"
+          node-version: "22.x"
           registry-url: "https://registry.npmjs.org"
+
+      - name: Ensure latest npm (required for OIDC trusted publishing)
+        run: npm install -g npm@latest
 
       - name: Prepare SDK
         run: cd pumble-sdk && npm install && npm run compile && cd ..
@@ -51,10 +57,6 @@ jobs:
 
       - name: Publish SDK
         run: cd pumble-sdk && npm run publish-package && cd ..
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish CLI
         run: cd pumble-cli && npm run publish-package && cd ..
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
