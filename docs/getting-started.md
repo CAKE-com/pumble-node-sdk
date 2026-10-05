@@ -166,6 +166,8 @@ const addon: App = {
     tokenStore: new JsonFileTokenStore("tokens.json"),
     welcomeMessage: 'Welcome!',
     offlineMessage: 'App cannot respond at this moment. Please try again later.',
+    helpUrl: 'https://yourapp.domain/help',
+    avatarUrl: 'https://yourapp.domain/avatar.png',
     onServerConfiguring: (e, addon) => { 
         // ... 
     }
