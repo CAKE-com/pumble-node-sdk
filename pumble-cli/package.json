@@ -5,14 +5,14 @@
     "main": "dist/index.js",
     "scripts": {
         "compile": "tsc",
-        "publish-package": "npm publish"
+        "publish-package": "npm publish --provenance --access public"
     },
     "bin": {
         "pumble-cli": "./bin/pumble-cli"
     },
     "repository": {
         "type": "git",
-        "url": "git@github.com:CAKE-com/pumble-node-sdk.git"
+        "url": "git+https://github.com/CAKE-com/pumble-node-sdk.git"
     },
     "keywords": [
         "pumble",
