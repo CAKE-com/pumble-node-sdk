@@ -19,7 +19,7 @@ https://{APP_HOST_URL}/manifest
 
 Pumble apps can be published as `Public` or `Private`. 
 `Public` apps are available to all Pumble workspaces for installation, while `Private` apps are only available to a given list of whitelisted workspaces.
-If you wish to make you app `Public`, it needs to go through the review process before publishing, while a `Private` app can be published immediately.
+If you wish to make your app `Public`, it needs to go through the review process before publishing, while a `Private` app can be published immediately.
 
 Once the app is published, it is not possible to change its visibility.
 
@@ -29,11 +29,11 @@ After you've published your app to CAKE.com Marketplace or submitted it for revi
 That means it won't be possible to call the [Update App endpoint](/manifest#updating-an-app) or to have `pumble-cli` watch manifest changes and automatically update it.
 However, it will still be possible to modify the app functionality without any additional submissions to CAKE.com Marketplace, as long as it does not require any changes to the manifest.
 
-If you want to modify the app's manifest and test the new behavior, it is recommended that you create a new, unpublished app which will be a clone of your exising app, and verify the behavior there.
+If you want to modify the app's manifest and test the new behavior, it is recommended that you create a new, unpublished app which will be a clone of your existing app, and verify the behavior there.
 After verifying that everything works as expected, you can re-deploy your app to production environment, with the manifest changes included.
 At this point, the manifest changes will be visible on the URL where the manifest is served by `pumble-sdk`, they just won't be registered on Pumble yet.
 
-To register the app's new manifest on Pumble, create a new version of you app via CAKE.com Marketplace [developers portal](https://developer.marketplace.cake.com).
+To register the app's new manifest on Pumble, create a new version of your app via CAKE.com Marketplace [developers portal](https://developer.marketplace.cake.com).
 In case your app is `Public`, it will need to go through the review process before publishing each new version, while that is not required for `Private` apps.
 
 If your newly published app version requires additional scopes, users will automatically receive a message prompting them to reauthorize and approve the new scopes. 

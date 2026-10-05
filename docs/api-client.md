@@ -1,6 +1,6 @@
 # API Client
 
-`pumble-sdk` provides an API client (`ApiClient`) for easier interaction the Pumble API. 
+`pumble-sdk` provides an API client (`ApiClient`) for easier interaction with the Pumble API. 
 `ApiClient` contains methods that perform respective API calls, which can be done on behalf of either a user or a bot.
 
 Every Request to Pumble API must be sent with two headers:
