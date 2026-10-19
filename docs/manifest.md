@@ -44,14 +44,14 @@ with this json body see [Manifest Payload](#manifest-payload):
     "shortcuts": [
         {
             "shortcutType": "ON_MESSAGE",
-            "url": "https://myapp.com/onmessage",
+            "url": "https://yourapp.domain/onmessage",
             "name": "message_shortcut",
             "displayName": "Message Shortcut",
             "description": "Message Shortcut Description"
         },
         {
             "shortcutType": "GLOBAL",
-            "url": "https://myapp.com/global",
+            "url": "https://yourapp.domain/global",
             "name": "global_shortcut",
             "displayName": "Global Shortcut",
             "description": "Global Shortcut Description"
@@ -60,13 +60,13 @@ with this json body see [Manifest Payload](#manifest-payload):
     "slashCommands": [
         {
             "command": "/my_slash_command",
-            "url": "https://myapp.com/slash",
+            "url": "https://yourapp.domain/slash",
             "description": "Google Calendar commands",
             "usageHint": "/my_slash_command [first][second]"
         }
     ],
     "eventSubscriptions": {
-        "url": "https://myapp.com/events",
+        "url": "https://yourapp.domain/events",
         "events": [
             "APP_UNAUTHORIZED",
             "APP_UNINSTALLED",
@@ -74,14 +74,14 @@ with this json body see [Manifest Payload](#manifest-payload):
         ]
     },
     "blockInteraction": {
-        "url": "https://myapp.com/block_interaction"
+        "url": "https://yourapp.domain/block_interaction"
     },
     "viewAction": {
-        "url": "https://myapp.com/view_action"
+        "url": "https://yourapp.domain/view_action"
     },
     "dynamicMenus": [
         {
-            "url": "https://myapp.com/dynamic_menu",
+            "url": "https://yourapp.domain/dynamic_menu",
             "onAction": "onDynamicItemSelect"
         }
     ],
@@ -106,10 +106,11 @@ with this json body see [Manifest Payload](#manifest-payload):
         ]
     },
     "redirectUrls": [
-        "https://myapp.com/redirect"
+        "https://yourapp.domain/redirect"
     ],
-    "helpUrl": "https://myapp.com/help",
-    "listingUrl": "https://myapp.com/install-on-pumble",
+    "helpUrl": "https://yourapp.domain/help",
+    "avatarUrl": "https://yourapp.domain/avatar.png",
+    "listingUrl": "https://yourapp.domain/install-on-pumble",
     "welcomeMessage": "Hello :wave:",
     "offlineMessage": "We are experiencing some issues at the moment. Please try again later"
 }
@@ -195,6 +196,7 @@ DELETE https://api-ga.pumble.com/workspaces/{workspace_id}/workspaceUsers/{works
 | defaultHomeView    | [DefaultHomeView](#defaulthomeview)   | false    | null    | Your app's default home view. It will be displayed to all workspace users after the app is installed, until it is overriden by a custom home view.                                                                                                            |
 | redirectUrls       | String[]                              | true     | -       | The list of redirect URLs that will be used to authorize your app. See [Authorization](/authorization).                                                                                                                                                       |
 | helpUrl            | String                                | false    | null    | A valid URL that Pumble will link for you app in `Configure Apps` page                                                                                                                                                                                        |
+| avatarUrl          | String                                | false    | null    | A publicly accessible image URL that will be used as your app's avatar (and its bot's avatar, if `bot` is `true`). If omitted, the current avatar is left unchanged.                                                                                          |
 | listingUrl         | String                                | false    | null    | A valid URL that will open when user clicks on `Install` or `Authorize` in `Configure Apps` page. If this is not specified, Pumble will open the consent screen for you app, with all the scopes selected and the first `redirectUrl` in your `redirectUrls`. |
 | welcomeMessage     | String                                | false    | null    | This message, if specified, will be sent to all the users in the workspace when your app is first installed                                                                                                                                                   |
 | offlineMessage     | String                                | false    | null    | Whenver you app fails to respond to Pumble trigger requests, this message will be shown as an ephemeral message                                                                                                                                               |

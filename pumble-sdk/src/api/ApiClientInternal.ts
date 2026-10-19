@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { OAuth2Client } from '../auth';
-import { PUMBLE_API_URL } from '../constants';
+import { PUMBLE_API_URL, PUMBLE_HEADERS } from '../constants';
 import { InteractionsClientInternalV1 } from "./v1/InteractionsClientInternalV1";
 
 export class ApiClientInternal {
@@ -23,6 +23,7 @@ export class ApiClientInternal {
                 'content-type': 'application/json',
                 token: client.accessToken,
                 'x-app-token': client.appKey,
+                ...PUMBLE_HEADERS,
             },
         });
         this.v1 = {

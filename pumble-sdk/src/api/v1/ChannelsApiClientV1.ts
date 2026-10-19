@@ -10,6 +10,7 @@ export class ChannelsApiClientV1 extends BaseApiClient {
         createChannel: () => `/v1/channels`,
         addUsersToChannel: (channelId: string) => `/v1/channels/${channelId}/users`,
         removeUserFromChannel: (channelId: string, userId: string) => `/v1/channels/${channelId}/users/${userId}`,
+        checkPostingPermissions: (channelId: string) => `/v1/channels/${channelId}/permissions`
     };
 
     public async getDirectChannel(withUsers: string[]): Promise<V1.ChannelInfo> {
@@ -66,6 +67,14 @@ export class ChannelsApiClientV1 extends BaseApiClient {
         return this.request({
             url: this.urls.removeUserFromChannel(channelId, userId),
             method: 'DELETE',
+        });
+    }
+
+    public async checkPostingPermissions(channelId: string, data: V1.PostingPermissionsEvaluationRequestBody): Promise<V1.PostingPermissionsEvaluation> {
+        return this.request<V1.PostingPermissionsEvaluation>({
+            url: this.urls.checkPostingPermissions(channelId),
+            method: 'POST',
+            data,
         });
     }
 }

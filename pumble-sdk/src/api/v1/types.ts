@@ -532,10 +532,12 @@ export namespace V1 {
         isInitial?: boolean;
         sectionId?: string;
         postingPermissions: PostingPermissions;
+        postingPermissionsV2: PostingPermissionsV2;
         desktopNotificationPreferences: string;
         mobileNotificationPreferences: string;
         notifyAboutRepliesInThreads?: boolean;
         addedById?: string;
+        managerIds: string[];
     }
 
     export interface ChannelInfo {
@@ -554,6 +556,27 @@ export namespace V1 {
         allowMentions?: boolean;
         postingPermissionsGroup?: string;
         workspaceUserIds?: string[];
+    }
+
+    export interface PostingPermissionsV2 {
+        allowThreads: boolean;
+        allowMentions: boolean;
+        postingPermissionsGroup: string;
+        allowedUserIds: string[];
+        allowedGroupIds: string[];
+        blockedUserIds: string[];
+        blockedGroupIds: string[];
+        blockGuests: boolean;
+    }
+
+    export interface PostingPermissionsEvaluationRequestBody {
+        botId: string;
+        userId: string
+    }
+
+    export interface PostingPermissionsEvaluation {
+        isBotAllowed: boolean;
+        isUserAllowed: boolean;
     }
 
     export interface AddUsersToChannelRequestBody {

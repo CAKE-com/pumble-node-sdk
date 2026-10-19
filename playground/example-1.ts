@@ -343,6 +343,23 @@ const app: App = {
         },
         {
             command: '/slash_10',
+            handler: async (ctx) => {
+                await ctx.ack();
+                const client = await ctx.getBotClient();
+                if (!client) {
+                    return;
+                }
+
+                const result = await client.v1.channels.checkPostingPermissions(ctx.payload.channelId, {
+                    botId: client.workspaceUserId,
+                    userId: ctx.payload.text
+                });
+
+                console.log(result)
+            }
+        },
+        {
+            command: '/slash_11',
             description: 'Opens a modal with a static select menu that closes the modal upon selection',
             handler: async (ctx) => {
                 await ctx.spawnModalView({

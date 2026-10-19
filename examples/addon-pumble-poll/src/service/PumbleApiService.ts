@@ -21,16 +21,19 @@ class PumbleApiService {
 
         const userProfile = await userClient!.v1.users.userInfo(userId);
 
-        let postingPermissions = channelDetails.channel.postingPermissions;
+        let postingPermissions = channelDetails.channel.postingPermissionsV2;
         let postingPermissionsGroup = postingPermissions.postingPermissionsGroup;
-        if (postingPermissionsGroup === 'EVERYONE' || postingPermissionsGroup === 'EVERYONE_BUT_GUESTS') {
-            return {canBotPost: true, canUserPost: true};
-        } else {
+        if (postingPermissionsGroup === 'EVERYONE') {
             return {
-                canBotPost: postingPermissions.workspaceUserIds!.includes(botUserId!),
-                canUserPost: userProfile.role === 'ADMINISTRATOR' || userProfile.role === 'OWNER' || postingPermissions.workspaceUserIds!.includes(userId)
+                canBotPost: !postingPermissions.blockedUserIds!.includes(botUserId),
+                canUserPost: !postingPermissions.blockedUserIds!.includes(userId)
             };
         }
+
+        return {
+            canBotPost: postingPermissions.allowedUserIds!.includes(botUserId!),
+            canUserPost: userProfile.role === 'ADMINISTRATOR' || userProfile.role === 'OWNER' || postingPermissions.allowedUserIds!.includes(userId)
+        };
     }
 
     public async isAuthorized(userId: string, workspaceId: string): Promise<boolean> {
