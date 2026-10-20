@@ -117,6 +117,7 @@ export type ViewContext = {
 export type ViewActionFunctionContext = {
     updateView: ResponseCallback<V1.View<"MODAL" | "HOME">>
     pushModalView: ResponseCallback<V1.View<"MODAL">>
+    closeView: () => Promise<void>
 };
 
 export type ViewActionContext = EventContext<ViewActionPayload> & AcknowledgeContext & ViewContext & ViewPayloadContext;
