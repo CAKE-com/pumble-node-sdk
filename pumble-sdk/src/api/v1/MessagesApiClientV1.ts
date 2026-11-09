@@ -40,6 +40,7 @@ export class MessagesApiClientV1 extends BaseApiClient {
         editScheduledMessage: (scheduledMessageId: string) => `/v1/messages/scheduled/${scheduledMessageId}`,
         editScheduledMessageAttachments: (scheduledMessageId: string) => `/v1/messages/scheduled/${scheduledMessageId}/attachments`,
         deleteScheduledMessage: (scheduledMessageId: string) => `/v1/messages/scheduled/${scheduledMessageId}`,
+        createDraft: () => '/v1/messages/drafts',
     };
 
     public async fetchMessage(messageId: string, channelId: string): Promise<V1.Message> {
@@ -297,5 +298,13 @@ export class MessagesApiClientV1 extends BaseApiClient {
 
     public async deleteScheduledMessage(scheduledMessageId: string) {
         await this.request<void>({ method: 'delete', url: this.urls.deleteScheduledMessage(scheduledMessageId) });
+    }
+
+    public async createDraft(request: V1.CreateDraftRequest): Promise<V1.Draft> {
+        return await this.request<V1.Draft>({
+            method: 'post',
+            url: this.urls.createDraft(),
+            data: request
+        });
     }
 }

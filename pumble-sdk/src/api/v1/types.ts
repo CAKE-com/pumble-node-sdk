@@ -985,7 +985,24 @@ export namespace V1 {
         googleAccessToken: string,
         googleAppId: string,
         googleApiKey: string,
-        googleClientId: string
+        googleClientId: string,
+        googlePickerUrl?: string
+    }
+
+    export interface CreateDraftRequest {
+        text: string,
+        channelId: string,
+        threadRootId?: string
+    }
+
+    export type DraftWriteOutcome = 'CREATED' | 'UPDATED' | 'SKIPPED_NOT_EMPTY';
+
+    export interface Draft {
+        id: string,
+        channelId: string,
+        threadRootId?: string,
+        text?: string,
+        outcome: DraftWriteOutcome
     }
 
     export type CompleteInteractionProcessingRequest = {
