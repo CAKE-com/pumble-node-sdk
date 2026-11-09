@@ -1001,7 +1001,7 @@ export namespace V1 {
         id: string,
         channelId: string,
         threadRootId?: string,
-        text?: string,
+        text: string,
         outcome: DraftWriteOutcome
     }
 
