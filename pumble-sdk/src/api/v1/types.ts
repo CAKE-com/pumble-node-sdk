@@ -995,7 +995,7 @@ export namespace V1 {
         threadRootId?: string
     }
 
-    export type DraftWriteOutcome = 'CREATED' | 'UPDATED' | 'SKIPPED_NOT_EMPTY';
+    export type DraftWriteOutcome = 'CREATED' | 'SKIPPED_NOT_EMPTY';
 
     export interface Draft {
         id: string,
