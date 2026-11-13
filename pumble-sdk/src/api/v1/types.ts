@@ -989,20 +989,43 @@ export namespace V1 {
         googlePickerUrl?: string
     }
 
-    export interface CreateDraftRequest {
-        text: string,
-        channelId: string,
-        threadRootId?: string
+    export interface DraftDestination {
+        channelId?: string,
+        users?: string[]
     }
 
-    export type DraftWriteOutcome = 'CREATED' | 'SKIPPED_NOT_EMPTY';
+    export interface DraftRequest {
+        text: string,
+        blocks?: BlockRichText[],
+        files?: string[],
+        destination: DraftDestination,
+        threadRootId?: string,
+        alsoSendToChannel?: boolean,
+        linksToSkipUnfurl?: string[]
+    }
+
+    export interface DraftFile {
+        id: string,
+        path: string,
+        name: string
+    }
 
     export interface Draft {
         id: string,
-        channelId: string,
-        threadRootId?: string,
+        workspaceId: string,
+        author: string,
         text: string,
-        outcome: DraftWriteOutcome
+        blocks: BlockRichText[],
+        files: DraftFile[],
+        lastUpdate: number,
+        destination: DraftDestination,
+        threadRootId?: string,
+        alsoSendToChannel: boolean,
+        linksToSkipUnfurl: string[]
+    }
+
+    export interface Drafts {
+        drafts: Draft[]
     }
 
     export type CompleteInteractionProcessingRequest = {

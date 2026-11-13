@@ -40,7 +40,10 @@ export class MessagesApiClientV1 extends BaseApiClient {
         editScheduledMessage: (scheduledMessageId: string) => `/v1/messages/scheduled/${scheduledMessageId}`,
         editScheduledMessageAttachments: (scheduledMessageId: string) => `/v1/messages/scheduled/${scheduledMessageId}/attachments`,
         deleteScheduledMessage: (scheduledMessageId: string) => `/v1/messages/scheduled/${scheduledMessageId}`,
+        fetchDrafts: () => '/v1/messages/drafts',
         createDraft: () => '/v1/messages/drafts',
+        editDraft: (draftId: string) => `/v1/messages/drafts/${draftId}`,
+        deleteDraft: (draftId: string) => `/v1/messages/drafts/${draftId}`,
     };
 
     public async fetchMessage(messageId: string, channelId: string): Promise<V1.Message> {
@@ -300,11 +303,34 @@ export class MessagesApiClientV1 extends BaseApiClient {
         await this.request<void>({ method: 'delete', url: this.urls.deleteScheduledMessage(scheduledMessageId) });
     }
 
-    public async createDraft(request: V1.CreateDraftRequest): Promise<V1.Draft> {
+    public async fetchDrafts(): Promise<V1.Drafts> {
+        return await this.request<V1.Drafts>({
+            method: 'get',
+            url: this.urls.fetchDrafts(),
+        });
+    }
+
+    public async createDraft(request: V1.DraftRequest): Promise<V1.Draft> {
         return await this.request<V1.Draft>({
             method: 'post',
             url: this.urls.createDraft(),
             data: request
+        });
+    }
+
+    public async editDraft(draftId: string, request: V1.DraftRequest): Promise<V1.Draft> {
+        return await this.request<V1.Draft>({
+            method: 'put',
+            url: this.urls.editDraft(draftId),
+            data: request
+        });
+    }
+
+    public async deleteDraft(draftId: string, deleteFiles = false) {
+        await this.request<void>({
+            method: 'delete',
+            url: this.urls.deleteDraft(draftId),
+            params: { deleteFiles }
         });
     }
 }
