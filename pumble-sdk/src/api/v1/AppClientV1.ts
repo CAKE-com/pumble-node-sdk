@@ -6,7 +6,6 @@ export class AppClientV1 extends BaseApiClient {
         removeAuthorization: () => `/v1/app/authorization`,
         uninstallApp: () => `/v1/app/installation`,
         publishHomeView: (workspaceUserId: string) => `/v1/app/homeView/workspaceUsers/${workspaceUserId}`,
-        googleDrivePickCompleted: () => `/v1/app/googleDrive/pickCompleted`,
     };
 
     public async removeAuthorization() {
@@ -28,14 +27,6 @@ export class AppClientV1 extends BaseApiClient {
             url: this.urls.publishHomeView(workspaceUserId),
             method: 'POST',
             data: payload
-        });
-    }
-
-    public async googleDrivePickCompleted(triggerId: string) {
-        return this.request({
-            url: this.urls.googleDrivePickCompleted(),
-            method: 'POST',
-            data: {triggerId}
         });
     }
 }
