@@ -985,7 +985,47 @@ export namespace V1 {
         googleAccessToken: string,
         googleAppId: string,
         googleApiKey: string,
-        googleClientId: string
+        googleClientId: string,
+        googlePickerUrl?: string
+    }
+
+    export interface DraftDestination {
+        channelId?: string,
+        users?: string[]
+    }
+
+    export interface DraftRequest {
+        text: string,
+        blocks?: BlockRichText[],
+        files?: string[],
+        destination: DraftDestination,
+        threadRootId?: string,
+        alsoSendToChannel?: boolean,
+        linksToSkipUnfurl?: string[]
+    }
+
+    export interface DraftFile {
+        id: string,
+        path: string,
+        name: string
+    }
+
+    export interface Draft {
+        id: string,
+        workspaceId: string,
+        author: string,
+        text: string,
+        blocks: BlockRichText[],
+        files: DraftFile[],
+        lastUpdate: number,
+        destination: DraftDestination,
+        threadRootId?: string,
+        alsoSendToChannel: boolean,
+        linksToSkipUnfurl: string[]
+    }
+
+    export interface Drafts {
+        drafts: Draft[]
     }
 
     export type CompleteInteractionProcessingRequest = {
