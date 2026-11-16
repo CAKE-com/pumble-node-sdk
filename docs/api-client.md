@@ -45,6 +45,15 @@ For more details about the usage of Pumble API, take a look at the Pumble API [d
 | editScheduledMessage            | `messages:edit`                                            | Edit a scheduled message                                         |
 | editScheduledMessageAttachments | `attachments:write`                                        | Edit scheduled message attachments                               |
 | deleteScheduledMessage          | `messages:delete`                                          | Delete a scheduled message                                       |
+| fetchDrafts                     | `drafts:write`                                             | List drafts of the current user                                  |
+| createDraft                     | `drafts:write`                                             | Create a draft                                                   |
+| editDraft                       | `drafts:write`                                             | Edit a draft                                                     |
+| deleteDraft                     | `drafts:write`                                             | Delete a draft                                                   |
+
+### Drafts
+
+`createDraft` replaces the existing draft of the same channel or thread, so call `fetchDrafts` first.
+Quotes are not supported. `editDraft` keeps the quote the user already has.
 
 ### File Upload
 
@@ -146,3 +155,4 @@ The list of all available scopes:
 | `calls:write`       | Create permanent calls      |
 | `files:write`       | Write messages with files   |
 | `group:read`        | Read group information      |
+| `drafts:write`      | Read and write drafts       |
