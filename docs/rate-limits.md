@@ -21,3 +21,4 @@ The following endpoints have additional constraints due to their impact on syste
 
 ## Rate Limit Exceeded
 When your application or a specific user exceeds the allocated quota, the server will return a 429 Too Many Requests error.
+Every 429 response includes a `Retry-After` header with the number of seconds to wait before retrying (e.g. `Retry-After: 60`).
