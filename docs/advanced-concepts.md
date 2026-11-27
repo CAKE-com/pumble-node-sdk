@@ -53,7 +53,7 @@ main();
 ## Request Signature Verification
 
 Every request that is coming from Pumble is signed using your `signingSecret`.
-While the `Pumble SDK` does this automatically, below is and explanation how the verification is done:
+While the `Pumble SDK` does this automatically, below is an explanation of how the verification is done:
 
 ``` typescript
 function verifySignature(signingSecret: string) {

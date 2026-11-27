@@ -5,7 +5,7 @@ It will make the process of creating and maintaining your app easier.
 
 To get started you can either install the cli globally `npm i -g pumble-cli` or use it with `npx`: `npx pumble-cli <command>`
 
-To list the available commands and their usage simply use `pumble-cli --help` or `pumble-cli-command --help`
+To list the available commands and their usage simply use `pumble-cli --help` or `pumble-cli [command] --help`
 
 ## Available commands
 
@@ -14,7 +14,7 @@ To list the available commands and their usage simply use `pumble-cli --help` or
 Using `pumble-cli login` you will be prompted to enter your email address and the verification code that will be sent to your email.\
 After these steps you are logged in and ready to use the cli.\
 If you need to log in to another workspace simply use `pumble-cli login --force` or `pumble-cli logout && pumble-cli login`\
-By default this command will save you authorization info in `~/.pumblerc` file.
+By default this command will save your authorization info in `~/.pumblerc` file.
 
 If you need to check in which workspace you are logged in use `pumble-cli info`
 
@@ -86,7 +86,7 @@ Running just `pumble-cli` in your project root will start your app.
 ## Installing
 
 To install `pumble-cli` simply use `npm install -g pumble-cli` or run `npx pumble-cli` every time you need to run a command.
-If `pumble-cli` is installed as a `devDependency` in your project, you can just use `pumble-cli` in you npm scripts directly, without needing to install it globally.
+If `pumble-cli` is installed as a `devDependency` in your project, you can just use `pumble-cli` in your npm scripts directly, without needing to install it globally.
 ```json
 // package.json
 {
